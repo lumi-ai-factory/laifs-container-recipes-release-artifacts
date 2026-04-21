@@ -1,0 +1,39 @@
+# Start of dynamically injected content
+ARG BASE_IMAGE_TAG=20260415_130625
+# End of dynamically injected content
+ARG BASE_IMAGE=lumi-multitorch-full-u24r70f21m50t210
+ARG TRANSFORMERS_ENGINE_ARCH=gfx90a
+ARG TRANSFORMERS_ENGINE_COMMIT=2.8_rocm
+ARG TRANSFORMERS_ENGINE_REPO=https://github.com/ROCm/TransformerEngine
+
+FROM $BASE_IMAGE:$BASE_IMAGE_TAG
+
+ARG BASE_IMAGE
+ARG BASE_IMAGE_TAG
+
+ARG TRANSFORMERS_ENGINE_ARCH
+ARG TRANSFORMERS_ENGINE_COMMIT
+ARG TRANSFORMERS_ENGINE_REPO
+
+RUN set -ue; \
+  #
+  export AOTRITON_TARGET_ARCH=${TRANSFORMERS_ENGINE_ARCH}; \
+  #
+  export CMAKE_PREFIX_PATH=/opt/rocm; \
+  #
+  export GPU_ARCHS=${TRANSFORMERS_ENGINE_ARCH}; \
+  export GPU_TARGETS=${TRANSFORMERS_ENGINE_ARCH}; \
+  #
+  export NVTE_ROCM_ARCH=${TRANSFORMERS_ENGINE_ARCH}; \
+  export NVTE_FRAMEWORK=pytorch; \
+  export NVTE_FUSED_ATTN=0; \
+  #
+  git clone --recursive --branch "v${TRANSFORMERS_ENGINE_COMMIT}" ${TRANSFORMERS_ENGINE_REPO} /opt/src/transformers_engine; \
+  #
+  cd /opt/src/transformers_engine; \
+  #
+  . /opt/venv/bin/activate; \
+  # --no-build-isolation needed for pytorch HIP support detection
+  pip install . --no-build-isolation;
+
+CMD ["/bin/bash"]
