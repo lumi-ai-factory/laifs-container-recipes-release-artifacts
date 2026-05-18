@@ -1,0 +1,35 @@
+20260513 12:14:30 starting build with tag 20260513_121430 for recipe lumi-multitorch-u24r70f21m50t210
+20260513 12:14:30 git working dir status:
+    git commit: e291fd1
+    modified files: 
+    git diff:
+20260513 12:14:30 generating recipe from template and vars file
+20260513 12:14:31 sha256 sums for the template, vars and final recipe are:
+    4e8c097021af61dab922a9dd6573d0ff6d871acec6923fdd5b8fb4032a95d66a  recipes/lumi-multitorch/lumi-multitorch-template.yaml
+    0097186fbcfb5fb14fd80d1321f1f414766f56cddec5e2350f0d0490c5c5e78f  recipes/lumi-multitorch/lumi-multitorch-vars.yaml
+    bd084ca7bb00c96a4c8c69b9d205f7f116905c80d741cdd0c2ba7f9328fb38a3  builds/lumi-multitorch-u24r70f21m50t210-20260513_121430/lumi-multitorch-u24r70f21m50t210-20260513_121430.yaml
+20260513 12:14:31 Saving files from the recipe:
+    6f8db33130ade9707b8720500514c73dbfd3af782c6725bd5103ebfe8eae07b1  builds/lumi-multitorch-u24r70f21m50t210-20260513_121430/lumi-multitorch-u24r70f21m50t210-20260513_121430-post.sh
+    8cf36c6e7b9bbbf9fad31fccd389eae22e47332d031a6807cd6220c8bf6e4824  builds/lumi-multitorch-u24r70f21m50t210-20260513_121430/lumi-multitorch-u24r70f21m50t210-20260513_121430-release.sh
+    6de76b48d1327cad76a8ffd1ea36a436877123832fe348388a84370b6057c92d  builds/lumi-multitorch-u24r70f21m50t210-20260513_121430/lumi-multitorch-u24r70f21m50t210-20260513_121430.md
+20260513 12:14:31 starting container image builds
+20260513 12:14:32 [BUILD] Building images from recipe lumi-multitorch-u24r70f21m50t210 at builds/lumi-multitorch-u24r70f21m50t210-20260513_121430/lumi-multitorch-u24r70f21m50t210-20260513_121430.yaml
+20260513 12:14:32 [BUILD] Build image lumi-multitorch-rocm-u24r70f21m50t210:20260513_121430 started at Wed May 13 12:14:32 UTC 2026
+20260513 12:14:32 [BUILD] Logging to builds/lumi-multitorch-u24r70f21m50t210-20260513_121430/lumi-multitorch-rocm-u24r70f21m50t210-20260513_121430.log
+20260513 12:27:56 [BUILD] Building lumi-multitorch-rocm-u24r70f21m50t210:20260513_121430 completed at Wed May 13 12:27:56 UTC 2026
+20260513 12:27:56 [BUILD] Build image lumi-multitorch-libfabric-u24r70f21m50t210:20260513_121430 started at Wed May 13 12:27:56 UTC 2026
+20260513 12:27:56 [BUILD] Logging to builds/lumi-multitorch-u24r70f21m50t210-20260513_121430/lumi-multitorch-libfabric-u24r70f21m50t210-20260513_121430.log
+20260513 12:37:06 [BUILD] Building lumi-multitorch-libfabric-u24r70f21m50t210:20260513_121430 completed at Wed May 13 12:37:06 UTC 2026
+20260513 12:37:06 [BUILD] Build image lumi-multitorch-mpich-u24r70f21m50t210:20260513_121430 started at Wed May 13 12:37:06 UTC 2026
+20260513 12:37:06 [BUILD] Logging to builds/lumi-multitorch-u24r70f21m50t210-20260513_121430/lumi-multitorch-mpich-u24r70f21m50t210-20260513_121430.log
+20260513 12:59:17 [BUILD] Building lumi-multitorch-mpich-u24r70f21m50t210:20260513_121430 completed at Wed May 13 12:59:17 UTC 2026
+20260513 12:59:17 [BUILD] Build image lumi-multitorch-torch-u24r70f21m50t210:20260513_121430 started at Wed May 13 12:59:17 UTC 2026
+20260513 12:59:17 [BUILD] Logging to builds/lumi-multitorch-u24r70f21m50t210-20260513_121430/lumi-multitorch-torch-u24r70f21m50t210-20260513_121430.log
+20260513 14:47:07 [BUILD] Building lumi-multitorch-torch-u24r70f21m50t210:20260513_121430 completed at Wed May 13 14:47:07 UTC 2026
+20260513 14:47:07 [BUILD] Build image lumi-multitorch-full-u24r70f21m50t210:20260513_121430 started at Wed May 13 14:47:07 UTC 2026
+20260513 14:47:07 [BUILD] Logging to builds/lumi-multitorch-u24r70f21m50t210-20260513_121430/lumi-multitorch-full-u24r70f21m50t210-20260513_121430.log
+20260514 02:24:04 [BUILD] Building lumi-multitorch-full-u24r70f21m50t210:20260513_121430 completed at Thu May 14 02:24:04 UTC 2026
+20260514 02:24:05 [BUILD] Build image lumi-multitorch-plus-u24r70f21m50t210:20260513_121430 started at Thu May 14 02:24:05 UTC 2026
+20260514 02:24:05 [BUILD] Logging to builds/lumi-multitorch-u24r70f21m50t210-20260513_121430/lumi-multitorch-plus-u24r70f21m50t210-20260513_121430.log
+20260514 03:57:11 [BUILD] Building lumi-multitorch-plus-u24r70f21m50t210:20260513_121430 completed at Thu May 14 03:57:11 UTC 2026
+20260514 03:57:11 container image builds completed

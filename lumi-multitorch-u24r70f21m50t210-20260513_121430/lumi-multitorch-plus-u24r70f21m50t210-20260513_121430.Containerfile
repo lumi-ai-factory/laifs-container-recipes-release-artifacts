@@ -1,0 +1,51 @@
+# Start of dynamically injected content
+ARG BASE_IMAGE_TAG=20260513_121430
+# End of dynamically injected content
+ARG BASE_IMAGE=lumi-multitorch-full-u24r70f21m50t210
+ARG TRANSFORMER_ENGINE_ARCH=gfx90a
+ARG TRANSFORMER_ENGINE_COMMIT=2.8_rocm
+ARG TRANSFORMER_ENGINE_REPO=https://github.com/ROCm/TransformerEngine
+
+FROM $BASE_IMAGE:$BASE_IMAGE_TAG
+
+ARG BASE_IMAGE
+ARG BASE_IMAGE_TAG
+
+ARG TRANSFORMER_ENGINE_ARCH
+ARG TRANSFORMER_ENGINE_COMMIT
+ARG TRANSFORMER_ENGINE_REPO
+
+RUN set -ue; \
+  #
+  export AOTRITON_TARGET_ARCH=${TRANSFORMER_ENGINE_ARCH}; \
+  #
+  export CMAKE_PREFIX_PATH=/opt/rocm; \
+  #
+  export GPU_ARCHS=${TRANSFORMER_ENGINE_ARCH}; \
+  export GPU_TARGETS=${TRANSFORMER_ENGINE_ARCH}; \
+  #
+  export NVTE_ROCM_ARCH=${TRANSFORMER_ENGINE_ARCH}; \
+  export NVTE_FRAMEWORK=pytorch; \
+  export NVTE_FUSED_ATTN=0; \
+  #
+  git clone --recursive --branch "v${TRANSFORMER_ENGINE_COMMIT}" ${TRANSFORMER_ENGINE_REPO} /opt/src/transformer_engine; \
+  #
+  cd /opt/src/transformer_engine; \
+  #
+  . /opt/venv/bin/activate; \
+  # --no-build-isolation needed for pytorch HIP support detection
+  pip install . --no-build-isolation;
+
+RUN printf '#!/usr/bin/env bash\n\
+if [ "${SLURM_NNODES}" = 1 ] && [ -z "${SLURM_GPUS_ON_NODE}" ]; then\n\
+    export FI_HMEM_DISABLE_P2P=1\n\
+fi\n\
+if [ "${ROCR_USE_SLURM_LOCALID}" = 1 ] && [ -n "${SLURM_LOCALID}" ]; then\n\
+    export ROCR_VISIBLE_DEVICES="$SLURM_LOCALID"\n\
+fi\n\
+if [ "${MAP_HIP_TO_ROCR_VISIBLE_DEVICES}" = 1 ] && [ -n "${ROCR_VISIBLE_DEVICES}" ]; then\n\
+    export HIP_VISIBLE_DEVICES=`seq -s , 0 $(echo "${ROCR_VISIBLE_DEVICES%%,}" | awk -F, '\''{print NF-1}'\'')`\n\
+fi\n\
+exec "$@"\n' > /opt/oci-entrypoint.sh && chmod +x /opt/oci-entrypoint.sh
+
+ENTRYPOINT ["/opt/oci-entrypoint.sh"]
