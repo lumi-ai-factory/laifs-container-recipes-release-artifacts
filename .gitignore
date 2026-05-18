@@ -1,3 +1,8 @@
+# Used by `laifs-container-recipes` for tracking empty `builds/` directory,
+# inside which this repository should be initialized.
+/.gitkeep
+
+# Build files to untrack
 *.def
 *.sh
 *.sha256
