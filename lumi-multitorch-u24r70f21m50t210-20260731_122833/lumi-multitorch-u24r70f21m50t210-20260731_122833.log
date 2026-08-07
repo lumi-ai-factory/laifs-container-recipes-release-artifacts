@@ -1,0 +1,36 @@
+20260731 12:28:33 starting build with tag 20260731_122833 for recipe lumi-multitorch-u24r70f21m50t210
+20260731 12:28:33 git working dir status:
+    git commit: ee320dd
+    modified files: 
+    git diff:
+20260731 12:28:33 generating recipe from template and vars file
+20260731 12:28:34 sha256 sums for the template, vars and final recipe are:
+    c03016ad76673c8fe15010f5a5cb7522e845bd0dc474ab5d6158730bdf2457fe  recipes/lumi-multitorch/lumi-multitorch-template.yaml
+    d22ca5304b33c8f2fd506ad305413b72cffba4aeff48f1dc8f98dced4f0550ab  recipes/lumi-multitorch/lumi-multitorch-vars.yaml
+    e4cd86042e7a3ba969c3ec7e1676e184c6986642e2e69ec6bbe51ad321c7fb75  builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-u24r70f21m50t210-20260731_122833.yaml
+20260731 12:28:34 Saving files from the recipe:
+    82da6179689b2c7f488495aa1fafc6c68b6a19dc392d5d71d7ffea76e324fcc1  builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-u24r70f21m50t210-20260731_122833-release.md
+    c010e390cdc4c7d479e58fe3b78b2c7333b61601870ac797b17402edf77a6418  builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-u24r70f21m50t210-20260731_122833-post.sh
+    2b239ff9035bfe9bd7aa6b50bf93337626afd9d6e25bc05f8e11859a779a7618  builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-u24r70f21m50t210-20260731_122833-release.sh
+    0e03ed578b79544de5412340e9b5cefa3bc627821ad26a8844b40d7c1b253a09  builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-u24r70f21m50t210-20260731_122833.md
+20260731 12:28:34 starting container image builds
+20260731 12:28:35 [BUILD] Building images from recipe lumi-multitorch-u24r70f21m50t210 at builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-u24r70f21m50t210-20260731_122833.yaml
+20260731 12:28:35 [BUILD] Build image lumi-multitorch-rocm-u24r70f21m50t210:20260731_122833 started at Fri Jul 31 12:28:35 UTC 2026
+20260731 12:28:35 [BUILD] Logging to builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-rocm-u24r70f21m50t210-20260731_122833.log
+20260731 12:45:06 [BUILD] Building lumi-multitorch-rocm-u24r70f21m50t210:20260731_122833 completed at Fri Jul 31 12:45:06 UTC 2026
+20260731 12:45:06 [BUILD] Build image lumi-multitorch-libfabric-u24r70f21m50t210:20260731_122833 started at Fri Jul 31 12:45:06 UTC 2026
+20260731 12:45:06 [BUILD] Logging to builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-libfabric-u24r70f21m50t210-20260731_122833.log
+20260731 12:54:21 [BUILD] Building lumi-multitorch-libfabric-u24r70f21m50t210:20260731_122833 completed at Fri Jul 31 12:54:21 UTC 2026
+20260731 12:54:21 [BUILD] Build image lumi-multitorch-mpich-u24r70f21m50t210:20260731_122833 started at Fri Jul 31 12:54:21 UTC 2026
+20260731 12:54:21 [BUILD] Logging to builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-mpich-u24r70f21m50t210-20260731_122833.log
+20260731 13:18:52 [BUILD] Building lumi-multitorch-mpich-u24r70f21m50t210:20260731_122833 completed at Fri Jul 31 13:18:52 UTC 2026
+20260731 13:18:54 [BUILD] Build image lumi-multitorch-torch-u24r70f21m50t210:20260731_122833 started at Fri Jul 31 13:18:54 UTC 2026
+20260731 13:18:54 [BUILD] Logging to builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-torch-u24r70f21m50t210-20260731_122833.log
+20260731 15:08:37 [BUILD] Building lumi-multitorch-torch-u24r70f21m50t210:20260731_122833 completed at Fri Jul 31 15:08:37 UTC 2026
+20260731 15:08:38 [BUILD] Build image lumi-multitorch-full-u24r70f21m50t210:20260731_122833 started at Fri Jul 31 15:08:38 UTC 2026
+20260731 15:08:38 [BUILD] Logging to builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-full-u24r70f21m50t210-20260731_122833.log
+20260801 02:02:11 [BUILD] Building lumi-multitorch-full-u24r70f21m50t210:20260731_122833 completed at Sat Aug  1 02:02:11 UTC 2026
+20260801 02:02:11 [BUILD] Build image lumi-multitorch-plus-u24r70f21m50t210:20260731_122833 started at Sat Aug  1 02:02:11 UTC 2026
+20260801 02:02:11 [BUILD] Logging to builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.log
+20260801 03:07:37 [BUILD] Building lumi-multitorch-plus-u24r70f21m50t210:20260731_122833 completed at Sat Aug  1 03:07:37 UTC 2026
+20260801 03:07:37 container image builds completed

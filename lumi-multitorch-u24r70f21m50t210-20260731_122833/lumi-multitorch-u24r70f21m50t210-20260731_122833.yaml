@@ -1,0 +1,1313 @@
+name: "lumi-multitorch-u24r70f21m50t210"
+tag: "20260731_122833"
+release: "lumi-multitorch-u24r70f21m50t210-20260731_122833"
+desc: |
+  This collection of container images is developed by the LUMI AI Factory and is
+  specifically designed for use on the LUMI supercomputer. The images are built
+  using recipes available in the LUMI AI Factory GitHub repository. Each image of
+  the release builds on the previous one by adding new features, finally resulting
+  in a fully featured, GPU-enabled and MPI-capable PyTorch-based multipurpose
+  ML/AI container image.
+
+  All build artifacts are publicly available. This includes the full recipe,
+  Containerfiles, build logs, and the resulting final container images. This
+  transparent approach enables full customization for special use cases, reuse
+  on other similar systems, as well as adapting the images to run on cloud
+  environments.
+
+  All images are published to Docker Hub, and ready-to-run Singularity Image Format
+  (SIF) versions of the images are available directly on LUMI. The generated
+  Containerfiles and other artifacts are released as public GitHub releases.
+
+  The release identifier `lumi-multitorch-u24r70f21m50t210-20260731_122833` encodes
+  the following information:
+    - lumi: The primary target system for the images (LUMI)
+    - multitorch: Image type (a multipurpose PyTorch image)
+    - u24r70f21m50t210: Major software versions digest, consisting of:
+      - u24: Digest from Ubuntu 24.04 LTS
+      - r70: Digest from ROCm 7.0.2
+      - f21: Digest from libfabric 2.1
+      - m50: Digest from MPICH 5.0.1
+      - t210: Digest from PyTorch 2.10.0
+    - 20260731_122833: Timestamp-based build tag
+
+  This release includes six images, each building on the previous one by adding
+  new major functionality in the following order:
+    - `lumi-multitorch-rocm-u24r70f21m50t210`: Starts from Ubuntu base image and adds ROCm 7.0.2
+    - `lumi-multitorch-libfabric-u24r70f21m50t210`: Adds libfabric 2.1 to the ROCm image
+    - `lumi-multitorch-mpich-u24r70f21m50t210`: Adds MPICH 5.0.1 with GPU support to the libfabric image
+    - `lumi-multitorch-torch-u24r70f21m50t210`: Adds PyTorch 2.10.0 to the MPICH image
+    - `lumi-multitorch-full-u24r70f21m50t210`: Adds selection of AI and ML libraries to the PyTorch image
+    - `lumi-multitorch-plus-u24r70f21m50t210`: Adds experimental software to the Full image
+
+  The final image, `lumi-multitorch-full-u24r70f21m50t210-20260731_122833`,
+  includes these key software components:
+    - Ubuntu 24.04 LTS (from https://hub.docker.com/layers/library/ubuntu/noble-20260324)
+    - AMD ROCm 7.0.2 (from https://repo.radeon.com/rocm)
+    - Xpmem (from https://github.com/hpc/xpmem commit 3bcab55)
+    - Cassini headers (from https://github.com/HewlettPackard/shs-cassini-headers release tgz for 12.0.1)
+    - CXI headers (from https://github.com/HewlettPackard/shs-cxi-driver commit 27f7be5)
+    - Libcxi (from https://github.com/HewlettPackard/shs-libcxi commit 30fa2dd)
+    - Libfabric 2.1 (from https://github.com/ofiwg/libfabric commit 78d6e03)
+    - MPICH 5.0.1 (from http://www.mpich.org/static/downloads release tgz for 5.0.1)
+    - AWS-OFI-NCCL 1.20.0-git-a2a6d08 (from https://github.com/aws/aws-ofi-nccl commit a2a6d08)
+    - RCCL (from https://github.com/ROCm/rocm-systems commit 81a5a30)
+    - OSU micro-benchmarks 7.5.2 (from https://mvapich.cse.ohio-state.edu/download/mvapich release tgz for 7.5.2)
+    - PyTorch 2.10.0 (from  tag v2.10.0)
+    - TorchVision (from https://download-r2.pytorch.org/whl/rocm7.0/torchvision-0.25.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl)
+    - TorchAudio (from https://download-r2.pytorch.org/whl/rocm7.0/torchaudio-2.10.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl)
+    - PyTorch Triton (from https://download.pytorch.org/whl/triton_rocm-3.6.0-cp312-cp312-linux_x86_64.whl)
+    - Apex (from https://github.com/ROCm/apex commit e97c665)
+    - Causal Conv1D (from https://github.com/Dao-AILab/causal-conv1d commit 4f6ae4e)
+    - DeepSpeed 0.19.2 (with locally built ops addons)
+    - Flash Attention (from https://github.com/ROCm/flash-attention commit b664ea0)
+    - LLM Compressor: (from https://github.com/vllm-project/llm-compressor commit 6d2a090)
+    - Megatron LM (experimental): (from https://github.com/viahlgre/Megatron-LM commit c333868)
+    - vLLM v0.22.1 (from https://github.com/vllm-project/vllm commit 0decac0)
+    - xFormers (from https://github.com/facebookresearch/xformers commit 03b91d7)
+
+  These additional packages from PyPI are also included in the final image:
+    - accelerate
+    - bitsandbytes
+    - datasets
+    - evaluate
+    - h5py
+    - huggingface-hub
+    - jupyter
+    - lightning
+    - marimo
+    - matplotlib
+    - mlflow
+    - mpi4py
+    - numba
+    - numpy
+    - pandas
+    - peft
+    - scipy
+    - sentence-transformers
+    - sentencepiece
+    - tensorboard
+    - trl
+    - ultralytics-opencv-headless
+
+  The experimental image lumi-multitorch-plus-u24r70f21m50t210-20260731_122833
+  builds on the full image by introducing experimental software additions and
+  potentially breaking changes. It is not intended for production use, but rather
+  as a testing ground for evaluating potential future additions and for hosting
+  software with breaking dependencies or other limitations. See the image
+  description below.
+
+  Documentation for each image is provided separately in the `<image name>.md`
+  Markdown text files, as well as in the next sections of this file. A Software
+  Bill of Materials (SBOM) with full software version numbers is available for
+  each image in files named `<image name>.json`. These files list all Ubuntu and
+  Python packages used in the images. Containerfiles and build logs for each image
+  are available in files named <image name>.Containerfile` and `<image name>.log`.
+
+  All software in the images is installed as either Python or Ubuntu packages.
+  Some packages are installed directly from Ubuntu repositories, some from PyPI,
+  and others such as PyTorch and ROCm, are installed from external upstream
+  package repositories (PyTorch project's repository, AMD's ROCm repository).
+  Lastly, the remaining packages are built locally during the container build
+  process and then installed as either Ubuntu or Python packages, resulting in
+  all included software being managed by either Ubuntu or Python package managers.
+
+  The GitHub release for this build consists of:
+    - A `.yaml` recipe file which defines the build steps, software versions, and
+      includes all required Containerfiles and documentation snippets to reproduce
+      the build of this release.
+    - Containerfiles (`.Containerfile`)
+      for convenience (this data is embedded in the `.yaml` recipe as well).
+    - This release README file and separate per-image documentation (`.md`).
+    - Build logs (`.log`) and SBOM files (`.json`) for all images for
+      transparency.
+
+  The images are available for direct use on LUMI:
+    - Path to this exact release on LUMI is:
+      `/appl/local/laifs/containers/lumi-multitorch-u24r70f21m50t210-20260731_122833`
+    - Latest build with the same software digest as this release is symlinked at:
+      `/appl/local/laifs/containers/lumi-multitorch-u24r70f21m50t210`
+    - Latest version (over all digests) is symlinked at:
+      `/appl/local/laifs/containers/lumi-multitorch`
+    - Example listing of release directory content on LUMI:
+      - `lumi-multitorch-u24r70f21m50t210-20260731_122833.md`: The main readme file
+      - `lumi-multitorch-u24r70f21m50t210-20260731_122833.yaml`: The recipe file
+      - `lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.sif`: SIF image for the plus image
+      - `lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.md`: Readme file for the plus image
+      - `lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.json`: Software Bill of materials for the plus image
+      - `lumi-multitorch-full-u24r70f21m50t210-20260731_122833.sif`: SIF image for the full image
+      - `lumi-multitorch-full-u24r70f21m50t210-20260731_122833.md`: Readme file for the full image
+      - `lumi-multitorch-full-u24r70f21m50t210-20260731_122833.json`: Software Bill of materials for the full image
+      - `lumi-multitorch-torch-u24r70f21m50t210-20260731_122833.sif`: SIF image for the torch image
+      - `lumi-multitorch-torch-u24r70f21m50t210-20260731_122833.md`: Readme file for the torch image
+      - `lumi-multitorch-torch-u24r70f21m50t210-20260731_122833.json`: Software Bill of materials for the torch image
+      - `lumi-multitorch-mpich-u24r70f21m50t210-20260731_122833.sif`: SIF image for the mpich image
+      - `lumi-multitorch-mpich-u24r70f21m50t210-20260731_122833.md`: Readme file for the mpich image
+      - `lumi-multitorch-mpich-u24r70f21m50t210-20260731_122833.json`: Software Bill of materials for the mpich image
+      - `lumi-multitorch-libfabric-u24r70f21m50t210-20260731_122833.sif`: SIF image for the libfabric image
+      - `lumi-multitorch-libfabric-u24r70f21m50t210-20260731_122833.md`: Readme file for the libfabric image
+      - `lumi-multitorch-libfabric-u24r70f21m50t210-20260731_122833.json`: Software Bill of materials for the libfabric image
+      - `lumi-multitorch-rocm-u24r70f21m50t210-20260731_122833.sif`: SIF image for the rocm image
+      - `lumi-multitorch-rocm-u24r70f21m50t210-20260731_122833.md`: Readme file for the rocm image
+      - `lumi-multitorch-rocm-u24r70f21m50t210-20260731_122833.json`: Software Bill of materials for the rocm image
+      
+  Illustrative example use on LUMI:
+    ```
+    uan:~> srun --gpus-per-task=2 <other srun args> singularity \
+      run <singularity args> <path to sif image> \
+        python -c 'import torch; print("num gpus:", torch.cuda.device_count())'
+    [...]
+    num gpus: 2
+    ```
+
+  On Docker Hub the images are available with the following tag/naming scheme:
+    - The exact images from this recipe build:
+      - Image plus: `lumiaifactory/lumi-multitorch:plus-u24r70f21m50t210-20260731_122833`
+      - Image full: `lumiaifactory/lumi-multitorch:full-u24r70f21m50t210-20260731_122833`
+      - Image torch: `lumiaifactory/lumi-multitorch:torch-u24r70f21m50t210-20260731_122833`
+      - Image mpich: `lumiaifactory/lumi-multitorch:mpich-u24r70f21m50t210-20260731_122833`
+      - Image libfabric: `lumiaifactory/lumi-multitorch:libfabric-u24r70f21m50t210-20260731_122833`
+      - Image rocm: `lumiaifactory/lumi-multitorch:rocm-u24r70f21m50t210-20260731_122833`
+    - Latest build with specific significant software versions (using software digest):
+      - Image plus:  `lumiaifactory/lumi-multitorch:plus-u24r70f21m50t210`
+      - Image full:  `lumiaifactory/lumi-multitorch:full-u24r70f21m50t210`
+      - Image torch:  `lumiaifactory/lumi-multitorch:torch-u24r70f21m50t210`
+      - Image mpich:  `lumiaifactory/lumi-multitorch:mpich-u24r70f21m50t210`
+      - Image libfabric:  `lumiaifactory/lumi-multitorch:libfabric-u24r70f21m50t210`
+      - Image rocm:  `lumiaifactory/lumi-multitorch:rocm-u24r70f21m50t210`
+    - Floating tags for latest version (over any significant software versions / digests):
+      - `lumiaifactory/lumi-multitorch:plus`: latest complete plus image across all variants
+      - `lumiaifactory/lumi-multitorch:full`: latest complete full image across all variants
+      - `lumiaifactory/lumi-multitorch:torch`: latest complete torch image across all variants
+      - `lumiaifactory/lumi-multitorch:mpich`: latest complete mpich image across all variants
+      - `lumiaifactory/lumi-multitorch:libfabric`: latest complete libfabric image across all variants
+      - `lumiaifactory/lumi-multitorch:rocm`: latest complete rocm image across all variants
+    - Example Docker Hub pull commands:
+      - `docker pull lumiaifactory/lumi-multitorch:full-u24r70f21m50t210-20260731_122833`
+      - `docker pull lumiaifactory/lumi-multitorch:torch-u24r70f21m50t210`
+      - `docker pull lumiaifactory/lumi-multitorch:rocm`
+
+steps:
+- name: lumi-multitorch-rocm-u24r70f21m50t210
+  base: ubuntu:noble-20260324
+  desc: |
+    **Overview**
+    This is a base image building on Ubuntu 24.04 LTS upstream image
+    with ROCm software from AMD's official Ubuntu repositories installed on top of
+    it. The image also adds a few commonly used extra Ubuntu packages and enables
+    man pages.
+
+    **Details**
+    Ubuntu base image: ubuntu:noble-20260324
+    AMD ROCm repository: https://repo.radeon.com/rocm
+    AMD ROCm release: 7.0.2
+    Additional Ubuntu packages:
+      - file
+      - git
+      - jq
+      - less
+      - lsof
+      - nano
+      - neovim
+      - python3-dev
+      - python3-packaging
+      - python3-pip
+      - python3-venv
+      - screen
+      - tmux
+      - unzip
+      - wget
+  template: rocm/Ubuntu2404_Rocm6
+  force: false
+  env:
+  - AMDGPU_REPO=https://repo.radeon.com/amdgpu
+  - AMDGPU_VERSION=6.4.4
+  - ROCM_REPO=https://repo.radeon.com/rocm
+  - ROCM_VERSION=7.0.2
+  - EXTRA_LOCALES="cs_CZ.UTF-8 da_DK.UTF-8 en_US.UTF-8 et_EE.UTF-8 fi_FI.UTF-8 nb_NO.UTF-8
+    nn_NO.UTF-8 pl_PL.UTF-8"
+  - EXTRA_PACKAGES="file git jq less lsof nano neovim python3-dev python3-packaging
+    python3-pip python3-venv screen tmux unzip wget"
+  export:
+    def:
+  cf_hash: 71445e261e1fd8559a9e09006a9a03ba3d512e15
+  cf_lineage: 71445e261e1fd8559a9e09006a9a03ba3d512e15
+  cf_text: "ARG BASE_IMAGE=ubuntu\nARG BASE_IMAGE_TAG=noble-20260324\nARG AMDGPU_REPO=https://repo.radeon.com/amdgpu\n\
+    ARG AMDGPU_VERSION=6.4.4\nARG ROCM_REPO=https://repo.radeon.com/rocm\nARG ROCM_VERSION=7.0.2\n\
+    ARG EXTRA_LOCALES=\"cs_CZ.UTF-8 da_DK.UTF-8 en_US.UTF-8 et_EE.UTF-8 fi_FI.UTF-8\
+    \ nb_NO.UTF-8 nn_NO.UTF-8 pl_PL.UTF-8\"\nARG EXTRA_PACKAGES=\"file git jq less\
+    \ lsof nano neovim python3-dev python3-packaging python3-pip python3-venv screen\
+    \ tmux unzip wget\"\n\nFROM $BASE_IMAGE:$BASE_IMAGE_TAG\n\nARG BASE_IMAGE\nARG\
+    \ BASE_IMAGE_TAG\n\nARG AMDGPU_REPO\nARG AMDGPU_VERSION\n\nARG ROCM_REPO\nARG\
+    \ ROCM_VERSION\n\nARG EXTRA_LOCALES\nARG EXTRA_PACKAGES\n\nRUN set -ue; \\\n \
+    \ #\n  # Enable man pages with unminimize and install additional locales\n  #\n\
+    \  export DEBIAN_FRONTEND=noninteractive; \\\n  apt-get update; \\\n  yes | unminimize;\
+    \ \\\n  apt-get -y --no-install-recommends install man locales; \\\n  locale-gen\
+    \ ${EXTRA_LOCALES}; \\\n  #\n  # Add ROCm repository\n  #\n  apt-get install -y\
+    \ --no-install-recommends ca-certificates curl gnupg; \\\n  #\n  printf \"Package:\
+    \ *\\nPin: release o=repo.radeon.com\\nPin-Priority: 800\\n\" > /etc/apt/preferences.d/rocm-pin-prio-800;\
+    \ \\\n  #\n  curl -sL ${ROCM_REPO}/rocm.gpg.key | apt-key add -; \\\n  #\n  printf\
+    \ \"deb [arch=amd64] ${ROCM_REPO}/apt/${ROCM_VERSION}/ noble main\\n\" | tee --append\
+    \ /etc/apt/sources.list.d/rocm.list; \\\n  printf \"deb [arch=amd64] ${AMDGPU_REPO}/${AMDGPU_VERSION}/ubuntu\
+    \ noble main\\n\" | tee /etc/apt/sources.list.d/amdgpu.list; \\\n  #\n  # Install\
+    \ ROCm packages\n  #\n  apt-get update; \\\n  apt-get install -y --no-install-recommends\
+    \ build-essential cmake kmod libelf1 libnuma-dev pkgconf zstd; \\\n  apt-get install\
+    \ -y --no-install-recommends amdgpu-dkms rocm-dev rocm-libs; \\\n  #\n  echo /opt/rocm/lib\
+    \ > /etc/ld.so.conf.d/rocm-30.conf; \\\n  ldconfig; \\\n  #\n  # Install extra\
+    \ packages\n  #\n  apt-get -y --no-install-recommends install ${EXTRA_PACKAGES};\
+    \ \\\n  apt-get clean ;\\\n  rm -rf /var/lib/apt/lists/*; \\\n  #\n  # Workaround\
+    \ for smi double free bug, see https://github.com/ROCm/rocm-systems/pull/2531\n\
+    \  #\n  git clone --branch rocm-${ROCM_VERSION} https://github.com/ROCm/rocm_smi_lib\
+    \ /tmp/rocm_smi_lib; \\\n  cd /tmp/rocm_smi_lib; \\\n  # Mark locally built package\
+    \ by description\n  sed -i -e \"s/AMD System Management libraries/LUMI-AIF-$(date\
+    \ -u +'%Y%m%d%H%M%S')/\" CMakeLists.txt; \\\n  # Patch the double free bug\n \
+    \ curl -s https://github.com/ROCm/rocm-systems/commit/ad06de002ede9716f931d9b3052b17c59360b44f.patch\
+    \ | \\\n    sed -e 's,projects/rocm-smi-lib/,,g' | git apply; \\\n  # Set the\
+    \ lib versions manually for now. Hopefully we get rid of this whole workaround\
+    \ soon.\n  git tag rsmi_pkg_ver-7.8.0; \\\n  git tag rsmi_so_ver-7.8.0; \\\n \
+    \ #\n  mkdir build && cd build; \\\n  ROCM_LIBPATCH_VERSION=\"$(dpkg-query -W\
+    \ -f='${Version}\\n' rocm-dev | sed -E 's/^[0-9]+\\.[0-9]+\\.[0-9]+\\.([0-9]+)-.*$/\\\
+    1/')\" \\\n  CPACK_DEBIAN_PACKAGE_RELEASE=\"$(dpkg-query -W -f='${Version}\\n'\
+    \ rocm-dev | sed -E 's/^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+-(.*)$/\\1/')\" \\\n\
+    \  cmake -DCPACK_GENERATOR=DEB ..; \\\n  make -j $(nproc) package; \\\n  dpkg\
+    \ -i rocm-smi-lib_*.deb; \\\n  cd /; \\\n  rm -rf /tmp/rocm_smi_lib; \\\n  #\n\
+    \  # Add SBOM\n  #\n  apt_json=\"$(dpkg-query -W -f='${Package}\\t${Version}\\\
+    n' | jq -R -s 'split(\"\\n\")[:-1] | map(split(\"\\t\") | {name: .[0], version:\
+    \ .[1]})')\"; \\\n  jq -n --argjson apt \"$apt_json\"  '{apt: $apt}' > /.sbom.json;\n\
+    \nENV ROCM_PATH=/opt/rocm\n"
+
+- name: lumi-multitorch-libfabric-u24r70f21m50t210
+  base: lumi-multitorch-rocm-u24r70f21m50t210
+  desc: |
+    **Overview**
+    This image builds on top of its base image by adding locally built Ubuntu
+    packages to enable xpmem as well as libfabric functionality for HPE's Slingshot
+    interconnect. It serves as a starting point for adding MPI capability to images
+    built on top of it and can be a useful foundation for creating images with
+    custom MPI stacks.
+
+    **Details**
+    Base image: lumi-multitorch-rocm-u24r70f21m50t210
+    Components:
+      - xpmem (from https://github.com/hpc/xpmem commit 3bcab55)
+      - Cassini headers (from https://github.com/HewlettPackard/shs-cassini-headers release tgz for 12.0.1)
+      - CXI headers (from https://github.com/HewlettPackard/shs-cxi-driver commit 27f7be5)
+      - libcxi (from https://github.com/HewlettPackard/shs-libcxi commit 30fa2dd)
+      - Libfabric 2.1 (from https://github.com/ofiwg/libfabric commit 78d6e03)
+  template: libfabric/Ubuntu_Rocm_Slingshot
+  force: false
+  env:
+  - XPMEM_CLONE_URL=https://github.com/hpc/xpmem
+  - XPMEM_GIT_COMMIT=3bcab55
+  - XPMEM_VERSION=0.1-3bcab55
+  - XPMEM_KERNEL_BASE_SRC=linux-headers-6.8.0-136_6.8.0-136.136_all.deb
+  - XPMEM_KERNEL_GENERIC_SRC=linux-headers-6.8.0-136-generic_6.8.0-136.136_amd64.deb
+  - XPMEM_KERNEL_ID=linux-headers-6.8.0-136-generic
+      #
+  - CASSINI_HEADERS_SOURCE=https://github.com/HewlettPackard/shs-cassini-headers
+  - CASSINI_HEADERS_VERSION=12.0.1
+      #
+  - CXI_HEADERS_VERSION=1.0.0-SHS12.0.2-27f7be5
+  - CXI_HEADERS_CLONE_URL=https://github.com/HewlettPackard/shs-cxi-driver
+  - CXI_HEADERS_GIT_COMMIT=27f7be5
+      #
+  - LIBCXI_VERSION=1.0.2-SHS12.0.2-30fa2dd
+  - LIBCXI_CLONE_URL=https://github.com/HewlettPackard/shs-libcxi
+  - LIBCXI_GIT_COMMIT=30fa2dd
+      #
+  - LIBFABRIC_VERSION=2.1-78d6e03
+  - LIBFABRIC_CLONE_URL=https://github.com/ofiwg/libfabric
+  - LIBFABRIC_GIT_COMMIT=78d6e03
+  export:
+    def:
+  cf_hash: b35968f9f67ea9e7690ecffb49c2eebc94b57d36
+  cf_lineage: 71445e261e1fd8559a9e09006a9a03ba3d512e15,b35968f9f67ea9e7690ecffb49c2eebc94b57d36
+  cf_text: "ARG BASE_IMAGE=lumi-multitorch-rocm-u24r70f21m50t210\nARG XPMEM_CLONE_URL=https://github.com/hpc/xpmem\n\
+    ARG XPMEM_GIT_COMMIT=3bcab55\nARG XPMEM_VERSION=0.1-3bcab55\nARG XPMEM_KERNEL_BASE_SRC=linux-headers-6.8.0-136_6.8.0-136.136_all.deb\n\
+    ARG XPMEM_KERNEL_GENERIC_SRC=linux-headers-6.8.0-136-generic_6.8.0-136.136_amd64.deb\n\
+    ARG XPMEM_KERNEL_ID=linux-headers-6.8.0-136-generic\nARG CASSINI_HEADERS_SOURCE=https://github.com/HewlettPackard/shs-cassini-headers\n\
+    ARG CASSINI_HEADERS_VERSION=12.0.1\nARG CXI_HEADERS_VERSION=1.0.0-SHS12.0.2-27f7be5\n\
+    ARG CXI_HEADERS_CLONE_URL=https://github.com/HewlettPackard/shs-cxi-driver\nARG\
+    \ CXI_HEADERS_GIT_COMMIT=27f7be5\nARG LIBCXI_VERSION=1.0.2-SHS12.0.2-30fa2dd\n\
+    ARG LIBCXI_CLONE_URL=https://github.com/HewlettPackard/shs-libcxi\nARG LIBCXI_GIT_COMMIT=30fa2dd\n\
+    ARG LIBFABRIC_VERSION=2.1-78d6e03\nARG LIBFABRIC_CLONE_URL=https://github.com/ofiwg/libfabric\n\
+    ARG LIBFABRIC_GIT_COMMIT=78d6e03\n\nFROM $BASE_IMAGE:$BASE_IMAGE_TAG AS builder\n\
+    \nARG CASSINI_HEADERS_SOURCE\nARG CASSINI_HEADERS_VERSION\n\nARG CXI_HEADERS_CLONE_URL\n\
+    ARG CXI_HEADERS_GIT_COMMIT\nARG CXI_HEADERS_VERSION\n\nARG LIBCXI_CLONE_URL\n\
+    ARG LIBCXI_GIT_COMMIT\nARG LIBCXI_VERSION\n\nARG LIBFABRIC_CLONE_URL\nARG LIBFABRIC_GIT_COMMIT\n\
+    ARG LIBFABRIC_VERSION\n\nARG XPMEM_CLONE_URL\nARG XPMEM_GIT_COMMIT\nARG XPMEM_KERNEL_BASE_SRC\n\
+    ARG XPMEM_KERNEL_GENERIC_SRC\nARG XPMEM_KERNEL_ID\nARG XPMEM_VERSION\n\nRUN set\
+    \ -ue; \\\n    #\n    # Build requisites\n    #\n    export DEBIAN_FRONTEND=noninteractive;\
+    \ \\\n    apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y\
+    \ \\\n        autoconf \\\n        libconfig-dev \\\n        libcurl4-openssl-dev\
+    \ \\\n        libdw1t64 \\\n        libfuse-dev \\\n        libjson-c-dev \\\n\
+    \        libnl-3-dev \\\n        libsensors-dev \\\n        libtool \\\n     \
+    \   libuv1-dev \\\n        libyaml-dev \\\n        pkg-config \\\n        ruby\
+    \ \\\n        ruby-dev; \\\n    gem install --no-document fpm; \\\n    mkdir /debs;\n\
+    \nRUN set -ue; \\\n    #\n    # XPMEM\n    #\n    TMPROOT=$(mktemp -d); \\\n \
+    \   #\n    XPMEM_KERNEL_PATH=${TMPROOT}/src/kernel/usr/src/${XPMEM_KERNEL_ID};\
+    \ \\\n    #\n    install -d \"$TMPROOT/src\" \"$TMPROOT/src/kernel\"  \"$TMPROOT/usr\"\
+    ; \\\n    cd \"$TMPROOT/src\"; \\\n    wget http://archive.ubuntu.com/ubuntu/pool/main/l/linux/${XPMEM_KERNEL_BASE_SRC};\
+    \ \\\n    wget http://archive.ubuntu.com/ubuntu/pool/main/l/linux/${XPMEM_KERNEL_GENERIC_SRC};\
+    \ \\\n    dpkg-deb -x ${XPMEM_KERNEL_BASE_SRC} kernel/; \\\n    dpkg-deb -x ${XPMEM_KERNEL_GENERIC_SRC}\
+    \ kernel/; \\\n    #\n    git clone ${XPMEM_CLONE_URL} \"$TMPROOT/src/xpmem\"\
+    ; \\\n    cd \"$TMPROOT/src/xpmem\"; \\\n    git checkout \"${XPMEM_GIT_COMMIT}\"\
+    ; \\\n    ./autogen.sh; \\\n    ./configure --prefix=/usr --libdir /usr/lib/$(dpkg-architecture\
+    \ -qDEB_HOST_MULTIARCH) --with-kerneldir=${XPMEM_KERNEL_PATH}; \\\n    make -j\
+    \ \"$(nproc)\" DESTDIR=\"$TMPROOT\" install; \\\n    #\n    cd /debs; \\\n   \
+    \ fpm -s dir -t deb -n xpmem -v \"${XPMEM_VERSION}\" --description \"LUMI-AIF-$(date\
+    \ -u +'%Y%m%d%H%M%S')\" --prefix / -C \"$TMPROOT\" usr/include usr/lib; \\\n \
+    \   dpkg -i \"xpmem_${XPMEM_VERSION}_amd64.deb\";\n\nRUN set -ue; \\\n    #\n\
+    \    # Cassini headers\n    #\n    TMPROOT=$(mktemp -d); \\\n    CASSINI_HEADERS_TGZ=\"\
+    shs-${CASSINI_HEADERS_VERSION}.tar.gz\"; \\\n    CASSINI_HEADERS_URL=\"${CASSINI_HEADERS_SOURCE}/archive/refs/tags/release/${CASSINI_HEADERS_TGZ}\"\
+    ; \\\n    install -d \"$TMPROOT/usr/share/cassini-headers\" \"$TMPROOT/usr/include\"\
+    \ \"$TMPROOT/src\"; \\\n    curl -L -o \"${TMPROOT}/src/${CASSINI_HEADERS_TGZ}\"\
+    \ \"${CASSINI_HEADERS_URL}\"; \\\n    tar --transform='s|shs-cassini-headers-release-shs-[^/]*||'\
+    \ -C \"${TMPROOT}/src\" -xzf \"${TMPROOT}/src/${CASSINI_HEADERS_TGZ}\"; \\\n \
+    \   cp \"${TMPROOT}/src/share/cassini-headers/csr_defs.json\" \"$TMPROOT/usr/share/cassini-headers/\"\
+    ; \\\n    cp -r \"${TMPROOT}\"/src/include/* \"$TMPROOT/usr/include/\"; \\\n \
+    \   cd /debs; \\\n    fpm -s dir -t deb -n shs-cassini-headers -v \"${CASSINI_HEADERS_VERSION}\"\
+    \ --description \"LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')\" --prefix / -C \"$TMPROOT\"\
+    \ usr/include usr/share/cassini-headers; \\\n    rm -rf \"$TMPROOT\"; \\\n   \
+    \ dpkg -i \"shs-cassini-headers_${CASSINI_HEADERS_VERSION}_amd64.deb\";\n\nRUN\
+    \ set -ue; \\\n    #\n    # CXI headers\n    #\n    TMPROOT=$(mktemp -d); \\\n\
+    \    install -d \"$TMPROOT/src\" \"$TMPROOT/usr/include\"; \\\n    git clone \"\
+    ${CXI_HEADERS_CLONE_URL}\" \"$TMPROOT/src/shs-cxi-driver\"; \\\n    cd \"$TMPROOT/src/shs-cxi-driver\"\
+    ; \\\n    git checkout \"${CXI_HEADERS_GIT_COMMIT}\"; \\\n    cp -r include/*\
+    \ \"$TMPROOT/usr/include/\"; \\\n    cd /debs; \\\n    fpm -s dir -t deb -n shs-cxi-driver-dev\
+    \ -v ${CXI_HEADERS_VERSION} --description \"LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')\"\
+    \ --prefix / -C \"$TMPROOT\" usr/include; \\\n    rm -rf \"$TMPROOT\"; \\\n  \
+    \  dpkg -i shs-cxi-driver-dev_${CXI_HEADERS_VERSION}_amd64.deb;\n\nRUN set -ue;\
+    \ \\\n    #\n    # Libcxi\n    #\n    TMPROOT=$(mktemp -d); \\\n    install -d\
+    \ \"$TMPROOT/src\" \"$TMPROOT/usr\"; \\\n    git clone ${LIBCXI_CLONE_URL} \"\
+    $TMPROOT/src/shs-libcxi\"; \\\n    cd \"$TMPROOT/src/shs-libcxi\"; \\\n    git\
+    \ checkout \"${LIBCXI_GIT_COMMIT}\"; \\\n    ./autogen.sh; \\\n    ./configure\
+    \ --with-udevrulesdir=/usr/lib/udev/rules.d --prefix=/usr --libdir /usr/lib/$(dpkg-architecture\
+    \ -qDEB_HOST_MULTIARCH) --with-rocm=/opt/rocm ; \\\n    make -j \"$(nproc)\" DESTDIR=\"\
+    $TMPROOT\" install; \\\n    cd /debs; \\\n    fpm -s dir -t deb -n libcxi -v ${LIBCXI_VERSION}\
+    \ --description \"LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')\" --prefix / -C \"$TMPROOT\"\
+    \ usr; \\\n    rm -rf \"$TMPROOT\"; \\\n    dpkg -i libcxi_${LIBCXI_VERSION}_amd64.deb;\n\
+    \nRUN set -ue; \\\n    #\n    # Libfabric\n    #\n    TMPROOT=$(mktemp -d); \\\
+    \n    install -d \"$TMPROOT/src\" \"$TMPROOT/usr\"; \\\n    git clone ${LIBFABRIC_CLONE_URL}\
+    \ \"$TMPROOT/src/libfabric\"; \\\n    cd \"$TMPROOT/src/libfabric\"; \\\n    git\
+    \ checkout \"${LIBFABRIC_GIT_COMMIT}\"; \\\n    ./autogen.sh; \\\n    ./configure\
+    \ LDFLAGS=-Wl,--build-id --prefix=/usr --enable-only --enable-rxm  --enable-rxd\
+    \ --enable-shm --enable-hook_hmem --enable-dmabuf_peer_mem --enable-cxi=/usr --enable-lnx\
+    \ --enable-xpmem=/usr --with-rocr=/opt/rocm --libdir /usr/lib/$(dpkg-architecture\
+    \ -qDEB_HOST_MULTIARCH); \\\n    make -j \"$(nproc)\" DESTDIR=\"$TMPROOT\" install;\
+    \ \\\n    cd /debs; \\\n    fpm -s dir -t deb -n libfabric -v ${LIBFABRIC_VERSION}\
+    \ --description \"LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')\" --prefix / -C \"$TMPROOT\"\
+    \ usr; \\\n    rm -rf \"$TMPROOT\"; \\\n    dpkg -i libfabric_${LIBFABRIC_VERSION}_amd64.deb\n\
+    \nFROM $BASE_IMAGE:$BASE_IMAGE_TAG\n\nCOPY --from=builder /debs/*.deb /tmp/debs/\n\
+    \nRUN set -ue; \\\n    #\n    # Install the built Ubuntu packages and dependencies\n\
+    \    #\n    apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y\
+    \ \\\n        autoconf \\\n        libconfig-dev \\\n        libcurl4-openssl-dev\
+    \ \\\n        libfuse-dev \\\n        libjson-c-dev \\\n        libnl-3-dev \\\
+    \n        libsensors-dev \\\n        libtool \\\n        libuv1-dev \\\n     \
+    \   libyaml-dev \\\n        pkg-config \\\n        strace; \\\n    dpkg -i /tmp/debs/*.deb;\
+    \ \\\n    rm -rf /tmp/debs; \\\n    ln -s /usr/lib/x86_64-linux-gnu/libcurl.so.4.8.0\
+    \ /usr/lib64/libcurl.so.4; \\\n    ldconfig; \\\n    #\n    # Add SBOM\n    #\n\
+    \    apt_json=\"$(dpkg-query -W -f='${Package}\\t${Version}\\n' | jq -R -s 'split(\"\
+    \\n\")[:-1] | map(split(\"\\t\") | {name: .[0], version: .[1]})')\"; \\\n    jq\
+    \ -n --argjson apt \"$apt_json\"  '{apt: $apt}' > /.sbom.json;\n\nRUN printf '#!/usr/bin/env\
+    \ bash\\n\\\nif [ \"${SLURM_NNODES}\" = 1 ] && [ -z \"${SLURM_GPUS_ON_NODE}\"\
+    \ ]; then\\n\\\n    export FI_HMEM_DISABLE_P2P=1\\n\\\nfi\\n\\\nexec \"$@\"\\\
+    n' > /opt/oci-entrypoint.sh && chmod +x /opt/oci-entrypoint.sh\n\nENTRYPOINT [\"\
+    /opt/oci-entrypoint.sh\"]\n\n# Make default runscript compatible with OCI entrypoint.\n\
+    # This only needs to be set once in the container lineage, i.e.,\n# in the first\
+    \ Containerfile that includes an entrypoint.\nENV SINGULARITY_NO_EVAL=1\n"
+
+- name: lumi-multitorch-mpich-u24r70f21m50t210
+  base: lumi-multitorch-libfabric-u24r70f21m50t210
+  desc: |
+    **Overview**
+    This image builds on top of its base image by adding an MPI library with GPU
+    support, based on an MPICH build. It also includes the AWS-OFI-NCCL plugin to
+    enable RCCL communication over the interconnect network using libfabric. The
+    rccl-tests and OSU micro-benchmarks suite are included for performance and
+    functionality validation.
+
+    **Details**
+    Base image: lumi-multitorch-libfabric-u24r70f21m50t210
+    MPI implementation: MPICH 5.0.1
+    Components:
+      - MPICH 5.0.1 (from http://www.mpich.org/static/downloads release tgz for 5.0.1)
+      - AWS-OFI-NCCL 1.20.0-git-a2a6d08 (from https://github.com/aws/aws-ofi-nccl commit a2a6d08)
+      - RCCL (from https://github.com/ROCm/rocm-systems commit 81a5a30)
+      - OSU micro-benchmarks 7.5.2 (from https://mvapich.cse.ohio-state.edu/download/mvapich release tgz for 7.5.2)
+  template: mpich/Ubuntu_Rocm_Slingshot
+  force: false
+  env:
+  - AWS_OFI_NCCL_COMMIT=a2a6d08
+  - AWS_OFI_NCCL_REPO=https://github.com/aws/aws-ofi-nccl
+  - AWS_OFI_NCCL_VERSION=1.20.0-git-a2a6d08
+      #
+  - HWLOC_REPO=https://github.com/open-mpi/hwloc
+  - HWLOC_VERSION=2.14.0
+      #
+  - MPICH_SOURCE=http://www.mpich.org/static/downloads
+  - MPICH_VERSION=5.0.1
+  - MPICH_GPU_ARCH=gfx90a
+      #
+  - OSU_SOURCE=https://mvapich.cse.ohio-state.edu/download/mvapich
+  - OSU_VERSION=7.5.2
+      #
+  - RCCL_TESTS_COMMIT=81a5a30
+  - RCCL_TESTS_GPU_ARCHS=gfx90a
+  - RCCL_TESTS_REPO=https://github.com/ROCm/rocm-systems
+  - RCCL_TESTS_VERSION=2.18.3-81a5a30
+  export:
+    def:
+  cf_hash: 264acb3ea7cb00279718e22596756f5520890296
+  cf_lineage: 71445e261e1fd8559a9e09006a9a03ba3d512e15,b35968f9f67ea9e7690ecffb49c2eebc94b57d36,264acb3ea7cb00279718e22596756f5520890296
+  cf_text: "ARG BASE_IMAGE=lumi-multitorch-libfabric-u24r70f21m50t210\nARG AWS_OFI_NCCL_COMMIT=a2a6d08\n\
+    ARG AWS_OFI_NCCL_REPO=https://github.com/aws/aws-ofi-nccl\nARG AWS_OFI_NCCL_VERSION=1.20.0-git-a2a6d08\n\
+    ARG HWLOC_REPO=https://github.com/open-mpi/hwloc\nARG HWLOC_VERSION=2.14.0\nARG\
+    \ MPICH_SOURCE=http://www.mpich.org/static/downloads\nARG MPICH_VERSION=5.0.1\n\
+    ARG MPICH_GPU_ARCH=gfx90a\nARG OSU_SOURCE=https://mvapich.cse.ohio-state.edu/download/mvapich\n\
+    ARG OSU_VERSION=7.5.2\nARG RCCL_TESTS_COMMIT=81a5a30\nARG RCCL_TESTS_GPU_ARCHS=gfx90a\n\
+    ARG RCCL_TESTS_REPO=https://github.com/ROCm/rocm-systems\nARG RCCL_TESTS_VERSION=2.18.3-81a5a30\n\
+    \nFROM $BASE_IMAGE:$BASE_IMAGE_TAG AS builder\n\nARG AWS_OFI_NCCL_COMMIT\nARG\
+    \ AWS_OFI_NCCL_REPO\nARG AWS_OFI_NCCL_VERSION\n\nARG BASE_IMAGE\nARG BASE_IMAGE_TAG\n\
+    \nARG HWLOC_REPO\nARG HWLOC_VERSION\n\nARG MPICH_SOURCE\nARG MPICH_VERSION\nARG\
+    \ MPICH_GPU_ARCH\n\nARG OSU_SOURCE\nARG OSU_VERSION\n\nARG RCCL_TESTS_COMMIT\n\
+    ARG RCCL_TESTS_GPU_ARCHS\nARG RCCL_TESTS_REPO\nARG RCCL_TESTS_VERSION\n\n\n#\n\
+    # Install FPM package builder using GEM (only for the builder image)\n#\n\nRUN\
+    \ set -ue; \\\n  export DEBIAN_FRONTEND=noninteractive; \\\n  apt-get update;\
+    \ \\\n  apt-get install -y ruby ruby-dev; \\\n  gem install --no-document fpm;\
+    \ \\\n  mkdir /debs;\n\n\n#\n# Build and install hwloc (with rocm/amdgpu support)\
+    \ into the builder container\n#\n\nRUN set -ue; \\\n    TMPROOT=$(mktemp -d);\
+    \ \\\n    git clone \"${HWLOC_REPO}\" \"$TMPROOT/hwloc\"; \\\n    cd  \"$TMPROOT/hwloc\"\
+    ; \\\n    git checkout \"hwloc-${HWLOC_VERSION}\"; \\\n    ./autogen.sh; \\\n\
+    \    ./configure --with-rocm=/opt/rocm --with-amdgpu=/opt/amdgpu --prefix=/usr\
+    \ --libdir /usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH) --disable-opencl\
+    \ --disable-gl --enable-plugins=pci; \\\n    make -j $(nproc) DESTDIR=\"$TMPROOT\"\
+    \ install; \\\n    cd /debs; \\\n    fpm -s dir -t deb -n libhwloc15 -v \"${HWLOC_VERSION}\"\
+    \ --description \"LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')\" --prefix / -C \"$TMPROOT\"\
+    \ \\\n        -x \"usr/include/*\" -x \"usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/pkgconfig/hwloc.pc\"\
+    \ \\\n        -x \"usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/*.la\" -x\
+    \ \"usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/hwloc/*\" usr; \\\n    fpm\
+    \ -s dir -t deb -n libhwloc-dev -v \"${HWLOC_VERSION}\" --description \"LUMI-AIF-$(date\
+    \ -u +'%Y%m%d%H%M%S')\" --prefix / -C \"$TMPROOT\" \\\n         usr/include usr/lib/$(dpkg-architecture\
+    \ -qDEB_HOST_MULTIARCH)/pkgconfig/hwloc.pc \\\n         usr/lib/$(dpkg-architecture\
+    \ -qDEB_HOST_MULTIARCH)/libhwloc.la; \\\n    fpm -s dir -t deb -n libhwloc-plugins\
+    \ -v \"${HWLOC_VERSION}\" --description \"LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')\"\
+    \ \\\n        --prefix / -C \"$TMPROOT\" usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/hwloc;\
+    \ \\\n    rm -rf \"$TMPROOT\"; \\\n    dpkg -i libhwloc*amd64.deb;\n\n\n#\n# Build\
+    \ and install MPICH package into the builder container\n#\n\nRUN set -ue; \\\n\
+    \  TMPROOT=$(mktemp -d); \\\n  MPICH_TGZ=\"mpich-${MPICH_VERSION}.tar.gz\"; \\\
+    \n  MPICH_URL=\"${MPICH_SOURCE}/${MPICH_VERSION}/${MPICH_TGZ}\"; \\\n  install\
+    \ -d \"$TMPROOT/usr\" \"$TMPROOT/src\"; \\\n  curl -L -o \"${TMPROOT}/src/${MPICH_TGZ}\"\
+    \ \"${MPICH_URL}\"; \\\n  tar -C \"${TMPROOT}/src\" -xf \"${TMPROOT}/src/${MPICH_TGZ}\"\
+    \ --no-same-owner; \\\n  cd \"${TMPROOT}/src/mpich-${MPICH_VERSION}\"; \\\n  ./configure\
+    \ --disable-fortran --enable-fast=O3 --enable-threads=multiple --prefix=/usr --libdir\
+    \ /usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH) --with-device=ch4:ofi --with-hip=/opt/rocm\
+    \ --with-libfabric --with-xpmem=/usr --without-cuda --without-ucx --with-hip-sm=${MPICH_GPU_ARCH};\
+    \ \\\n  make -j $(nproc) DESTDIR=\"$TMPROOT\" install; \\\n  cd /debs; \\\n  fpm\
+    \ -s dir -t deb -n mpich -v \"${MPICH_VERSION}\" --description \"LUMI-AIF-$(date\
+    \ -u +'%Y%m%d%H%M%S')\" --prefix / -C \"$TMPROOT\"  usr/bin usr/etc usr/include\
+    \ usr/lib usr/share; \\\n  rm -rf \"$TMPROOT\"; \\\n  dpkg -i \"mpich_${MPICH_VERSION}_amd64.deb\"\
+    ;\n\n\n#\n# Build and install OSU Benchmarks package into the builder container\n\
+    #\n\nRUN set -ue; \\\n    TMPROOT=$(mktemp -d); \\\n    OSU_TGZ=\"osu-micro-benchmarks-${OSU_VERSION}.tar.gz\"\
+    ; \\\n    OSU_URL=\"${OSU_SOURCE}/${OSU_TGZ}\"; \\\n    install -d \"$TMPROOT/libexec\"\
+    \ \"$TMPROOT/src\"; \\\n    curl -L -o \"${TMPROOT}/src/${OSU_TGZ}\" \"${OSU_URL}\"\
+    ; \\\n    tar -C \"${TMPROOT}/src\" -xf \"${TMPROOT}/src/${OSU_TGZ}\" --no-same-owner;\
+    \ \\\n    cd \"${TMPROOT}/src/osu-micro-benchmarks-${OSU_VERSION}\"; \\\n    ./configure\
+    \ --prefix=/usr CC=mpicc CXX=mpicxx --enable-rocm --with-rocm=/opt/rocm; \\\n\
+    \    make -j $(nproc) DESTDIR=\"$TMPROOT\" install; \\\n    cd /debs; \\\n   \
+    \ fpm -s dir -t deb -n osu-micro-benchmarks -v \"${OSU_VERSION}\" --description\
+    \ \"LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')\" --prefix / -C \"$TMPROOT\"  usr/libexec;\
+    \ \\\n    rm -rf \"$TMPROOT\"; \\\n    dpkg -i \"osu-micro-benchmarks_${OSU_VERSION}_amd64.deb\"\
+    \n\n\n#\n# Build and install AWS-OFI-NCCL package into the builder container\n\
+    #\n\nRUN set -ue; \\\n    TMPROOT=$(mktemp -d); \\\n    git clone \"${AWS_OFI_NCCL_REPO}\"\
+    \ \"$TMPROOT/aws-ofi-nccl\"; \\\n    cd  \"$TMPROOT/aws-ofi-nccl\"; \\\n    git\
+    \ checkout \"${AWS_OFI_NCCL_COMMIT}\"; \\\n    ./autogen.sh; \\\n    ./configure\
+    \ --with-rocm=/opt/rocm --enable-trace --disable-tests --prefix=/usr --libdir\
+    \ /usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH); \\\n    make -j $(nproc)\
+    \ DESTDIR=\"$TMPROOT\" install; \\\n    cd /debs; \\\n    fpm -s dir -t deb -n\
+    \ aws-ofi-nccl -v \"${AWS_OFI_NCCL_VERSION}\" --description \"LUMI-AIF-$(date\
+    \ -u +'%Y%m%d%H%M%S')\" --prefix / -C \"$TMPROOT\"  usr/lib; \\\n    rm -rf \"\
+    $TMPROOT\"; \\\n    dpkg -i \"aws-ofi-nccl_${AWS_OFI_NCCL_VERSION}_amd64.deb\"\
+    ;\n\n\n#\n# Build and install rccl-tests package into the builder container\n\
+    #\n\nRUN set -ue; \\\n    TMPROOT=$(mktemp -d); \\\n    git clone --no-checkout\
+    \ --filter=blob:none \"${RCCL_TESTS_REPO}\" \"$TMPROOT/rocm-systems\"; \\\n  \
+    \  cd  \"$TMPROOT/rocm-systems\"; \\\n    git sparse-checkout init --cone; \\\n\
+    \    git sparse-checkout set projects/rccl-tests; \\\n    git checkout \"${RCCL_TESTS_COMMIT}\"\
+    ; \\\n    cd projects/rccl-tests; \\\n    make -j $(nproc) MPI=1 GPU_TARGETS=\"\
+    ${RCCL_TESTS_GPU_ARCHS}\"; \\\n    install -d \"${TMPROOT}/libexec/rccl-tests\"\
+    ; \\\n    cp build/*_perf \"${TMPROOT}/libexec/rccl-tests\"; \\\n    cd /debs;\
+    \ \\\n    fpm -s dir -t deb -n rccl-tests -v \"${RCCL_TESTS_VERSION}\" --description\
+    \ \"LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')\" --prefix /usr -C \"$TMPROOT\" libexec;\
+    \ \\\n    rm -rf \"$TMPROOT\"; \\\n    dpkg -i \"rccl-tests_${RCCL_TESTS_VERSION}_amd64.deb\"\
+    \n\n\n#\n# Copy the Debian packages created in the previous steps from the builder\
+    \ image to\n# the final image and install them.\n#\n\nFROM $BASE_IMAGE:$BASE_IMAGE_TAG\n\
+    \nCOPY --from=builder /debs/*.deb /tmp/debs/\n\nRUN set -ue; \\\n    #\n    #\
+    \ Install all built Ubuntu packages\n    #\n    dpkg -i /tmp/debs/*.deb; \\\n\
+    \    rm -rf /tmp/debs; \\\n    #\n    # Add SBOM\n    #\n    apt_json=\"$(dpkg-query\
+    \ -W -f='${Package}\\t${Version}\\n' | jq -R -s 'split(\"\\n\")[:-1] | map(split(\"\
+    \\t\") | {name: .[0], version: .[1]})')\"; \\\n    jq -n --argjson apt \"$apt_json\"\
+    \  '{apt: $apt}' > /.sbom.json;\n\nENV MPIR_CVAR_CH4_OFI_ENABLE_HMEM=1\nENV MPIR_CVAR_CH4_OFI_ENABLE_MR_HMEM=1\n\
+    ENV MPIR_CVAR_ENABLE_GPU=1\n\nRUN printf '#!/usr/bin/env bash\\n\\\nif [ \"${SLURM_NNODES}\"\
+    \ = 1 ] && [ -z \"${SLURM_GPUS_ON_NODE}\" ]; then\\n\\\n    export FI_HMEM_DISABLE_P2P=1\\\
+    n\\\nfi\\n\\\nexec \"$@\"\\n' > /opt/oci-entrypoint.sh && chmod +x /opt/oci-entrypoint.sh\n\
+    \nENTRYPOINT [\"/opt/oci-entrypoint.sh\"]\n"
+
+- name: lumi-multitorch-torch-u24r70f21m50t210
+  base: lumi-multitorch-mpich-u24r70f21m50t210
+  desc: |
+    **Overview**
+    This image builds on top of its base image by adding PyTorch for AMD GPUs and
+    ROCm, along with few related packages from PyTorch's upstream repositories.
+
+    **Details**
+    Base image: lumi-multitorch-mpich-u24r70f21m50t210
+    PyTorch version: 2.10.0
+    PyTorch packages and sources:
+      - PyTorch: "https://github.com/pytorch/pytorch @ tag v2.10.0"
+      - TorchVision: https://download-r2.pytorch.org/whl/rocm7.0/torchvision-0.25.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl
+      - TorchAudio: https://download-r2.pytorch.org/whl/rocm7.0/torchaudio-2.10.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl
+      - PyTorch Triton: https://download.pytorch.org/whl/triton_rocm-3.6.0-cp312-cp312-linux_x86_64.whl
+  template: torch/Venv_Torch_From_Src
+  force: false
+  env:
+  - TORCH_REPO=https://github.com/pytorch/pytorch
+  - TORCH_VERSION=2.10.0
+  - TORCH_ROCM_VERSION=rocm7.0
+  - TORCH_GPU_ARCH=gfx90a
+  - TORCH_PATCHES="https://github.com/viahlgre/pytorch/commit/f0374f296279f6fbdb3437a144b226521d00b788.patch"
+      #
+  - TORCH_PIP_DEPENDENCIES="mkl-include mkl-static ninja numpy packaging pyyaml requests
+    setuptools six typing_extensions"
+  - TORCH_APT_DEPENDENCIES="ccache cmake libjpeg-dev libopenblas-dev libpng-dev numactl"
+      #
+  - PYTORCH_TRITON_URL=https://download.pytorch.org/whl/triton_rocm-3.6.0-cp312-cp312-linux_x86_64.whl
+  - TORCHAUDIO_URL=https://download-r2.pytorch.org/whl/rocm7.0/torchaudio-2.10.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl
+  - TORCHVISION_URL=https://download-r2.pytorch.org/whl/rocm7.0/torchvision-0.25.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl
+      #
+  - FAKE_TRITON_URL=git+https://github.com/viahlgre/fake-triton.git@d35f4ca
+      #
+  - WRETAG_URL=git+https://github.com/lumi-ai-factory/wretag.git@0da1af0
+
+  export:
+    def:
+  cf_hash: 949c5576caafbd7fd9771673b77d9cd3862ef98a
+  cf_lineage: 71445e261e1fd8559a9e09006a9a03ba3d512e15,b35968f9f67ea9e7690ecffb49c2eebc94b57d36,264acb3ea7cb00279718e22596756f5520890296,949c5576caafbd7fd9771673b77d9cd3862ef98a
+  cf_text: "ARG BASE_IMAGE=lumi-multitorch-mpich-u24r70f21m50t210\nARG TORCH_REPO=https://github.com/pytorch/pytorch\n\
+    ARG TORCH_VERSION=2.10.0\nARG TORCH_ROCM_VERSION=rocm7.0\nARG TORCH_GPU_ARCH=gfx90a\n\
+    ARG TORCH_PATCHES=\"https://github.com/viahlgre/pytorch/commit/f0374f296279f6fbdb3437a144b226521d00b788.patch\"\
+    \nARG TORCH_PIP_DEPENDENCIES=\"mkl-include mkl-static ninja numpy packaging pyyaml\
+    \ requests setuptools six typing_extensions\"\nARG TORCH_APT_DEPENDENCIES=\"ccache\
+    \ cmake libjpeg-dev libopenblas-dev libpng-dev numactl\"\nARG PYTORCH_TRITON_URL=https://download.pytorch.org/whl/triton_rocm-3.6.0-cp312-cp312-linux_x86_64.whl\n\
+    ARG TORCHAUDIO_URL=https://download-r2.pytorch.org/whl/rocm7.0/torchaudio-2.10.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl\n\
+    ARG TORCHVISION_URL=https://download-r2.pytorch.org/whl/rocm7.0/torchvision-0.25.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl\n\
+    ARG FAKE_TRITON_URL=git+https://github.com/viahlgre/fake-triton.git@d35f4ca\n\
+    ARG WRETAG_URL=git+https://github.com/lumi-ai-factory/wretag.git@0da1af0\n\nFROM\
+    \ $BASE_IMAGE:$BASE_IMAGE_TAG\n\nARG BASE_IMAGE\nARG BASE_IMAGE_TAG\n\nARG TORCH_REPO\n\
+    ARG TORCH_VERSION\nARG TORCH_ROCM_VERSION\nARG TORCH_GPU_ARCH\nARG TORCH_PATCHES\n\
+    \nARG TORCH_PIP_DEPENDENCIES\nARG TORCH_APT_DEPENDENCIES\n\nARG PYTORCH_TRITON_URL\n\
+    ARG FAKE_TRITON_URL\nARG TORCHAUDIO_URL\nARG TORCHVISION_URL\n\nARG WRETAG_URL\n\
+    \nRUN set -ue; \\\n  #\n  mkdir /opt/src; \\\n  mkdir /opt/wheels; \\\n  #\n \
+    \ test -f /opt/rocm/lib/llvm/bin/amdgpu-arch.really && { echo \"error: amdgpu-arch.really\
+    \ already exists\"; false; } || true; \\\n  mv /opt/rocm/lib/llvm/bin/amdgpu-arch\
+    \ /opt/rocm/lib/llvm/bin/amdgpu-arch.really; \\\n  printf \"#!/bin/bash\\necho\
+    \ ${TORCH_GPU_ARCH}\\n\" > /opt/rocm/lib/llvm/bin/amdgpu-arch; \\\n  chmod a+rx\
+    \ /opt/rocm/lib/llvm/bin/amdgpu-arch; \\\n  #\n  apt-get update; \\\n  apt-get\
+    \ -y install ${TORCH_APT_DEPENDENCIES}; \\\n  apt clean ;\\\n  #\n  python3.12\
+    \ -m venv /opt/venv; \\\n  . /opt/venv/bin/activate; \\\n  #\n  pip install --no-cache-dir\
+    \ \"${WRETAG_URL}\"; \\\n  pip install --no-cache-dir ${TORCH_PIP_DEPENDENCIES};\
+    \ \\\n  pip install --no-cache-dir ${PYTORCH_TRITON_URL}; \\\n  pip install --no-cache-dir\
+    \ /opt/rocm/share/amd_smi; \\\n  #\n  git clone --branch \"v${TORCH_VERSION}\"\
+    \ --recursive ${TORCH_REPO}; \\\n  #\n  cd pytorch/; \\\n  #\n  for PATCH_URL\
+    \ in ${TORCH_PATCHES}; do curl -s $PATCH_URL | git apply; done; \\\n  #\n  git\
+    \ status; \\\n  #\n  export GPU_ARCH_TYPE=rocm; \\\n  export ROCM_HOME=/opt/rocm;\
+    \ \\\n  export PYTORCH_ROCM_ARCH=${TORCH_GPU_ARCH}; \\\n  export DESIRED_CUDA=${TORCH_ROCM_VERSION};\
+    \ \\\n  #\n  export CC=gcc; \\\n  export CXX=g++; \\\n  #\n  export USE_CUDA=0;\
+    \ \\\n  export USE_ROCM=1; \\\n  #\n  export USE_MPI=1; \\\n  export USE_C10D_MPI=1;\
+    \ \\\n  export USE_SYSTEM_NCCL=1; \\\n  export USE_STATIC_NCCL=0; \\\n  #\n  export\
+    \ BUILD_TEST=0; \\\n  export INSTALL_TEST=0; \\\n  export MAX_JOBS=\"$(nproc)\"\
+    ; \\\n  #\n  export PYTORCH_BUILD_VERSION=\"${TORCH_VERSION}+${TORCH_ROCM_VERSION}\"\
+    ; \\\n  export PYTORCH_BUILD_NUMBER=1; \\\n  #\n  python3.12 tools/amd_build/build_amd.py;\
+    \ \\\n  python -m pip wheel --no-build-isolation --no-deps -v -w /opt/wheels .;\
+    \ \\\n  #\n  wheel_path=\"$(find /opt/wheels  -mindepth 1 -maxdepth 1 -type f\
+    \ -name '*.whl')\"; \\\n  test $(echo $wheel_path | wc -w) = 1; \\\n  new_wheel=\"\
+    $(wretag -d -q ${TORCH_ROCM_VERSION}_lumi_aif_$(date -u +'%Y%m%d%H%M%S') $wheel_path)\"\
+    ; \\\n  pip install $new_wheel; \\\n  #\n  rm -f /opt/wheels/torch-*.whl; \\\n\
+    \  #\n  pip install $TORCHAUDIO_URL $TORCHVISION_URL $FAKE_TRITON_URL; \\\n  #\n\
+    \  pip cache purge; \\\n  #\n  rm -rf /opt/src/pytorch; \\\n  #\n  rmdir /opt/src;\
+    \ \\\n  rmdir /opt/wheels; \\\n  #\n  test -f /opt/rocm/lib/llvm/bin/amdgpu-arch.really\
+    \ || { echo \"error: amdgpu-arch.really is missing\"; false; }; \\\n  rm /opt/rocm/lib/llvm/bin/amdgpu-arch;\
+    \ \\\n  mv /opt/rocm/lib/llvm/bin/amdgpu-arch.really /opt/rocm/lib/llvm/bin/amdgpu-arch;\
+    \ \\\n  #\n  # Add SBOM\n  #\n  apt_json=\"$(dpkg-query -W -f='${Package}\\t${Version}\\\
+    n' | jq -R -s 'split(\"\\n\")[:-1] | map(split(\"\\t\") | {name: .[0], version:\
+    \ .[1]})')\"; \\\n  pip_json=\"$(pip list --format=json)\"; \\\n  jq -n --argjson\
+    \ apt \"$apt_json\"  --argjson pip \"$pip_json\" '{apt: $apt, pip: $pip}' > /.sbom.json;\n\
+    \nENV PATH=\"/opt/venv/bin:$PATH\"\nENV PYTHONPATH=\"/opt/venv/lib/python3.12/site-packages:$PYTHONPATH\"\
+    \n\nRUN printf '#!/usr/bin/env bash\\n\\\nif [ \"${SLURM_NNODES}\" = 1 ] && [\
+    \ -z \"${SLURM_GPUS_ON_NODE}\" ]; then\\n\\\n    export FI_HMEM_DISABLE_P2P=1\\\
+    n\\\nfi\\n\\\nexec \"$@\"\\n' > /opt/oci-entrypoint.sh && chmod +x /opt/oci-entrypoint.sh\n\
+    \nENTRYPOINT [\"/opt/oci-entrypoint.sh\"]\n"
+
+- name: lumi-multitorch-full-u24r70f21m50t210
+  base: lumi-multitorch-torch-u24r70f21m50t210
+  desc: |
+    **Overview**
+    This is a multipurpose ML/AI image that builds on its base image by adding a
+    comprehensive selection of tools and libraries for machine learning and AI
+    workloads. The image is optimized to run on LUMI but should also work on other
+    systems with MI250x GPUs and Slingshot interconnect.
+
+    **Details**
+    Base image: lumi-multitorch-torch-u24r70f21m50t210
+    GPU architectures: gfx90a
+    Components:
+      - Apex (from https://github.com/ROCm/apex commit e97c665)
+      - Causal Conv1D (from https://github.com/Dao-AILab/causal-conv1d commit 4f6ae4e)
+      - DeepSpeed 0.19.2 (with locally built ops addons)
+      - Flash Attention (from https://github.com/ROCm/flash-attention commit b664ea0)
+      - LLM Compressor: (from https://github.com/vllm-project/llm-compressor commit 6d2a090)
+      - Megatron LM (experimental): (from https://github.com/viahlgre/Megatron-LM commit c333868)
+      - vLLM v0.22.1 (from https://github.com/vllm-project/vllm commit 0decac0)
+      - xFormers (from https://github.com/facebookresearch/xformers commit 03b91d7)
+
+    Additional Python packages from PyPI:
+      - accelerate
+      - bitsandbytes
+      - datasets
+      - evaluate
+      - h5py
+      - huggingface-hub
+      - jupyter
+      - lightning
+      - marimo
+      - matplotlib
+      - mlflow
+      - mpi4py
+      - numba
+      - numpy
+      - pandas
+      - peft
+      - scipy
+      - sentence-transformers
+      - sentencepiece
+      - tensorboard
+      - trl
+      - ultralytics-opencv-headless
+
+  template: multi/Rocm_Multipurpose
+  force: false
+  env:
+  - APEX_GIT_REPO=https://github.com/ROCm/apex
+  - APEX_GIT_COMMIT=e97c665
+      #
+  - CAUSAL_CONV1D_REPO=https://github.com/Dao-AILab/causal-conv1d
+  - CAUSAL_CONV1D_COMMIT=4f6ae4e
+      #
+  - DEEPSPEED_VERSION=0.19.2
+      #
+  - DEPENDENCY_PIP_PACKAGES="impi-devel oneccl-devel ninja packaging flask-restful
+    nltk pybind11 pynvml tensorstore wandb wrapt zarr jinja2 setuptools_rust setuptools_scm"
+      #
+  - EXTRA_APT_PACKAGES="libaio-dev libaio1t64 ffmpeg apt-transport-https ca-certificates
+    libfmt-dev libmsgpack-dev libsqlite3-dev libsuitesparse-dev sqlite3"
+  - EXTRA_PIP_PACKAGES="accelerate bitsandbytes datasets evaluate h5py huggingface-hub
+    jupyter lightning marimo matplotlib mlflow mpi4py numba numpy pandas peft scipy
+    sentence-transformers sentencepiece tensorboard trl ultralytics-opencv-headless"
+      #
+  - FLASH_ATTENTION_REPO_COMMIT=b664ea0
+  - FLASH_ATTENTION_REPO_URL=https://github.com/ROCm/flash-attention
+      #
+  - LLMCOMPRESSOR_REPO=https://github.com/vllm-project/llm-compressor
+  - LLMCOMPRESSOR_COMMIT=6d2a090
+      #
+  - MEGATRON_LM_COMMIT=c333868
+  - MEGATRON_LM_REPO_URL=https://github.com/viahlgre/Megatron-LM
+      #
+  - MULTI_IMAGE_GPU_ARCH=gfx90a
+      #
+  - VLLM_COMMIT=0decac0
+  - VLLM_REPO=https://github.com/vllm-project/vllm
+      #
+  - XFORMERS_COMMIT=03b91d7
+  - XFORMERS_REPO=https://github.com/facebookresearch/xformers
+      #
+  export:
+    def:
+  cf_hash: 090786c4b20a6ef4779448d94c914c9744421e82
+  cf_lineage: 71445e261e1fd8559a9e09006a9a03ba3d512e15,b35968f9f67ea9e7690ecffb49c2eebc94b57d36,264acb3ea7cb00279718e22596756f5520890296,949c5576caafbd7fd9771673b77d9cd3862ef98a,090786c4b20a6ef4779448d94c914c9744421e82
+  cf_text: "ARG BASE_IMAGE=lumi-multitorch-torch-u24r70f21m50t210\nARG APEX_GIT_REPO=https://github.com/ROCm/apex\n\
+    ARG APEX_GIT_COMMIT=e97c665\nARG CAUSAL_CONV1D_REPO=https://github.com/Dao-AILab/causal-conv1d\n\
+    ARG CAUSAL_CONV1D_COMMIT=4f6ae4e\nARG DEEPSPEED_VERSION=0.19.2\nARG DEPENDENCY_PIP_PACKAGES=\"\
+    impi-devel oneccl-devel ninja packaging flask-restful nltk pybind11 pynvml tensorstore\
+    \ wandb wrapt zarr jinja2 setuptools_rust setuptools_scm\"\nARG EXTRA_APT_PACKAGES=\"\
+    libaio-dev libaio1t64 ffmpeg apt-transport-https ca-certificates libfmt-dev libmsgpack-dev\
+    \ libsqlite3-dev libsuitesparse-dev sqlite3\"\nARG EXTRA_PIP_PACKAGES=\"accelerate\
+    \ bitsandbytes datasets evaluate h5py huggingface-hub jupyter lightning marimo\
+    \ matplotlib mlflow mpi4py numba numpy pandas peft scipy sentence-transformers\
+    \ sentencepiece tensorboard trl ultralytics-opencv-headless\"\nARG FLASH_ATTENTION_REPO_COMMIT=b664ea0\n\
+    ARG FLASH_ATTENTION_REPO_URL=https://github.com/ROCm/flash-attention\nARG LLMCOMPRESSOR_REPO=https://github.com/vllm-project/llm-compressor\n\
+    ARG LLMCOMPRESSOR_COMMIT=6d2a090\nARG MEGATRON_LM_COMMIT=c333868\nARG MEGATRON_LM_REPO_URL=https://github.com/viahlgre/Megatron-LM\n\
+    ARG MULTI_IMAGE_GPU_ARCH=gfx90a\nARG VLLM_COMMIT=0decac0\nARG VLLM_REPO=https://github.com/vllm-project/vllm\n\
+    ARG XFORMERS_COMMIT=03b91d7\nARG XFORMERS_REPO=https://github.com/facebookresearch/xformers\n\
+    \nFROM $BASE_IMAGE:$BASE_IMAGE_TAG\n\nARG APEX_GIT_COMMIT\nARG APEX_GIT_REPO\n\
+    \nARG BASE_IMAGE\nARG BASE_IMAGE_TAG\n\nARG BNB_COMMIT\nARG BNB_REPO\n\nARG CAUSAL_CONV1D_COMMIT\n\
+    ARG CAUSAL_CONV1D_REPO\n\nARG DEEPSPEED_VERSION\n\nARG DEPENDENCY_PIP_PACKAGES\n\
+    \nARG EXTRA_APT_PACKAGES\nARG EXTRA_PIP_PACKAGES\n\nARG FLASH_ATTENTION_REPO_COMMIT\n\
+    ARG FLASH_ATTENTION_REPO_URL\n\nARG MEGATRON_LM_REPO_URL\nARG MEGATRON_LM_COMMIT\n\
+    \nARG MULTI_IMAGE_GPU_ARCH\n\nARG LLMCOMPRESSOR_REPO\nARG LLMCOMPRESSOR_COMMIT\n\
+    \nARG VLLM_COMMIT\nARG VLLM_REPO\n\nARG XFORMERS_COMMIT\nARG XFORMERS_REPO\n\n\
+    #\n# Prepare build environment\n#\nRUN set -ue; \\\n  #\n  mkdir /opt/src; \\\n\
+    \  #\n  # revisit:\n  #\n  #   Even with the various GPU arch options set, we\
+    \ still get these type of complaints from\n  #   various HIP build steps: \"GPU_TARGETS\
+    \ was not set, and system GPU detection was unsuccsesful\"\n  #   This is reverted\
+    \ at the last RUN step at the bottom of this file. Lets get rid ot this later.\n\
+    \  #\n  #   Another thing is that we may prefer to change this to use separate\
+    \ builder container and then\n  #   do fresh install of all the packages similar\
+    \ to the libfabric and mpich builds.\n  #\n  test -f /opt/rocm/lib/llvm/bin/amdgpu-arch.really\
+    \ && { echo \"error: amdgpu-arch.really already exists\"; false; } || true; \\\
+    \n  mv /opt/rocm/lib/llvm/bin/amdgpu-arch /opt/rocm/lib/llvm/bin/amdgpu-arch.really;\
+    \ \\\n  printf \"#!/bin/bash\\necho ${MULTI_IMAGE_GPU_ARCH}\\n\" > /opt/rocm/lib/llvm/bin/amdgpu-arch;\
+    \ \\\n  chmod a+rx /opt/rocm/lib/llvm/bin/amdgpu-arch; \\\n  #\n  apt-get -y --no-install-recommends\
+    \ install ${EXTRA_APT_PACKAGES}; \\\n  apt clean ;\\\n  #\n  . /opt/venv/bin/activate;\
+    \ \\\n  pip install --upgrade-strategy=only-if-needed --no-cache-dir ${DEPENDENCY_PIP_PACKAGES}\
+    \ ${EXTRA_PIP_PACKAGES};\n\n\n#\n# Compile and install Flash Attention\n#\nRUN\
+    \ set -ue; \\\n  . /opt/venv/bin/activate; \\\n  git clone $FLASH_ATTENTION_REPO_URL\
+    \ /opt/src/flash-attention; \\\n  cd /opt/src/flash-attention; \\\n  git checkout\
+    \ $FLASH_ATTENTION_REPO_COMMIT; \\\n  BUILD_TARGET=rocm MAX_JOBS=$(nproc) GPU_ARCHS=$MULTI_IMAGE_GPU_ARCH\
+    \ python3 setup.py bdist_wheel --dist-dir=dist; \\\n  wheel_path=\"$(find /opt/src/flash-attention/dist\
+    \  -mindepth 1 -maxdepth 1 -type f -name '*.whl')\"; \\\n  test $(echo $wheel_path\
+    \ | wc -w) = 1; \\\n  new_wheel=\"$(wretag -d -q lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${FLASH_ATTENTION_REPO_COMMIT}\
+    \ $wheel_path)\"; \\\n  pip install --no-cache-dir $new_wheel; \\\n  cd / && rm\
+    \ -rf /opt/src/flash-attention;\n\n\n#\n# Install causal-conv1d\n#\nRUN set -ue;\
+    \ \\\n  . /opt/venv/bin/activate; \\\n  git clone $CAUSAL_CONV1D_REPO /opt/src/causal-conv1d;\
+    \ \\\n  cd /opt/src/causal-conv1d; \\\n  git checkout $CAUSAL_CONV1D_COMMIT; \\\
+    \n  export PYTORCH_ROCM_ARCH_OVERRIDE=\"${MULTI_IMAGE_GPU_ARCH}\"; \\\n  export\
+    \ HIP_ARCHITECTURES=\"${MULTI_IMAGE_GPU_ARCH}\"; \\\n  export MAX_JOBS=\"$(nproc)\"\
+    ; \\\n  pip wheel --no-deps --no-build-isolation . -w /opt/src/causal-conv1d/dist;\
+    \ \\\n  wheel_path=\"$(find /opt/src/causal-conv1d/dist  -mindepth 1 -maxdepth\
+    \ 1 -type f -name '*.whl')\"; \\\n  test $(echo $wheel_path | wc -w) = 1; \\\n\
+    \  new_wheel=\"$(wretag -d -q lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${CAUSAL_CONV1D_COMMIT}\
+    \ $wheel_path)\"; \\\n  pip install --no-cache-dir $new_wheel; \\\n  rm -rf /opt/src/causal-conv1d;\n\
+    \n\n#\n# Install xFormers\n#\nRUN set -ue; \\\n  . /opt/venv/bin/activate; \\\n\
+    \  git clone $XFORMERS_REPO /opt/src/xformers; \\\n  cd /opt/src/xformers; \\\n\
+    \  git checkout $XFORMERS_COMMIT; \\\n  git submodule update --init --recursive;\
+    \ \\\n  export XFORMERS_CK_FLASH_ATTN=1; \\\n  export HIP_ARCHITECTURES=\"${MULTI_IMAGE_GPU_ARCH}\"\
+    ; \\\n  export MAX_JOBS=\"$(nproc)\"; \\\n  pip wheel --no-deps --no-build-isolation\
+    \ -w /opt/src/xformers/dist . ; \\\n  wheel_path=\"$(find /opt/src/xformers/dist\
+    \ -mindepth 1 -maxdepth 1 -type f -name '*.whl')\"; \\\n  test $(echo $wheel_path\
+    \ | wc -w) = 1; \\\n  new_wheel=\"$(wretag -d -q lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${XFORMERS_COMMIT}\
+    \ $wheel_path)\"; \\\n  pip install --no-cache-dir $new_wheel; \\\n  rm -rf /opt/src/xformers;\n\
+    \n\n#\n# Install Apex\n#\nRUN set -ue; \\\n  . /opt/venv/bin/activate; \\\n  git\
+    \ clone \"${APEX_GIT_REPO}\" /opt/src/apex;\\\n  cd /opt/src/apex; \\\n  git checkout\
+    \ \"${APEX_GIT_COMMIT}\"; \\\n  export PYTORCH_ROCM_ARCH=\"${MULTI_IMAGE_GPU_ARCH}\"\
+    ; \\\n  pip wheel -w /opt/src/apex/dist --no-deps --no-build-isolation \\\n  \
+    \    --config-settings \"--build-option=--cpp_ext\" --config-settings \"--build-option=--cuda_ext\"\
+    \ ./; \\\n  wheel_path=\"$(find /opt/src/apex/dist  -mindepth 1 -maxdepth 1 -type\
+    \ f -name '*.whl')\"; \\\n  test $(echo $wheel_path | wc -w) = 1; \\\n  new_wheel=\"\
+    $(wretag -d -q lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${APEX_GIT_COMMIT} $wheel_path)\"\
+    ; \\\n  pip install --no-cache-dir --disable-pip-version-check $new_wheel; \\\n\
+    \  cd / && rm -rf /opt/src/apex;\n\n\n#\n# Compile and install vLLM\n#\nRUN set\
+    \ -ue; \\\n  . /opt/venv/bin/activate; \\\n  git clone ${VLLM_REPO} /opt/src/vllm;\
+    \ \\\n  cd /opt/src/vllm; \\\n  git fetch --tags; \\\n  git checkout $VLLM_COMMIT;\
+    \ \\\n  export MAKEFLAGS=\"-j$(nproc)\"; \\\n  # revisit: which of the arch defs\
+    \ really makes a difference\n  export AMDGPU_TARGETS=$MULTI_IMAGE_GPU_ARCH; \\\
+    \n  export GPU_ARCHS=$MULTI_IMAGE_GPU_ARCH; \\\n  export GPU_TARGETS=$MULTI_IMAGE_GPU_ARCH;\
+    \ \\\n  export HIP_ARCHITECTURES=$MULTI_IMAGE_GPU_ARCH; \\\n  export PYTORCH_ROCM_ARCH=$MULTI_IMAGE_GPU_ARCH;\
+    \ \\\n  python3 setup.py clean --all; \\\n  python3 setup.py bdist_wheel --dist-dir=dist;\
+    \ \\\n  wheel_path=\"$(find /opt/src/vllm/dist  -mindepth 1 -maxdepth 1 -type\
+    \ f -name '*.whl')\"; \\\n  test $(echo $wheel_path | wc -w) = 1; \\\n  new_wheel=\"\
+    $(wretag -d -q lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${VLLM_COMMIT} $wheel_path)\"\
+    ; \\\n  pip install $new_wheel; \\\n  cd / && rm -rf /opt/src/vllm;\n\n\n#\n#\
+    \ Install llmcompressor\n#\nRUN set -ue; \\\n  . /opt/venv/bin/activate; \\\n\
+    \  export BUILD_TYPE=release; \\\n  pip wheel --no-deps -w /opt/src/llmcompressor\
+    \ git+${LLMCOMPRESSOR_REPO}.git@${LLMCOMPRESSOR_COMMIT}; \\\n  wheel_path=\"$(find\
+    \ /opt/src/llmcompressor -mindepth 1 -maxdepth 1 -type f -name '*.whl')\"; \\\n\
+    \  test $(echo $wheel_path | wc -w) = 1; \\\n  new_wheel=\"$(wretag -d -q lumi_aif_${LLMCOMPRESSOR_COMMIT}\
+    \ $wheel_path)\"; \\\n  pip install $new_wheel; \\\n  cd / && rm -rf /opt/src/llmcompressor;\n\
+    \n\n#\n# Install Deepspeed\n#\n\nRUN set -ue; \\\n  . /opt/venv/bin/activate;\
+    \ \\\n  export PYTORCH_ROCM_ARCH=$MULTI_IMAGE_GPU_ARCH; \\\n  export DS_ACCELERATOR=cuda;\
+    \ \\\n  export DS_BUILD_OPS=1; \\\n  #\n  # Some extensions need to be disabled\n\
+    \  #\n  # https://github.com/deepspeedai/DeepSpeed/issues/7843#issuecomment-3896637925\n\
+    \  #\n  export DS_BUILD_INFERENCE_CORE_OPS=0; \\\n  export DS_BUILD_CUTLASS_OPS=0;\
+    \ \\\n  export DS_BUILD_RAGGED_DEVICE_OPS=0; \\\n  export DS_BUILD_RAGGED_OPS=0;\
+    \ \\\n  #\n  python3 -m pip wheel deepspeed==${DEEPSPEED_VERSION} --no-deps --no-build-isolation\
+    \ -w /tmp/deepspeed; \\\n  wheel_path=\"$(find /tmp/deepspeed  -mindepth 1 -maxdepth\
+    \ 1 -type f -name '*.whl')\"; \\\n  test $(echo $wheel_path | wc -w) = 1; \\\n\
+    \  new_wheel=\"$(wretag -d -q lumi_aif_dsops $wheel_path)\"; \\\n  pip install\
+    \ $new_wheel; \\\n  cd / && rm -rf /tmp/deepspeed;\n\n\n#\n# Install Megatron\
+    \ LM (experimental for testing)\n#\n\nRUN set -ue; \\\n  . /opt/venv/bin/activate;\
+    \ \\\n  pip wheel --no-deps -w /opt/src/megatronlm git+${MEGATRON_LM_REPO_URL}.git@${MEGATRON_LM_COMMIT};\
+    \ \\\n  wheel_path=\"$(find /opt/src/megatronlm -mindepth 1 -maxdepth 1 -type\
+    \ f -name '*.whl')\"; \\\n  test $(echo $wheel_path | wc -w) = 1; \\\n  new_wheel=\"\
+    $(wretag -d -q lumi_aif_${MEGATRON_LM_COMMIT} $wheel_path)\"; \\\n  pip install\
+    \ $new_wheel; \\\n  cd / && rm -rf /opt/src/megatronlm;\n\n\n#\n# Cleanup and\
+    \ finalize\n#\nRUN set -ue; \\\n  #\n  rmdir /opt/src; \\\n  #\n  test -f /opt/rocm/lib/llvm/bin/amdgpu-arch.really\
+    \ || { echo \"error: amdgpu-arch.really is missing\"; false; }; \\\n  rm /opt/rocm/lib/llvm/bin/amdgpu-arch;\
+    \ \\\n  mv /opt/rocm/lib/llvm/bin/amdgpu-arch.really /opt/rocm/lib/llvm/bin/amdgpu-arch;\
+    \ \\\n  # Add SBOM\n  apt_json=\"$(dpkg-query -W -f='${Package}\\t${Version}\\\
+    n' | jq -R -s 'split(\"\\n\")[:-1] | map(split(\"\\t\") | {name: .[0], version:\
+    \ .[1]})')\"; \\\n  pip_json=\"$(pip list --format=json)\"; \\\n  jq -n --argjson\
+    \ apt \"$apt_json\"  --argjson pip \"$pip_json\" '{apt: $apt, pip: $pip}' > /.sbom.json;\n\
+    \n\nRUN printf '#!/usr/bin/env bash\\n\\\nif [ \"${SLURM_NNODES}\" = 1 ] && [\
+    \ -z \"${SLURM_GPUS_ON_NODE}\" ]; then\\n\\\n    export FI_HMEM_DISABLE_P2P=1\\\
+    n\\\nfi\\n\\\nif [ \"${ROCR_USE_SLURM_LOCALID}\" = 1 ] && [ -n \"${SLURM_LOCALID}\"\
+    \ ]; then\\n\\\n    export ROCR_VISIBLE_DEVICES=\"$SLURM_LOCALID\"\\n\\\nfi\\\
+    n\\\nif [ \"${MAP_HIP_TO_ROCR_VISIBLE_DEVICES}\" = 1 ] && [ -n \"${ROCR_VISIBLE_DEVICES}\"\
+    \ ]; then\\n\\\n    export HIP_VISIBLE_DEVICES=`seq -s , 0 $(echo \"${ROCR_VISIBLE_DEVICES%%,}\"\
+    \ | awk -F, '\\''{print NF-1}'\\'')`\\n\\\nfi\\n\\\nexec \"$@\"\\n' > /opt/oci-entrypoint.sh\
+    \ && chmod +x /opt/oci-entrypoint.sh\n\nENTRYPOINT [\"/opt/oci-entrypoint.sh\"\
+    ]\n"
+
+- name: lumi-multitorch-plus-u24r70f21m50t210
+  base: lumi-multitorch-full-u24r70f21m50t210
+  desc: |
+    **Overview**
+    This experimental image builds on the full image by adding various additional
+    ML/AI libraries for testing purposes. It serves as a technology preview for
+    evaluating potential future additions to the full image and as a home for some
+    software components that are more difficult to maintain long term. The included
+    additional software may be removed without warning in minor image releases, and
+    the image is not intended for long-term use. To satisfy dependencies, some
+    libraries of the full image may be also downgraded in this image.
+
+    **Details**
+    Base image: lumi-multitorch-full-u24r70f21m50t210
+    GPU architectures: gfx90a
+    Components:
+      - TransformerEngine (from https://github.com/ROCm/TransformerEngine commit v2.10_rocm)
+  template: plus/Plus
+  force: false
+  env:
+  - TRANSFORMER_ENGINE_ARCH=gfx90a
+  - TRANSFORMER_ENGINE_COMMIT=v2.10_rocm
+  - TRANSFORMER_ENGINE_REPO=https://github.com/ROCm/TransformerEngine
+  export:
+    def:
+  cf_hash: a3984b56f2bc9352d5d65af4c82006da74c6e5c8
+  cf_lineage: 71445e261e1fd8559a9e09006a9a03ba3d512e15,b35968f9f67ea9e7690ecffb49c2eebc94b57d36,264acb3ea7cb00279718e22596756f5520890296,949c5576caafbd7fd9771673b77d9cd3862ef98a,090786c4b20a6ef4779448d94c914c9744421e82,a3984b56f2bc9352d5d65af4c82006da74c6e5c8
+  cf_text: "ARG BASE_IMAGE=lumi-multitorch-full-u24r70f21m50t210\nARG TRANSFORMER_ENGINE_ARCH=gfx90a\n\
+    ARG TRANSFORMER_ENGINE_COMMIT=v2.10_rocm\nARG TRANSFORMER_ENGINE_REPO=https://github.com/ROCm/TransformerEngine\n\
+    \nFROM $BASE_IMAGE:$BASE_IMAGE_TAG\n\nARG BASE_IMAGE\nARG BASE_IMAGE_TAG\n\nARG\
+    \ TRANSFORMER_ENGINE_ARCH\nARG TRANSFORMER_ENGINE_COMMIT\nARG TRANSFORMER_ENGINE_REPO\n\
+    \nRUN set -ue; \\\n  #\n  export AOTRITON_TARGET_ARCH=${TRANSFORMER_ENGINE_ARCH};\
+    \ \\\n  #\n  export CMAKE_PREFIX_PATH=/opt/rocm; \\\n  #\n  export GPU_ARCHS=${TRANSFORMER_ENGINE_ARCH};\
+    \ \\\n  export GPU_TARGETS=${TRANSFORMER_ENGINE_ARCH}; \\\n  #\n  export NVTE_ROCM_ARCH=${TRANSFORMER_ENGINE_ARCH};\
+    \ \\\n  export NVTE_FRAMEWORK=pytorch; \\\n  export NVTE_FUSED_ATTN=0; \\\n  #\n\
+    \  git clone --recursive --branch \"${TRANSFORMER_ENGINE_COMMIT}\" ${TRANSFORMER_ENGINE_REPO}\
+    \ /opt/src/transformer_engine; \\\n  #\n  cd /opt/src/transformer_engine; \\\n\
+    \  #\n  . /opt/venv/bin/activate; \\\n  # --no-build-isolation needed for pytorch\
+    \ HIP support detection\n  pip install . --no-build-isolation;\n\nRUN printf '#!/usr/bin/env\
+    \ bash\\n\\\nif [ \"${SLURM_NNODES}\" = 1 ] && [ -z \"${SLURM_GPUS_ON_NODE}\"\
+    \ ]; then\\n\\\n    export FI_HMEM_DISABLE_P2P=1\\n\\\nfi\\n\\\nif [ \"${ROCR_USE_SLURM_LOCALID}\"\
+    \ = 1 ] && [ -n \"${SLURM_LOCALID}\" ]; then\\n\\\n    export ROCR_VISIBLE_DEVICES=\"\
+    $SLURM_LOCALID\"\\n\\\nfi\\n\\\nif [ \"${MAP_HIP_TO_ROCR_VISIBLE_DEVICES}\" =\
+    \ 1 ] && [ -n \"${ROCR_VISIBLE_DEVICES}\" ]; then\\n\\\n    export HIP_VISIBLE_DEVICES=`seq\
+    \ -s , 0 $(echo \"${ROCR_VISIBLE_DEVICES%%,}\" | awk -F, '\\''{print NF-1}'\\\
+    '')`\\n\\\nfi\\n\\\nexec \"$@\"\\n' > /opt/oci-entrypoint.sh && chmod +x /opt/oci-entrypoint.sh\n\
+    \nENTRYPOINT [\"/opt/oci-entrypoint.sh\"]\n"
+
+files:
+- name: "lumi-multitorch-u24r70f21m50t210-20260731_122833-release.md"
+  desc: "Template file for release notes"
+  content: |
+    # Release notes for lumi-multitorch-u24r70f21m50t210-20260731_122833
+
+    **Release links:**
+    - [Release README](https://github.com/lumi-ai-factory/laifs-container-recipes-release-artifacts/blob/main/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-u24r70f21m50t210-20260731_122833.md)
+    - [GitHub release](https://github.com/lumi-ai-factory/laifs-container-recipes/releases/tag/lumi-multitorch-u24r70f21m50t210-20260731_122833)
+    - [Recipe changes](https://github.com/lumi-ai-factory/laifs-container-recipes/compare/<PREVIOUS-RELEASE-ID>...lumi-multitorch-u24r70f21m50t210-20260731_122833)
+    - [Known issues](https://github.com/lumi-ai-factory/laifs-container-recipes/issues?q=label%3Alumi-multitorch-u24r70f21m50t210-20260731_122833)
+
+    ## Major updates
+
+    ## Other changes
+
+- name: "lumi-multitorch-u24r70f21m50t210-20260731_122833-post.sh"
+  desc: "Script for performing post-build actions"
+  content: |
+    #!/bin/bash
+
+    # This script is used for executing post-build tasks and should run after
+    # the image builds complete and the release notes have been written.
+    # Working directory needs to be the build dir.
+    #
+    # The script performs these actions:
+    # - Extracts and saves SBOM files from the images.
+    # - Generates a dedicated README file for each image.
+    # - Executes image tests if the test script is available.
+    # - Creates a SHA256 checksum file for all generated artifacts.
+
+    recipe_file="lumi-multitorch-u24r70f21m50t210-20260731_122833.yaml"
+
+    # Save per image files for lumi-multitorch-plus-u24r70f21m50t210-20260731_122833
+    step_name="lumi-multitorch-plus-u24r70f21m50t210"
+    image_name="lumi-multitorch-plus-u24r70f21m50t210-20260731_122833"
+
+    podman run -it --rm "${step_name}:20260731_122833" cat /.sbom.json > "${image_name}.json"
+
+    readme_file="${image_name}.md"
+    image_desc="$(yq . $recipe_file | jq -c -r ".steps[]|select(.name == \"$step_name\")|.desc")"
+    image_meta="$(podman image inspect "${step_name}:20260731_122833" | jq -r 'first|{Id,Created}|to_entries[]|"\(.key): \(.value)"')"
+
+    printf '# Container Image %s\n\n' "$image_name" > "$readme_file"
+    printf '%s\n\n' "$image_meta" >> "$readme_file"
+    printf '## Description\n\n%s\n\n' "$image_desc"  >> "$readme_file"
+    printf '## Files\n\n' >> "$readme_file"
+    sha256sum lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.{Containerfile,def,json,log,sif} >> "$readme_file"
+
+
+    # Save per image files for lumi-multitorch-full-u24r70f21m50t210-20260731_122833
+    step_name="lumi-multitorch-full-u24r70f21m50t210"
+    image_name="lumi-multitorch-full-u24r70f21m50t210-20260731_122833"
+
+    podman run -it --rm "${step_name}:20260731_122833" cat /.sbom.json > "${image_name}.json"
+
+    readme_file="${image_name}.md"
+    image_desc="$(yq . $recipe_file | jq -c -r ".steps[]|select(.name == \"$step_name\")|.desc")"
+    image_meta="$(podman image inspect "${step_name}:20260731_122833" | jq -r 'first|{Id,Created}|to_entries[]|"\(.key): \(.value)"')"
+
+    printf '# Container Image %s\n\n' "$image_name" > "$readme_file"
+    printf '%s\n\n' "$image_meta" >> "$readme_file"
+    printf '## Description\n\n%s\n\n' "$image_desc"  >> "$readme_file"
+    printf '## Files\n\n' >> "$readme_file"
+    sha256sum lumi-multitorch-full-u24r70f21m50t210-20260731_122833.{Containerfile,def,json,log,sif} >> "$readme_file"
+
+
+    # Save per image files for lumi-multitorch-torch-u24r70f21m50t210-20260731_122833
+    step_name="lumi-multitorch-torch-u24r70f21m50t210"
+    image_name="lumi-multitorch-torch-u24r70f21m50t210-20260731_122833"
+
+    podman run -it --rm "${step_name}:20260731_122833" cat /.sbom.json > "${image_name}.json"
+
+    readme_file="${image_name}.md"
+    image_desc="$(yq . $recipe_file | jq -c -r ".steps[]|select(.name == \"$step_name\")|.desc")"
+    image_meta="$(podman image inspect "${step_name}:20260731_122833" | jq -r 'first|{Id,Created}|to_entries[]|"\(.key): \(.value)"')"
+
+    printf '# Container Image %s\n\n' "$image_name" > "$readme_file"
+    printf '%s\n\n' "$image_meta" >> "$readme_file"
+    printf '## Description\n\n%s\n\n' "$image_desc"  >> "$readme_file"
+    printf '## Files\n\n' >> "$readme_file"
+    sha256sum lumi-multitorch-torch-u24r70f21m50t210-20260731_122833.{Containerfile,def,json,log,sif} >> "$readme_file"
+
+
+    # Save per image files for lumi-multitorch-mpich-u24r70f21m50t210-20260731_122833
+    step_name="lumi-multitorch-mpich-u24r70f21m50t210"
+    image_name="lumi-multitorch-mpich-u24r70f21m50t210-20260731_122833"
+
+    podman run -it --rm "${step_name}:20260731_122833" cat /.sbom.json > "${image_name}.json"
+
+    readme_file="${image_name}.md"
+    image_desc="$(yq . $recipe_file | jq -c -r ".steps[]|select(.name == \"$step_name\")|.desc")"
+    image_meta="$(podman image inspect "${step_name}:20260731_122833" | jq -r 'first|{Id,Created}|to_entries[]|"\(.key): \(.value)"')"
+
+    printf '# Container Image %s\n\n' "$image_name" > "$readme_file"
+    printf '%s\n\n' "$image_meta" >> "$readme_file"
+    printf '## Description\n\n%s\n\n' "$image_desc"  >> "$readme_file"
+    printf '## Files\n\n' >> "$readme_file"
+    sha256sum lumi-multitorch-mpich-u24r70f21m50t210-20260731_122833.{Containerfile,def,json,log,sif} >> "$readme_file"
+
+
+    # Save per image files for lumi-multitorch-libfabric-u24r70f21m50t210-20260731_122833
+    step_name="lumi-multitorch-libfabric-u24r70f21m50t210"
+    image_name="lumi-multitorch-libfabric-u24r70f21m50t210-20260731_122833"
+
+    podman run -it --rm "${step_name}:20260731_122833" cat /.sbom.json > "${image_name}.json"
+
+    readme_file="${image_name}.md"
+    image_desc="$(yq . $recipe_file | jq -c -r ".steps[]|select(.name == \"$step_name\")|.desc")"
+    image_meta="$(podman image inspect "${step_name}:20260731_122833" | jq -r 'first|{Id,Created}|to_entries[]|"\(.key): \(.value)"')"
+
+    printf '# Container Image %s\n\n' "$image_name" > "$readme_file"
+    printf '%s\n\n' "$image_meta" >> "$readme_file"
+    printf '## Description\n\n%s\n\n' "$image_desc"  >> "$readme_file"
+    printf '## Files\n\n' >> "$readme_file"
+    sha256sum lumi-multitorch-libfabric-u24r70f21m50t210-20260731_122833.{Containerfile,def,json,log,sif} >> "$readme_file"
+
+
+    # Save per image files for lumi-multitorch-rocm-u24r70f21m50t210-20260731_122833
+    step_name="lumi-multitorch-rocm-u24r70f21m50t210"
+    image_name="lumi-multitorch-rocm-u24r70f21m50t210-20260731_122833"
+
+    podman run -it --rm "${step_name}:20260731_122833" cat /.sbom.json > "${image_name}.json"
+
+    readme_file="${image_name}.md"
+    image_desc="$(yq . $recipe_file | jq -c -r ".steps[]|select(.name == \"$step_name\")|.desc")"
+    image_meta="$(podman image inspect "${step_name}:20260731_122833" | jq -r 'first|{Id,Created}|to_entries[]|"\(.key): \(.value)"')"
+
+    printf '# Container Image %s\n\n' "$image_name" > "$readme_file"
+    printf '%s\n\n' "$image_meta" >> "$readme_file"
+    printf '## Description\n\n%s\n\n' "$image_desc"  >> "$readme_file"
+    printf '## Files\n\n' >> "$readme_file"
+    sha256sum lumi-multitorch-rocm-u24r70f21m50t210-20260731_122833.{Containerfile,def,json,log,sif} >> "$readme_file"
+
+
+    # Run image tests
+    bash ../../scripts/test-image.sh lumi-multitorch-full-u24r70f21m50t210-20260731_122833.sif lumi-multitorch-u24r70f21m50t210-20260731_122833 > lumi-multitorch-u24r70f21m50t210-20260731_122833-tests.md
+
+    # Checksum all files created so far
+    sha256sum lumi-multitorch* > lumi-multitorch-u24r70f21m50t210-20260731_122833.sha256
+
+- name: "lumi-multitorch-u24r70f21m50t210-20260731_122833-release.sh"
+  desc: "Script for performing image release actions"
+  content: |-
+    #!/bin/bash
+    #
+    # This script is used for executing release tasks and should run after
+    # the post-build script. Working directory needs to be the build dir.
+    #
+    # The script performs these actions:
+    # - Uploads OCI images to Docker Hub
+    # - Uploads SIF images and release artifacts to LUMI
+    # - Creates a GitHub release
+
+    set -eu
+
+    # Upload OCI images to Docker Hub
+    podman push lumi-multitorch-plus-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:plus-u24r70f21m50t210-20260731_122833
+    podman push lumi-multitorch-plus-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:plus-u24r70f21m50t210
+    podman push lumi-multitorch-plus-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:plus
+
+    podman push lumi-multitorch-full-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:full-u24r70f21m50t210-20260731_122833
+    podman push lumi-multitorch-full-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:full-u24r70f21m50t210
+    podman push lumi-multitorch-full-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:full
+
+    podman push lumi-multitorch-torch-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:torch-u24r70f21m50t210-20260731_122833
+    podman push lumi-multitorch-torch-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:torch-u24r70f21m50t210
+    podman push lumi-multitorch-torch-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:torch
+
+    podman push lumi-multitorch-mpich-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:mpich-u24r70f21m50t210-20260731_122833
+    podman push lumi-multitorch-mpich-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:mpich-u24r70f21m50t210
+    podman push lumi-multitorch-mpich-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:mpich
+
+    podman push lumi-multitorch-libfabric-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:libfabric-u24r70f21m50t210-20260731_122833
+    podman push lumi-multitorch-libfabric-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:libfabric-u24r70f21m50t210
+    podman push lumi-multitorch-libfabric-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:libfabric
+
+    podman push lumi-multitorch-rocm-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:rocm-u24r70f21m50t210-20260731_122833
+    podman push lumi-multitorch-rocm-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:rocm-u24r70f21m50t210
+    podman push lumi-multitorch-rocm-u24r70f21m50t210:20260731_122833 docker://docker.io/lumiaifactory/lumi-multitorch:rocm
+
+
+    # Upload SIF images and release artifacts to LUMI
+    rsync -avz --exclude='*.tar' --exclude '*.sh' ../lumi-multitorch-u24r70f21m50t210-20260731_122833 lumi.csc.fi:/appl/local/laifs/containers/
+    ssh -l $SSH_USER $SSH_HOST chgrp -R appl_laifs /appl/local/laifs/containers/lumi-multitorch-u24r70f21m50t210-20260731_122833
+    ssh -l $SSH_USER $SSH_HOST chmod 664 /appl/local/laifs/containers/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-*
+    ssh -l $SSH_USER $SSH_HOST chmod o+x /appl/local/laifs/containers/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-*.sif
+    ssh -l $SSH_USER $SSH_HOST chmod 2775 /appl/local/laifs/containers/lumi-multitorch-u24r70f21m50t210-20260731_122833
+
+    # Create GitHub release
+    #
+    # The GitHub CLI commands must be run under the root of the `laifs-container-recipes` repo,
+    # as the build dir is tracked under `laifs-container-recipes-release-artifacts`.
+    cd ../..
+    #
+    tar -C builds/ --exclude='*.tar' --exclude '*.tgz' --exclude='*.sif' -czf lumi-multitorch-u24r70f21m50t210-20260731_122833-release.tgz lumi-multitorch-u24r70f21m50t210-20260731_122833
+    gh label create --repo https://github.com/lumi-ai-factory/laifs-container-recipes lumi-multitorch-u24r70f21m50t210-20260731_122833
+    gh release create lumi-multitorch-u24r70f21m50t210-20260731_122833 --verify-tag --notes-file builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-u24r70f21m50t210-20260731_122833-release.md --title lumi-multitorch-u24r70f21m50t210-20260731_122833 builds/lumi-multitorch-u24r70f21m50t210-20260731_122833-release.tgz
+- name: lumi-multitorch-u24r70f21m50t210-20260731_122833.md
+  content: "# LUMI AI Factory Container Image Collection lumi-multitorch-u24r70f21m50t210\
+    \ release 20260731_122833\n\n**Release Links:**\n- [GitHub Release](https://github.com/lumi-ai-factory/laifs-container-recipes/releases/tag/lumi-multitorch-u24r70f21m50t210-20260731_122833)\n\
+    - [Known Issues](https://github.com/lumi-ai-factory/laifs-container-recipes/issues?q=label%3Alumi-multitorch-u24r70f21m50t210-20260731_122833)\n\
+    \n**Related Links:**\n- [LUMI AI Factory](https://lumi-ai-factory.eu/)\n- [LUMI\
+    \ Supercomputer](https://lumi-supercomputer.eu/)\n- [GitHub Repository](https://github.com/lumi-ai-factory/laifs-container-recipes)\n\
+    - [GitHub Releases](https://github.com/lumi-ai-factory/laifs-container-recipes/releases)\n\
+    - [Docker Hub](https://hub.docker.com/u/lumiaifactory)\n\n## Overview\n\nThis\
+    \ collection of container images is developed by the LUMI AI Factory and is\n\
+    specifically designed for use on the LUMI supercomputer. The images are built\n\
+    using recipes available in the LUMI AI Factory GitHub repository. Each image of\n\
+    the release builds on the previous one by adding new features, finally resulting\n\
+    in a fully featured, GPU-enabled and MPI-capable PyTorch-based multipurpose\n\
+    ML/AI container image.\n\nAll build artifacts are publicly available. This includes\
+    \ the full recipe,\nContainerfiles, build logs, and the resulting final container\
+    \ images. This\ntransparent approach enables full customization for special use\
+    \ cases, reuse\non other similar systems, as well as adapting the images to run\
+    \ on cloud\nenvironments.\n\nAll images are published to Docker Hub, and ready-to-run\
+    \ Singularity Image Format\n(SIF) versions of the images are available directly\
+    \ on LUMI. The generated\nContainerfiles and other artifacts are released as public\
+    \ GitHub releases.\n\nThe release identifier `lumi-multitorch-u24r70f21m50t210-20260731_122833`\
+    \ encodes\nthe following information:\n  - lumi: The primary target system for\
+    \ the images (LUMI)\n  - multitorch: Image type (a multipurpose PyTorch image)\n\
+    \  - u24r70f21m50t210: Major software versions digest, consisting of:\n    - u24:\
+    \ Digest from Ubuntu 24.04 LTS\n    - r70: Digest from ROCm 7.0.2\n    - f21:\
+    \ Digest from libfabric 2.1\n    - m50: Digest from MPICH 5.0.1\n    - t210: Digest\
+    \ from PyTorch 2.10.0\n  - 20260731_122833: Timestamp-based build tag\n\nThis\
+    \ release includes six images, each building on the previous one by adding\nnew\
+    \ major functionality in the following order:\n  - `lumi-multitorch-rocm-u24r70f21m50t210`:\
+    \ Starts from Ubuntu base image and adds ROCm 7.0.2\n  - `lumi-multitorch-libfabric-u24r70f21m50t210`:\
+    \ Adds libfabric 2.1 to the ROCm image\n  - `lumi-multitorch-mpich-u24r70f21m50t210`:\
+    \ Adds MPICH 5.0.1 with GPU support to the libfabric image\n  - `lumi-multitorch-torch-u24r70f21m50t210`:\
+    \ Adds PyTorch 2.10.0 to the MPICH image\n  - `lumi-multitorch-full-u24r70f21m50t210`:\
+    \ Adds selection of AI and ML libraries to the PyTorch image\n  - `lumi-multitorch-plus-u24r70f21m50t210`:\
+    \ Adds experimental software to the Full image\n\nThe final image, `lumi-multitorch-full-u24r70f21m50t210-20260731_122833`,\n\
+    includes these key software components:\n  - Ubuntu 24.04 LTS (from https://hub.docker.com/layers/library/ubuntu/noble-20260324)\n\
+    \  - AMD ROCm 7.0.2 (from https://repo.radeon.com/rocm)\n  - Xpmem (from https://github.com/hpc/xpmem\
+    \ commit 3bcab55)\n  - Cassini headers (from https://github.com/HewlettPackard/shs-cassini-headers\
+    \ release tgz for 12.0.1)\n  - CXI headers (from https://github.com/HewlettPackard/shs-cxi-driver\
+    \ commit 27f7be5)\n  - Libcxi (from https://github.com/HewlettPackard/shs-libcxi\
+    \ commit 30fa2dd)\n  - Libfabric 2.1 (from https://github.com/ofiwg/libfabric\
+    \ commit 78d6e03)\n  - MPICH 5.0.1 (from http://www.mpich.org/static/downloads\
+    \ release tgz for 5.0.1)\n  - AWS-OFI-NCCL 1.20.0-git-a2a6d08 (from https://github.com/aws/aws-ofi-nccl\
+    \ commit a2a6d08)\n  - RCCL (from https://github.com/ROCm/rocm-systems commit\
+    \ 81a5a30)\n  - OSU micro-benchmarks 7.5.2 (from https://mvapich.cse.ohio-state.edu/download/mvapich\
+    \ release tgz for 7.5.2)\n  - PyTorch 2.10.0 (from  tag v2.10.0)\n  - TorchVision\
+    \ (from https://download-r2.pytorch.org/whl/rocm7.0/torchvision-0.25.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl)\n\
+    \  - TorchAudio (from https://download-r2.pytorch.org/whl/rocm7.0/torchaudio-2.10.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl)\n\
+    \  - PyTorch Triton (from https://download.pytorch.org/whl/triton_rocm-3.6.0-cp312-cp312-linux_x86_64.whl)\n\
+    \  - Apex (from https://github.com/ROCm/apex commit e97c665)\n  - Causal Conv1D\
+    \ (from https://github.com/Dao-AILab/causal-conv1d commit 4f6ae4e)\n  - DeepSpeed\
+    \ 0.19.2 (with locally built ops addons)\n  - Flash Attention (from https://github.com/ROCm/flash-attention\
+    \ commit b664ea0)\n  - LLM Compressor: (from https://github.com/vllm-project/llm-compressor\
+    \ commit 6d2a090)\n  - Megatron LM (experimental): (from https://github.com/viahlgre/Megatron-LM\
+    \ commit c333868)\n  - vLLM v0.22.1 (from https://github.com/vllm-project/vllm\
+    \ commit 0decac0)\n  - xFormers (from https://github.com/facebookresearch/xformers\
+    \ commit 03b91d7)\n\nThese additional packages from PyPI are also included in\
+    \ the final image:\n  - accelerate\n  - bitsandbytes\n  - datasets\n  - evaluate\n\
+    \  - h5py\n  - huggingface-hub\n  - jupyter\n  - lightning\n  - marimo\n  - matplotlib\n\
+    \  - mlflow\n  - mpi4py\n  - numba\n  - numpy\n  - pandas\n  - peft\n  - scipy\n\
+    \  - sentence-transformers\n  - sentencepiece\n  - tensorboard\n  - trl\n  - ultralytics-opencv-headless\n\
+    \nThe experimental image lumi-multitorch-plus-u24r70f21m50t210-20260731_122833\n\
+    builds on the full image by introducing experimental software additions and\n\
+    potentially breaking changes. It is not intended for production use, but rather\n\
+    as a testing ground for evaluating potential future additions and for hosting\n\
+    software with breaking dependencies or other limitations. See the image\ndescription\
+    \ below.\n\nDocumentation for each image is provided separately in the `<image\
+    \ name>.md`\nMarkdown text files, as well as in the next sections of this file.\
+    \ A Software\nBill of Materials (SBOM) with full software version numbers is available\
+    \ for\neach image in files named `<image name>.json`. These files list all Ubuntu\
+    \ and\nPython packages used in the images. Containerfiles and build logs for each\
+    \ image\nare available in files named <image name>.Containerfile` and `<image\
+    \ name>.log`.\n\nAll software in the images is installed as either Python or Ubuntu\
+    \ packages.\nSome packages are installed directly from Ubuntu repositories, some\
+    \ from PyPI,\nand others such as PyTorch and ROCm, are installed from external\
+    \ upstream\npackage repositories (PyTorch project's repository, AMD's ROCm repository).\n\
+    Lastly, the remaining packages are built locally during the container build\n\
+    process and then installed as either Ubuntu or Python packages, resulting in\n\
+    all included software being managed by either Ubuntu or Python package managers.\n\
+    \nThe GitHub release for this build consists of:\n  - A `.yaml` recipe file which\
+    \ defines the build steps, software versions, and\n    includes all required Containerfiles\
+    \ and documentation snippets to reproduce\n    the build of this release.\n  -\
+    \ Containerfiles (`.Containerfile`)\n    for convenience (this data is embedded\
+    \ in the `.yaml` recipe as well).\n  - This release README file and separate per-image\
+    \ documentation (`.md`).\n  - Build logs (`.log`) and SBOM files (`.json`) for\
+    \ all images for\n    transparency.\n\nThe images are available for direct use\
+    \ on LUMI:\n  - Path to this exact release on LUMI is:\n    `/appl/local/laifs/containers/lumi-multitorch-u24r70f21m50t210-20260731_122833`\n\
+    \  - Latest build with the same software digest as this release is symlinked at:\n\
+    \    `/appl/local/laifs/containers/lumi-multitorch-u24r70f21m50t210`\n  - Latest\
+    \ version (over all digests) is symlinked at:\n    `/appl/local/laifs/containers/lumi-multitorch`\n\
+    \  - Example listing of release directory content on LUMI:\n    - `lumi-multitorch-u24r70f21m50t210-20260731_122833.md`:\
+    \ The main readme file\n    - `lumi-multitorch-u24r70f21m50t210-20260731_122833.yaml`:\
+    \ The recipe file\n    - `lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.sif`:\
+    \ SIF image for the plus image\n    - `lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.md`:\
+    \ Readme file for the plus image\n    - `lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.json`:\
+    \ Software Bill of materials for the plus image\n    - `lumi-multitorch-full-u24r70f21m50t210-20260731_122833.sif`:\
+    \ SIF image for the full image\n    - `lumi-multitorch-full-u24r70f21m50t210-20260731_122833.md`:\
+    \ Readme file for the full image\n    - `lumi-multitorch-full-u24r70f21m50t210-20260731_122833.json`:\
+    \ Software Bill of materials for the full image\n    - `lumi-multitorch-torch-u24r70f21m50t210-20260731_122833.sif`:\
+    \ SIF image for the torch image\n    - `lumi-multitorch-torch-u24r70f21m50t210-20260731_122833.md`:\
+    \ Readme file for the torch image\n    - `lumi-multitorch-torch-u24r70f21m50t210-20260731_122833.json`:\
+    \ Software Bill of materials for the torch image\n    - `lumi-multitorch-mpich-u24r70f21m50t210-20260731_122833.sif`:\
+    \ SIF image for the mpich image\n    - `lumi-multitorch-mpich-u24r70f21m50t210-20260731_122833.md`:\
+    \ Readme file for the mpich image\n    - `lumi-multitorch-mpich-u24r70f21m50t210-20260731_122833.json`:\
+    \ Software Bill of materials for the mpich image\n    - `lumi-multitorch-libfabric-u24r70f21m50t210-20260731_122833.sif`:\
+    \ SIF image for the libfabric image\n    - `lumi-multitorch-libfabric-u24r70f21m50t210-20260731_122833.md`:\
+    \ Readme file for the libfabric image\n    - `lumi-multitorch-libfabric-u24r70f21m50t210-20260731_122833.json`:\
+    \ Software Bill of materials for the libfabric image\n    - `lumi-multitorch-rocm-u24r70f21m50t210-20260731_122833.sif`:\
+    \ SIF image for the rocm image\n    - `lumi-multitorch-rocm-u24r70f21m50t210-20260731_122833.md`:\
+    \ Readme file for the rocm image\n    - `lumi-multitorch-rocm-u24r70f21m50t210-20260731_122833.json`:\
+    \ Software Bill of materials for the rocm image\n    \nIllustrative example use\
+    \ on LUMI:\n  ```\n  uan:~> srun --gpus-per-task=2 <other srun args> singularity\
+    \ \\\n    run <singularity args> <path to sif image> \\\n      python -c 'import\
+    \ torch; print(\"num gpus:\", torch.cuda.device_count())'\n  [...]\n  num gpus:\
+    \ 2\n  ```\n\nOn Docker Hub the images are available with the following tag/naming\
+    \ scheme:\n  - The exact images from this recipe build:\n    - Image plus: `lumiaifactory/lumi-multitorch:plus-u24r70f21m50t210-20260731_122833`\n\
+    \    - Image full: `lumiaifactory/lumi-multitorch:full-u24r70f21m50t210-20260731_122833`\n\
+    \    - Image torch: `lumiaifactory/lumi-multitorch:torch-u24r70f21m50t210-20260731_122833`\n\
+    \    - Image mpich: `lumiaifactory/lumi-multitorch:mpich-u24r70f21m50t210-20260731_122833`\n\
+    \    - Image libfabric: `lumiaifactory/lumi-multitorch:libfabric-u24r70f21m50t210-20260731_122833`\n\
+    \    - Image rocm: `lumiaifactory/lumi-multitorch:rocm-u24r70f21m50t210-20260731_122833`\n\
+    \  - Latest build with specific significant software versions (using software\
+    \ digest):\n    - Image plus:  `lumiaifactory/lumi-multitorch:plus-u24r70f21m50t210`\n\
+    \    - Image full:  `lumiaifactory/lumi-multitorch:full-u24r70f21m50t210`\n  \
+    \  - Image torch:  `lumiaifactory/lumi-multitorch:torch-u24r70f21m50t210`\n  \
+    \  - Image mpich:  `lumiaifactory/lumi-multitorch:mpich-u24r70f21m50t210`\n  \
+    \  - Image libfabric:  `lumiaifactory/lumi-multitorch:libfabric-u24r70f21m50t210`\n\
+    \    - Image rocm:  `lumiaifactory/lumi-multitorch:rocm-u24r70f21m50t210`\n  -\
+    \ Floating tags for latest version (over any significant software versions / digests):\n\
+    \    - `lumiaifactory/lumi-multitorch:plus`: latest complete plus image across\
+    \ all variants\n    - `lumiaifactory/lumi-multitorch:full`: latest complete full\
+    \ image across all variants\n    - `lumiaifactory/lumi-multitorch:torch`: latest\
+    \ complete torch image across all variants\n    - `lumiaifactory/lumi-multitorch:mpich`:\
+    \ latest complete mpich image across all variants\n    - `lumiaifactory/lumi-multitorch:libfabric`:\
+    \ latest complete libfabric image across all variants\n    - `lumiaifactory/lumi-multitorch:rocm`:\
+    \ latest complete rocm image across all variants\n  - Example Docker Hub pull\
+    \ commands:\n    - `docker pull lumiaifactory/lumi-multitorch:full-u24r70f21m50t210-20260731_122833`\n\
+    \    - `docker pull lumiaifactory/lumi-multitorch:torch-u24r70f21m50t210`\n  \
+    \  - `docker pull lumiaifactory/lumi-multitorch:rocm`\n\n\n## Included Images\n\
+    \nThe next sections describe each included image in detail. For\nconvenience,\
+    \ this documentation is also available separately for\neach image in the per image\
+    \ Markdown (`.md`) files.\n\n### Image lumi-multitorch-rocm-u24r70f21m50t210-20260731_122833\n\
+    \n**Overview**\nThis is a base image building on Ubuntu 24.04 LTS upstream image\n\
+    with ROCm software from AMD's official Ubuntu repositories installed on top of\n\
+    it. The image also adds a few commonly used extra Ubuntu packages and enables\n\
+    man pages.\n\n**Details**\nUbuntu base image: ubuntu:noble-20260324\nAMD ROCm\
+    \ repository: https://repo.radeon.com/rocm\nAMD ROCm release: 7.0.2\nAdditional\
+    \ Ubuntu packages:\n  - file\n  - git\n  - jq\n  - less\n  - lsof\n  - nano\n\
+    \  - neovim\n  - python3-dev\n  - python3-packaging\n  - python3-pip\n  - python3-venv\n\
+    \  - screen\n  - tmux\n  - unzip\n  - wget\n\n\n### Image lumi-multitorch-libfabric-u24r70f21m50t210-20260731_122833\n\
+    \n**Overview**\nThis image builds on top of its base image by adding locally built\
+    \ Ubuntu\npackages to enable xpmem as well as libfabric functionality for HPE's\
+    \ Slingshot\ninterconnect. It serves as a starting point for adding MPI capability\
+    \ to images\nbuilt on top of it and can be a useful foundation for creating images\
+    \ with\ncustom MPI stacks.\n\n**Details**\nBase image: lumi-multitorch-rocm-u24r70f21m50t210\n\
+    Components:\n  - xpmem (from https://github.com/hpc/xpmem commit 3bcab55)\n  -\
+    \ Cassini headers (from https://github.com/HewlettPackard/shs-cassini-headers\
+    \ release tgz for 12.0.1)\n  - CXI headers (from https://github.com/HewlettPackard/shs-cxi-driver\
+    \ commit 27f7be5)\n  - libcxi (from https://github.com/HewlettPackard/shs-libcxi\
+    \ commit 30fa2dd)\n  - Libfabric 2.1 (from https://github.com/ofiwg/libfabric\
+    \ commit 78d6e03)\n\n\n### Image lumi-multitorch-mpich-u24r70f21m50t210-20260731_122833\n\
+    \n**Overview**\nThis image builds on top of its base image by adding an MPI library\
+    \ with GPU\nsupport, based on an MPICH build. It also includes the AWS-OFI-NCCL\
+    \ plugin to\nenable RCCL communication over the interconnect network using libfabric.\
+    \ The\nrccl-tests and OSU micro-benchmarks suite are included for performance\
+    \ and\nfunctionality validation.\n\n**Details**\nBase image: lumi-multitorch-libfabric-u24r70f21m50t210\n\
+    MPI implementation: MPICH 5.0.1\nComponents:\n  - MPICH 5.0.1 (from http://www.mpich.org/static/downloads\
+    \ release tgz for 5.0.1)\n  - AWS-OFI-NCCL 1.20.0-git-a2a6d08 (from https://github.com/aws/aws-ofi-nccl\
+    \ commit a2a6d08)\n  - RCCL (from https://github.com/ROCm/rocm-systems commit\
+    \ 81a5a30)\n  - OSU micro-benchmarks 7.5.2 (from https://mvapich.cse.ohio-state.edu/download/mvapich\
+    \ release tgz for 7.5.2)\n\n\n### Image lumi-multitorch-torch-u24r70f21m50t210-20260731_122833\n\
+    \n**Overview**\nThis image builds on top of its base image by adding PyTorch for\
+    \ AMD GPUs and\nROCm, along with few related packages from PyTorch's upstream\
+    \ repositories.\n\n**Details**\nBase image: lumi-multitorch-mpich-u24r70f21m50t210\n\
+    PyTorch version: 2.10.0\nPyTorch packages and sources:\n  - PyTorch: \"https://github.com/pytorch/pytorch\
+    \ @ tag v2.10.0\"\n  - TorchVision: https://download-r2.pytorch.org/whl/rocm7.0/torchvision-0.25.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl\n\
+    \  - TorchAudio: https://download-r2.pytorch.org/whl/rocm7.0/torchaudio-2.10.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl\n\
+    \  - PyTorch Triton: https://download.pytorch.org/whl/triton_rocm-3.6.0-cp312-cp312-linux_x86_64.whl\n\
+    \n\n### Image lumi-multitorch-full-u24r70f21m50t210-20260731_122833\n\n**Overview**\n\
+    This is a multipurpose ML/AI image that builds on its base image by adding a\n\
+    comprehensive selection of tools and libraries for machine learning and AI\nworkloads.\
+    \ The image is optimized to run on LUMI but should also work on other\nsystems\
+    \ with MI250x GPUs and Slingshot interconnect.\n\n**Details**\nBase image: lumi-multitorch-torch-u24r70f21m50t210\n\
+    GPU architectures: gfx90a\nComponents:\n  - Apex (from https://github.com/ROCm/apex\
+    \ commit e97c665)\n  - Causal Conv1D (from https://github.com/Dao-AILab/causal-conv1d\
+    \ commit 4f6ae4e)\n  - DeepSpeed 0.19.2 (with locally built ops addons)\n  - Flash\
+    \ Attention (from https://github.com/ROCm/flash-attention commit b664ea0)\n  -\
+    \ LLM Compressor: (from https://github.com/vllm-project/llm-compressor commit\
+    \ 6d2a090)\n  - Megatron LM (experimental): (from https://github.com/viahlgre/Megatron-LM\
+    \ commit c333868)\n  - vLLM v0.22.1 (from https://github.com/vllm-project/vllm\
+    \ commit 0decac0)\n  - xFormers (from https://github.com/facebookresearch/xformers\
+    \ commit 03b91d7)\n\nAdditional Python packages from PyPI:\n  - accelerate\n \
+    \ - bitsandbytes\n  - datasets\n  - evaluate\n  - h5py\n  - huggingface-hub\n\
+    \  - jupyter\n  - lightning\n  - marimo\n  - matplotlib\n  - mlflow\n  - mpi4py\n\
+    \  - numba\n  - numpy\n  - pandas\n  - peft\n  - scipy\n  - sentence-transformers\n\
+    \  - sentencepiece\n  - tensorboard\n  - trl\n  - ultralytics-opencv-headless\n\
+    \n\n### Image lumi-multitorch-plus-u24r70f21m50t210-20260731_122833\n\n**Overview**\n\
+    This experimental image builds on the full image by adding various additional\n\
+    ML/AI libraries for testing purposes. It serves as a technology preview for\n\
+    evaluating potential future additions to the full image and as a home for some\n\
+    software components that are more difficult to maintain long term. The included\n\
+    additional software may be removed without warning in minor image releases, and\n\
+    the image is not intended for long-term use. To satisfy dependencies, some\nlibraries\
+    \ of the full image may be also downgraded in this image.\n\n**Details**\nBase\
+    \ image: lumi-multitorch-full-u24r70f21m50t210\nGPU architectures: gfx90a\nComponents:\n\
+    \  - TransformerEngine (from https://github.com/ROCm/TransformerEngine commit\
+    \ v2.10_rocm)\n"
+

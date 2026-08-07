@@ -1,0 +1,336 @@
+# Release notes for lumi-multitorch-u24r70f21m50t210-20260731_122833
+
+**Release links:**
+- [Release README](https://github.com/lumi-ai-factory/laifs-container-recipes-release-artifacts/blob/main/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-u24r70f21m50t210-20260731_122833.md)
+- [GitHub release](https://github.com/lumi-ai-factory/laifs-container-recipes/releases/tag/lumi-multitorch-u24r70f21m50t210-20260731_122833)
+- [Recipe changes](https://github.com/lumi-ai-factory/laifs-container-recipes/compare/lumi-multitorch-u24r70f21m50t210-20260513_121430...lumi-multitorch-u24r70f21m50t210-20260731_122833)
+- [Known issues](https://github.com/lumi-ai-factory/laifs-container-recipes/issues?q=label%3Alumi-multitorch-u24r70f21m50t210-20260731_122833)
+
+## Major updates
+
+- Transformers upgraded to v5.
+
+## Other changes
+
+- LLM Compressor installed with `BUILD_TYPE=release`, pinning dependencies and
+  thus avoiding compatibility issues.
+- Bitsandbytes upgraded to 0.5.0, fixing issues with 4-bit inference.
+- Flash Attention downgraded to a commit with version 2.8.3, the latest
+  released version. This is required by Transformer Engine.
+
+## Package changes
+
+Comprehensive list of package changes comparing the following releases:
+
+- `lumi-multitorch-full-u24r70f21m50t210-20260513_121430.json`
+- `lumi-multitorch-full-u24r70f21m50t210-20260731_122833.json`
+
+### Apt package changes
+
+**Changed:**
+
+- `aws-ofi-nccl` 1.19.1-git-206c02c -> 1.20.0-git-a2a6d08
+- `ca-certificates` 20240203 -> 20260601~24.04.1
+- `curl` 8.5.0-2ubuntu10.9 -> 8.5.0-2ubuntu10.11
+- `gzip` 1.12-1ubuntu3.1 -> 1.12-1ubuntu3.2
+- `libapparmor1` 4.0.1really4.0.1-0ubuntu0.24.04.6 -> 4.0.1really4.0.1-0ubuntu0.24.04.7
+- `libarchive13t64` 3.7.2-2ubuntu0.6 -> 3.7.2-2ubuntu0.8
+- `libasound2-data` 1.2.11-1ubuntu0.2 -> 1.2.11-1ubuntu0.3
+- `libasound2t64` 1.2.11-1ubuntu0.2 -> 1.2.11-1ubuntu0.3
+- `libc-bin` 2.39-0ubuntu8.7 -> 2.39-0ubuntu8.8
+- `libc-dev-bin` 2.39-0ubuntu8.7 -> 2.39-0ubuntu8.8
+- `libc6` 2.39-0ubuntu8.7 -> 2.39-0ubuntu8.8
+- `libc6-dbg` 2.39-0ubuntu8.7 -> 2.39-0ubuntu8.8
+- `libc6-dev` 2.39-0ubuntu8.7 -> 2.39-0ubuntu8.8
+- `libcaca0` 0.99.beta20-4ubuntu0.1 -> 0.99.beta20-4ubuntu0.2
+- `libcurl3t64-gnutls` 8.5.0-2ubuntu10.9 -> 8.5.0-2ubuntu10.11
+- `libcurl4-openssl-dev` 8.5.0-2ubuntu10.9 -> 8.5.0-2ubuntu10.11
+- `libcurl4t64` 8.5.0-2ubuntu10.9 -> 8.5.0-2ubuntu10.11
+- `libdrm-amdgpu1` 2.4.125-1ubuntu0.1~24.04.1 -> 2.4.125-1ubuntu0.1~24.04.2
+- `libdrm-common` 2.4.125-1ubuntu0.1~24.04.1 -> 2.4.125-1ubuntu0.1~24.04.2
+- `libdrm-dev` 2.4.125-1ubuntu0.1~24.04.1 -> 2.4.125-1ubuntu0.1~24.04.2
+- `libdrm-intel1` 2.4.125-1ubuntu0.1~24.04.1 -> 2.4.125-1ubuntu0.1~24.04.2
+- `libdrm-nouveau2` 2.4.125-1ubuntu0.1~24.04.1 -> 2.4.125-1ubuntu0.1~24.04.2
+- `libdrm-radeon1` 2.4.125-1ubuntu0.1~24.04.1 -> 2.4.125-1ubuntu0.1~24.04.2
+- `libdrm2` 2.4.125-1ubuntu0.1~24.04.1 -> 2.4.125-1ubuntu0.1~24.04.2
+- `libgbm1` 25.2.8-0ubuntu0.24.04.1 -> 25.2.8-0ubuntu0.24.04.2
+- `libgcrypt20` 1.10.3-2build1 -> 1.10.3-2ubuntu0.1
+- `libgl1-mesa-dri` 25.2.8-0ubuntu0.24.04.1 -> 25.2.8-0ubuntu0.24.04.2
+- `libglx-mesa0` 25.2.8-0ubuntu0.24.04.1 -> 25.2.8-0ubuntu0.24.04.2
+- `libgnutls30t64` 3.8.3-1.1ubuntu3.5 -> 3.8.3-1.1ubuntu3.6
+- `libgraphite2-3` 1.3.14-2build1 -> 1.3.14-2ubuntu0.24.04.1
+- `libgssapi-krb5-2` 1.20.1-6ubuntu2.6 -> 1.20.1-6ubuntu2.7
+- `libhwloc-dev` 2.13.0 -> 2.14.0
+- `libhwloc-plugins` 2.13.0 -> 2.14.0
+- `libhwloc15` 2.13.0 -> 2.14.0
+- `libk5crypto3` 1.20.1-6ubuntu2.6 -> 1.20.1-6ubuntu2.7
+- `libkrb5-3` 1.20.1-6ubuntu2.6 -> 1.20.1-6ubuntu2.7
+- `libkrb5support0` 1.20.1-6ubuntu2.6 -> 1.20.1-6ubuntu2.7
+- `libllvm20` 1:20.1.2-0ubuntu1~24.04.2 -> 1:20.1.2-0ubuntu1~24.04.3
+- `libluajit-5.1-2` 2.1.0+git20231223.c525bcb+dfsg-1 -> 2.1.0+git20231223.c525bcb+dfsg-1ubuntu0.1
+- `libluajit-5.1-common` 2.1.0+git20231223.c525bcb+dfsg-1 -> 2.1.0+git20231223.c525bcb+dfsg-1ubuntu0.1
+- `liblzma5` 5.6.1+really5.4.5-1ubuntu0.2 -> 5.6.1+really5.4.5-1ubuntu0.3
+- `libncurses-dev` 6.4+20240113-1ubuntu2 -> 6.4+20240113-1ubuntu2.1
+- `libncurses6` 6.4+20240113-1ubuntu2 -> 6.4+20240113-1ubuntu2.1
+- `libncursesw6` 6.4+20240113-1ubuntu2 -> 6.4+20240113-1ubuntu2.1
+- `libnghttp2-14` 1.59.0-1ubuntu0.3 -> 1.59.0-1ubuntu0.4
+- `libpam-modules` 1.5.3-5ubuntu5.5 -> 1.5.3-5ubuntu5.6
+- `libpam-modules-bin` 1.5.3-5ubuntu5.5 -> 1.5.3-5ubuntu5.6
+- `libpam-runtime` 1.5.3-5ubuntu5.5 -> 1.5.3-5ubuntu5.6
+- `libpam0g` 1.5.3-5ubuntu5.5 -> 1.5.3-5ubuntu5.6
+- `libperl5.38t64` 5.38.2-3.2ubuntu0.2 -> 5.38.2-3.2ubuntu0.3
+- `libpython3.12-dev` 3.12.3-1ubuntu0.13 -> 3.12.3-1ubuntu0.15
+- `libpython3.12-minimal` 3.12.3-1ubuntu0.13 -> 3.12.3-1ubuntu0.15
+- `libpython3.12-stdlib` 3.12.3-1ubuntu0.13 -> 3.12.3-1ubuntu0.15
+- `libpython3.12t64` 3.12.3-1ubuntu0.13 -> 3.12.3-1ubuntu0.15
+- `librabbitmq4` 0.11.0-1build2 -> 0.11.0-1ubuntu0.1
+- `libsqlite3-0` 3.45.1-1ubuntu2.5 -> 3.45.1-1ubuntu2.7
+- `libsqlite3-dev` 3.45.1-1ubuntu2.5 -> 3.45.1-1ubuntu2.7
+- `libssl3t64` 3.0.13-0ubuntu3.9 -> 3.0.13-0ubuntu3.12
+- `libsystemd-shared` 255.4-1ubuntu8.15 -> 255.4-1ubuntu8.16
+- `libsystemd0` 255.4-1ubuntu8.15 -> 255.4-1ubuntu8.16
+- `libtinfo6` 6.4+20240113-1ubuntu2 -> 6.4+20240113-1ubuntu2.1
+- `libudev1` 255.4-1ubuntu8.15 -> 255.4-1ubuntu8.16
+- `libva-drm2` 2.20.0-2ubuntu0.1 -> 2.20.0-2ubuntu0.2
+- `libva-x11-2` 2.20.0-2ubuntu0.1 -> 2.20.0-2ubuntu0.2
+- `libva2` 2.20.0-2ubuntu0.1 -> 2.20.0-2ubuntu0.2
+- `libxml2` 2.9.14+dfsg-1.3ubuntu3.7 -> 2.9.14+dfsg-1.3ubuntu3.8
+- `libxml2-dev` 2.9.14+dfsg-1.3ubuntu3.7 -> 2.9.14+dfsg-1.3ubuntu3.8
+- `linux-libc-dev` 6.8.0-111.111 -> 6.8.0-136.136
+- `locales` 2.39-0ubuntu8.7 -> 2.39-0ubuntu8.8
+- `mesa-common-dev` 25.2.8-0ubuntu0.24.04.1 -> 25.2.8-0ubuntu0.24.04.2
+- `mesa-libgallium` 25.2.8-0ubuntu0.24.04.1 -> 25.2.8-0ubuntu0.24.04.2
+- `nano` 7.2-2ubuntu0.1 -> 7.2-2ubuntu0.2
+- `ncurses-base` 6.4+20240113-1ubuntu2 -> 6.4+20240113-1ubuntu2.1
+- `ncurses-bin` 6.4+20240113-1ubuntu2 -> 6.4+20240113-1ubuntu2.1
+- `openssl` 3.0.13-0ubuntu3.9 -> 3.0.13-0ubuntu3.12
+- `perl` 5.38.2-3.2ubuntu0.2 -> 5.38.2-3.2ubuntu0.3
+- `perl-base` 5.38.2-3.2ubuntu0.2 -> 5.38.2-3.2ubuntu0.3
+- `perl-modules-5.38` 5.38.2-3.2ubuntu0.2 -> 5.38.2-3.2ubuntu0.3
+- `python3.12` 3.12.3-1ubuntu0.13 -> 3.12.3-1ubuntu0.15
+- `python3.12-dev` 3.12.3-1ubuntu0.13 -> 3.12.3-1ubuntu0.15
+- `python3.12-minimal` 3.12.3-1ubuntu0.13 -> 3.12.3-1ubuntu0.15
+- `python3.12-venv` 3.12.3-1ubuntu0.13 -> 3.12.3-1ubuntu0.15
+- `rccl-tests` 0.1-5272cd1 -> 2.18.3-81a5a30
+- `sqlite3` 3.45.1-1ubuntu2.5 -> 3.45.1-1ubuntu2.7
+- `systemd` 255.4-1ubuntu8.15 -> 255.4-1ubuntu8.16
+- `systemd-dev` 255.4-1ubuntu8.15 -> 255.4-1ubuntu8.16
+- `tar` 1.35+dfsg-3build1 -> 1.35+dfsg-3ubuntu0.4
+- `tzdata` 2026a-0ubuntu0.24.04.1 -> 2026c-0ubuntu0.24.04.1
+- `udev` 255.4-1ubuntu8.15 -> 255.4-1ubuntu8.16
+- `wget` 1.21.4-1ubuntu4.1 -> 1.21.4-1ubuntu4.4
+- `xz-utils` 5.6.1+really5.4.5-1ubuntu0.2 -> 5.6.1+really5.4.5-1ubuntu0.3
+
+### Pip package changes
+
+**Changed:**
+
+- `GitPython` 3.1.50 -> 3.1.57
+- `Markdown` 3.10.2 -> 3.10.3
+- `PyJWT` 2.12.1 -> 2.13.0
+- `SQLAlchemy` 2.0.49 -> 2.0.51
+- `absl-py` 2.4.0 -> 2.5.0
+- `aiohappyeyeballs` 2.6.1 -> 2.7.1
+- `aiohttp` 3.13.5 -> 3.14.3
+- `alembic` 1.18.4 -> 1.18.5
+- `amd-quark` 0.11.2 -> 0.12.post1
+- `annotated-doc` 0.0.4 -> 0.0.5
+- `annotated-types` 0.7.0 -> 0.8.0
+- `anthropic` 0.102.0 -> 0.120.2
+- `anyio` 4.13.0 -> 4.14.2
+- `apache-tvm-ffi` 0.1.11 -> 0.1.13
+- `apex` 1.10.0+lumi.aif.gfx90a.73423b4 -> 1.10.0+lumi.aif.gfx90a.e97c665
+- `asttokens` 3.0.1 -> 3.0.2
+- `auto-round` 0.12.3 -> 0.13.0
+- `azure-storage-blob` 12.28.0 -> 12.30.0
+- `beautifulsoup4` 4.14.3 -> 4.15.0
+- `bitsandbytes` 0.49.2 -> 0.50.0
+- `blake3` 1.0.8 -> 1.0.9
+- `bleach` 6.3.0 -> 6.4.0
+- `boto3` 1.43.7 -> 1.43.62
+- `botocore` 1.43.7 -> 1.43.62
+- `cachetools` 7.1.1 -> 7.1.6
+- `causal_conv1d` 1.6.1+lumi.aif.gfx90a.0d2252d -> 1.6.2.post1+lumi.aif.gfx90a.4f6ae4e
+- `cbor2` 6.1.0 -> 6.1.3
+- `certifi` 2026.4.22 -> 2026.7.22
+- `cffi` 2.0.0 -> 2.1.0
+- `charset-normalizer` 3.4.7 -> 3.4.9
+- `click` 8.3.3 -> 8.4.2
+- `compressed-tensors` 0.15.0.1 -> 0.17.1
+- `cryptography` 46.0.7 -> 49.0.0
+- `databricks-sdk` 0.108.0 -> 0.123.0
+- `datasets` 4.8.5 -> 5.0.0
+- `debugpy` 1.8.20 -> 1.8.21
+- `deepspeed` 0.18.9+lumi.aif.dsops -> 0.19.2+lumi.aif.dsops
+- `docker` 7.1.0 -> 7.2.0
+- `fastapi` 0.136.1 -> 0.141.1
+- `fastapi-cli` 0.0.24 -> 0.0.32
+- `fastapi-cloud-cli` 0.17.1 -> 0.23.0
+- `fastjsonschema` 2.21.2 -> 2.22.1
+- `filelock` 3.29.0 -> 3.32.2
+- `flash_attn` 2.8.4+lumi.aif.gfx90a.bbe25ba -> 2.8.3+lumi.aif.gfx90a.b664ea0
+- `flask-cors` 6.0.2 -> 6.0.5
+- `fonttools` 4.62.1 -> 4.63.0
+- `fsspec` 2026.2.0 -> 2026.4.0
+- `google-api-core` 2.30.3 -> 2.33.0
+- `google-auth` 2.52.0 -> 2.56.2
+- `google-cloud-storage` 3.10.1 -> 3.13.0
+- `google-resumable-media` 2.9.0 -> 2.10.0
+- `graphql-core` 3.2.8 -> 3.2.11
+- `greenlet` 3.5.0 -> 3.5.4
+- `gunicorn` 25.3.0 -> 26.0.0
+- `hf-xet` 1.5.0 -> 1.5.2
+- `hiredis` 3.3.1 -> 3.4.0
+- `httptools` 0.7.1 -> 0.8.0
+- `huey` 2.6.0 -> 3.3.1
+- `huggingface_hub` 0.36.2 -> 1.26.0
+- `humanize` 4.15.0 -> 4.16.0
+- `idna` 3.15 -> 3.18
+- `ijson` 3.5.0 -> 3.5.1
+- `impi-devel` 2021.18.0 -> 2021.18.1
+- `impi-rt` 2021.18.0 -> 2021.18.1
+- `importlib_metadata` 8.7.1 -> 9.0.0
+- `intel-cmplr-lib-rt` 2026.0.0 -> 2026.1.1
+- `intel-cmplr-lib-ur` 2026.0.0 -> 2026.1.1
+- `intel-cmplr-lic-rt` 2026.0.0 -> 2026.1.1
+- `intel-openmp` 2026.0.0 -> 2026.1.1
+- `intel-sycl-rt` 2026.0.0 -> 2026.1.1
+- `ipykernel` 7.2.0 -> 7.3.0
+- `ipython` 9.13.0 -> 9.16.0
+- `jedi` 0.20.0 -> 0.19.2
+- `jiter` 0.14.0 -> 0.16.0
+- `json5` 0.14.0 -> 0.15.0
+- `jupyter_client` 8.8.0 -> 8.9.1
+- `jupyter_server` 2.18.2 -> 2.20.0
+- `jupyterlab` 4.5.7 -> 4.6.2
+- `lightning` 2.6.1 -> 2.6.5
+- `llguidance` 1.3.0 -> 1.7.6
+- `llmcompressor` 0.10.0.3.dev0+lumi.aif.5a1552e -> 0.12.0+lumi.aif.6d2a090
+- `matplotlib` 3.10.9 -> 3.11.1
+- `mcp` 1.27.1 -> 2.0.0
+- `mistral_common` 1.11.2 -> 1.11.7
+- `mistune` 3.2.1 -> 3.3.4
+- `mkl-include` 2026.0.0 -> 2026.1.0
+- `mkl-static` 2026.0.0 -> 2026.1.0
+- `mlflow` 3.12.0 -> 3.15.0
+- `mlflow-skinny` 3.12.0 -> 3.15.0
+- `mlflow-tracing` 3.12.0 -> 3.15.0
+- `model-hosting-container-standards` 0.1.15 -> 0.1.16
+- `mpi4py` 4.1.1 -> 4.1.2
+- `msal` 1.36.0 -> 1.37.0
+- `msgpack` 1.1.2 -> 1.2.1
+- `narwhals` 2.21.0 -> 2.24.0
+- `nbclient` 0.10.4 -> 0.11.0
+- `nltk` 3.9.4 -> 3.10.0
+- `notebook` 7.5.6 -> 7.6.1
+- `numpy` 2.1.3 -> 2.3.5
+- `nvidia-ml-py` 13.595.45 -> 13.610.43
+- `oneccl` 2022.0.0 -> 2022.1.1
+- `oneccl-devel` 2022.0.0 -> 2022.1.1
+- `onemkl-license` 2026.0.0 -> 2026.1.0
+- `onnx` 1.19.0 -> 1.22.0
+- `onnxscript` 0.7.0 -> 0.7.1
+- `onnxslim` 0.1.93 -> 0.1.94
+- `openai` 2.36.0 -> 2.52.0
+- `opencv-python-headless` 4.13.0.92 -> 5.0.0.93
+- `opentelemetry-api` 1.41.1 -> 1.44.0
+- `opentelemetry-exporter-otlp` 1.41.1 -> 1.44.0
+- `opentelemetry-exporter-otlp-proto-common` 1.41.1 -> 1.44.0
+- `opentelemetry-exporter-otlp-proto-grpc` 1.41.1 -> 1.44.0
+- `opentelemetry-exporter-otlp-proto-http` 1.41.1 -> 1.44.0
+- `opentelemetry-proto` 1.41.1 -> 1.44.0
+- `opentelemetry-sdk` 1.41.1 -> 1.44.0
+- `opentelemetry-semantic-conventions` 0.62b1 -> 0.65b0
+- `peft` 0.19.1 -> 0.20.0
+- `platformdirs` 4.9.6 -> 4.11.0
+- `plotly` 6.7.0 -> 6.9.0
+- `polars` 1.40.1 -> 1.43.1
+- `polars-runtime-32` 1.40.1 -> 1.43.1
+- `prettytable` 3.17.0 -> 3.18.0
+- `prometheus-fastapi-instrumentator` 7.1.0 -> 8.1.0
+- `prometheus_client` 0.25.0 -> 0.26.0
+- `prompt_toolkit` 3.0.52 -> 3.0.53
+- `proto-plus` 1.28.0 -> 1.28.2
+- `pyarrow` 23.0.1 -> 25.0.0
+- `pyasn1` 0.6.3 -> 0.6.4
+- `pydantic-settings` 2.14.1 -> 2.14.2
+- `pytest` 9.0.3 -> 9.1.1
+- `pytest-asyncio` 1.3.0 -> 1.4.0
+- `python-multipart` 0.0.28 -> 0.0.32
+- `pytorch-lightning` 2.6.1 -> 2.6.5
+- `pytz` 2026.2 -> 2026.3.post1
+- `redis` 7.4.0 -> 8.1.0
+- `regex` 2026.5.9 -> 2026.7.19
+- `requests` 2.34.0 -> 2.34.2
+- `rich-toolkit` 0.19.9 -> 0.20.3
+- `rignore` 0.7.6 -> 0.8.0
+- `rpds-py` 0.30.0 -> 2026.6.3
+- `s3transfer` 0.17.0 -> 0.19.2
+- `safetensors` 0.7.0 -> 0.8.0
+- `scikit-learn` 1.8.0 -> 1.9.0
+- `scipy` 1.17.1 -> 1.18.0
+- `sentence-transformers` 5.5.0 -> 5.6.1
+- `sentencepiece` 0.2.1 -> 0.2.2
+- `sentry-sdk` 2.60.0 -> 2.66.1
+- `setuptools-scm` 10.0.5 -> 10.2.1
+- `soupsieve` 2.8.3 -> 2.9.1
+- `sse-starlette` 3.4.4 -> 3.4.6
+- `starlette` 0.52.1 -> 1.3.1
+- `tbb` 2023.0.0 -> 2023.1.0
+- `tbb-devel` 2023.0.0 -> 2023.1.0
+- `tensorboard` 2.20.0 -> 2.21.0
+- `tensorstore` 0.1.83 -> 0.1.84
+- `tiktoken` 0.12.0 -> 0.13.0
+- `timm` 1.0.27 -> 1.0.28
+- `tinycss2` 1.4.0 -> 1.5.1
+- `torch` 2.10.0+rocm7.0.lumi.aif.20260513142306 -> 2.10.0+rocm7.0.lumi.aif.20260731144255
+- `tornado` 6.5.5 -> 6.5.7
+- `tqdm` 4.67.3 -> 4.68.2
+- `traitlets` 5.15.0 -> 5.16.0
+- `transformers` 4.57.6 -> 5.10.1
+- `trl` 1.4.0 -> 1.9.2
+- `typer` 0.25.1 -> 0.27.0
+- `typing_extensions` 4.15.0 -> 4.16.0
+- `tzdata` 2026.2 -> 2026.3
+- `ultralytics-opencv-headless` 8.4.50 -> 8.4.113
+- `ultralytics-thop` 2.0.19 -> 2.1.6
+- `uvicorn` 0.46.0 -> 0.52.0
+- `vcs-versioning` 1.1.1 -> 2.2.3
+- `vllm` 0.20.1+lumi.aif.gfx90a.132765e -> 0.22.1+lumi.aif.gfx90a.0decac0
+- `wandb` 0.26.1 -> 0.28.1
+- `watchfiles` 1.1.1 -> 1.2.0
+- `wcwidth` 0.7.0 -> 0.8.2
+- `websockets` 16.0 -> 17.0.1
+- `wrapt` 2.1.2 -> 2.3.0
+- `xgrammar` 0.2.0 -> 0.2.3
+- `xxhash` 3.7.0 -> 3.8.1
+- `yarl` 1.23.0 -> 1.24.5
+- `zarr` 3.2.1 -> 3.3.0
+- `zipp` 3.23.1 -> 4.1.0
+
+**Added:**
+
+- `detect-installer` 0.1.0
+- `docutils` 0.23
+- `httpcore2` 2.9.1
+- `httpx2` 2.9.1
+- `jupyter_builder` 1.2.0
+- `loro` 1.13.2
+- `marimo` 0.23.15
+- `mcp-types` 2.0.0
+- `nest-asyncio2` 1.7.2
+- `pymdown-extensions` 10.21.3
+- `semantic-version` 2.10.0
+- `setuptools-rust` 1.13.0
+- `tilelang` 0.1.10
+- `tomlkit` 0.15.1
+- `torch_c_dlpack_ext` 0.1.5
+- `truststore` 0.10.4
+- `z3-solver` 4.15.4.0
+
+**Removed:**
+
+- `decorator` 5.2.1
+- `httpx-sse` 0.4.3
+- `nest-asyncio` 1.6.0
+

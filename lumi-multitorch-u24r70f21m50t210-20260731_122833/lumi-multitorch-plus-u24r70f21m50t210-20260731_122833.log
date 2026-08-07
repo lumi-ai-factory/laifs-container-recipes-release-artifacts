@@ -1,0 +1,806 @@
+20260801 02:02:11: *** Building image lumi-multitorch-plus-u24r70f21m50t210:20260731_122833 started
+20260801 02:02:11: *** Containerfile sha256 sum f10f85697fc77404551a222022eb52719313431d8ced7828f0df030a5654231f  builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.Containerfile
+20260801 02:02:11: *** Base image: lumi-multitorch-full-u24r70f21m50t210:20260731_122833
+20260801 02:02:11: *** Running build command: podman build -f builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.Containerfile --cgroup-manager cgroupfs --label cf_lineage=71445e261e1fd8559a9e09006a9a03ba3d512e15,b35968f9f67ea9e7690ecffb49c2eebc94b57d36,264acb3ea7cb00279718e22596756f5520890296,949c5576caafbd7fd9771673b77d9cd3862ef98a,090786c4b20a6ef4779448d94c914c9744421e82,a3984b56f2bc9352d5d65af4c82006da74c6e5c8 -t lumi-multitorch-plus-u24r70f21m50t210:20260731_122833 -t lumi-multitorch-plus-u24r70f21m50t210:latest
+STEP 1/10: FROM lumi-multitorch-full-u24r70f21m50t210:20260731_122833
+STEP 2/10: ARG BASE_IMAGE
+--> b3b076d1c74d
+STEP 3/10: ARG BASE_IMAGE_TAG
+--> 9111b560e560
+STEP 4/10: ARG TRANSFORMER_ENGINE_ARCH
+--> e86d7516038c
+STEP 5/10: ARG TRANSFORMER_ENGINE_COMMIT
+--> 482347a37e61
+STEP 6/10: ARG TRANSFORMER_ENGINE_REPO
+--> 1c7937596123
+STEP 7/10: RUN set -ue;   export AOTRITON_TARGET_ARCH=${TRANSFORMER_ENGINE_ARCH};   export CMAKE_PREFIX_PATH=/opt/rocm;   export GPU_ARCHS=${TRANSFORMER_ENGINE_ARCH};   export GPU_TARGETS=${TRANSFORMER_ENGINE_ARCH};   export NVTE_ROCM_ARCH=${TRANSFORMER_ENGINE_ARCH};   export NVTE_FRAMEWORK=pytorch;   export NVTE_FUSED_ATTN=0;   git clone --recursive --branch "${TRANSFORMER_ENGINE_COMMIT}" ${TRANSFORMER_ENGINE_REPO} /opt/src/transformer_engine;   cd /opt/src/transformer_engine;   . /opt/venv/bin/activate;   pip install . --no-build-isolation;
+Cloning into '/opt/src/transformer_engine'...
+Note: switching to 'b2a0450804c0a999c42628834290f07d58d671ef'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+Submodule '3rdparty/aiter' (https://github.com/ROCm/aiter.git) registered for path '3rdparty/aiter'
+Submodule '3rdparty/aotriton' (https://github.com/ROCm/aotriton.git) registered for path '3rdparty/aotriton'
+Submodule '3rdparty/cudnn-frontend' (https://github.com/NVIDIA/cudnn-frontend.git) registered for path '3rdparty/cudnn-frontend'
+Submodule '3rdparty/cutlass' (https://github.com/NVIDIA/cutlass.git) registered for path '3rdparty/cutlass'
+Submodule '3rdparty/googletest' (https://github.com/google/googletest.git) registered for path '3rdparty/googletest'
+Submodule '3rdparty/hipify_torch' (https://github.com/ROCmSoftwarePlatform/hipify_torch.git) registered for path '3rdparty/hipify_torch'
+Submodule 'examples/pytorch/minGPT' (https://github.com/HaiShaw/minGPT.git) registered for path 'examples/pytorch/minGPT'
+Submodule 'examples/pytorch/nanogpt' (https://github.com/floraamd/nanoGPTwTE.git) registered for path 'examples/pytorch/nanogpt'
+Cloning into '/opt/src/transformer_engine/3rdparty/aiter'...
+Cloning into '/opt/src/transformer_engine/3rdparty/aotriton'...
+Cloning into '/opt/src/transformer_engine/3rdparty/cudnn-frontend'...
+Cloning into '/opt/src/transformer_engine/3rdparty/cutlass'...
+Cloning into '/opt/src/transformer_engine/3rdparty/googletest'...
+Cloning into '/opt/src/transformer_engine/3rdparty/hipify_torch'...
+Cloning into '/opt/src/transformer_engine/examples/pytorch/minGPT'...
+Cloning into '/opt/src/transformer_engine/examples/pytorch/nanogpt'...
+Submodule path '3rdparty/aiter': checked out 'a64fa18e60235994e4cbfd7059cc2f60d06e743f'
+Submodule '3rdparty/composable_kernel' (https://github.com/ROCm/composable_kernel.git) registered for path '3rdparty/aiter/3rdparty/composable_kernel'
+Cloning into '/opt/src/transformer_engine/3rdparty/aiter/3rdparty/composable_kernel'...
+Submodule path '3rdparty/aiter/3rdparty/composable_kernel': checked out '43428f2fd5c8acb32b31212e2e4a5bd051b27547'
+Submodule path '3rdparty/aotriton': checked out 'dd1b68b604b5258ee7a9f7b66ad95e7a82c18065'
+Submodule 'third_party/aiter' (https://github.com/ROCm/aiter.git) registered for path '3rdparty/aotriton/third_party/aiter'
+Submodule 'third_party/incbin' (https://github.com/graphitemaster/incbin.git) registered for path '3rdparty/aotriton/third_party/incbin'
+Submodule 'third_party/pybind11' (https://github.com/pybind/pybind11.git) registered for path '3rdparty/aotriton/third_party/pybind11'
+Submodule 'third_party/triton' (https://github.com/ROCmSoftwarePlatform/triton.git) registered for path '3rdparty/aotriton/third_party/triton'
+Cloning into '/opt/src/transformer_engine/3rdparty/aotriton/third_party/aiter'...
+Cloning into '/opt/src/transformer_engine/3rdparty/aotriton/third_party/incbin'...
+Cloning into '/opt/src/transformer_engine/3rdparty/aotriton/third_party/pybind11'...
+Cloning into '/opt/src/transformer_engine/3rdparty/aotriton/third_party/triton'...
+Submodule path '3rdparty/aotriton/third_party/aiter': checked out '01aae101b9e5e94d6c16a9514c9fb8df99c93150'
+Submodule '3rdparty/composable_kernel' (https://github.com/ROCm/composable_kernel.git) registered for path '3rdparty/aotriton/third_party/aiter/3rdparty/composable_kernel'
+Cloning into '/opt/src/transformer_engine/3rdparty/aotriton/third_party/aiter/3rdparty/composable_kernel'...
+Submodule path '3rdparty/aotriton/third_party/aiter/3rdparty/composable_kernel': checked out 'cffe8fa2a442ac8e80dd236a1a5d24fe3d7e0cbf'
+Submodule path '3rdparty/aotriton/third_party/incbin': checked out '6e576cae5ab5810f25e2631f2e0b80cbe7dc8cbf'
+Submodule path '3rdparty/aotriton/third_party/pybind11': checked out '8a099e44b3d5f85b20f05828d919d2332a8de841'
+Submodule path '3rdparty/aotriton/third_party/triton': checked out 'f75e44a96a54495d52fe82b1e684ec4e712c69d3'
+Submodule path '3rdparty/cudnn-frontend': checked out 'be6c079be8aaffa0fc079fcf039887e637c289c7'
+Submodule path '3rdparty/cutlass': checked out '57e3cfb47a2d9e0d46eb6335c3dc411498efa198'
+Submodule path '3rdparty/googletest': checked out '58d77fa8070e8cec2dc1ed015d66b454c8d78850'
+Submodule path '3rdparty/hipify_torch': checked out 'ade152dafe55b65363d2dbdec889bfe8932712d2'
+From https://github.com/HaiShaw/minGPT
+ * branch            fde597f25386b8e287e805f60c9391e3d6d419d7 -> FETCH_HEAD
+Submodule path 'examples/pytorch/minGPT': checked out 'fde597f25386b8e287e805f60c9391e3d6d419d7'
+Submodule path 'examples/pytorch/nanogpt': checked out '877e8e3c5e838f60dd1b30a56410215f2330b831'
+Processing /opt/src/transformer_engine
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: onnxscript in /opt/venv/lib/python3.12/site-packages (from transformer_engine==2.10.0+b2a04508) (0.7.1)
+Requirement already satisfied: onnx in /opt/venv/lib/python3.12/site-packages (from transformer_engine==2.10.0+b2a04508) (1.22.0)
+Requirement already satisfied: torch>=2.1 in /opt/venv/lib/python3.12/site-packages (from transformer_engine==2.10.0+b2a04508) (2.10.0+rocm7.0.lumi.aif.20260731144255)
+Requirement already satisfied: importlib-metadata>=1.0 in /opt/venv/lib/python3.12/site-packages (from transformer_engine==2.10.0+b2a04508) (9.0.0)
+Requirement already satisfied: einops in /opt/venv/lib/python3.12/site-packages (from transformer_engine==2.10.0+b2a04508) (0.8.2)
+Requirement already satisfied: packaging in /opt/venv/lib/python3.12/site-packages (from transformer_engine==2.10.0+b2a04508) (26.2)
+Requirement already satisfied: pydantic in /opt/venv/lib/python3.12/site-packages (from transformer_engine==2.10.0+b2a04508) (2.13.4)
+Requirement already satisfied: zipp>=3.20 in /opt/venv/lib/python3.12/site-packages (from importlib-metadata>=1.0->transformer_engine==2.10.0+b2a04508) (4.1.0)
+Requirement already satisfied: filelock in /opt/venv/lib/python3.12/site-packages (from torch>=2.1->transformer_engine==2.10.0+b2a04508) (3.32.2)
+Requirement already satisfied: typing-extensions>=4.10.0 in /opt/venv/lib/python3.12/site-packages (from torch>=2.1->transformer_engine==2.10.0+b2a04508) (4.16.0)
+Requirement already satisfied: setuptools in /opt/venv/lib/python3.12/site-packages (from torch>=2.1->transformer_engine==2.10.0+b2a04508) (79.0.1)
+Requirement already satisfied: sympy>=1.13.3 in /opt/venv/lib/python3.12/site-packages (from torch>=2.1->transformer_engine==2.10.0+b2a04508) (1.14.0)
+Requirement already satisfied: networkx>=2.5.1 in /opt/venv/lib/python3.12/site-packages (from torch>=2.1->transformer_engine==2.10.0+b2a04508) (3.6.1)
+Requirement already satisfied: jinja2 in /opt/venv/lib/python3.12/site-packages (from torch>=2.1->transformer_engine==2.10.0+b2a04508) (3.1.6)
+Requirement already satisfied: fsspec>=0.8.5 in /opt/venv/lib/python3.12/site-packages (from torch>=2.1->transformer_engine==2.10.0+b2a04508) (2026.4.0)
+Requirement already satisfied: numpy>=1.23.2 in /opt/venv/lib/python3.12/site-packages (from onnx->transformer_engine==2.10.0+b2a04508) (2.3.5)
+Requirement already satisfied: protobuf>=4.25.1 in /opt/venv/lib/python3.12/site-packages (from onnx->transformer_engine==2.10.0+b2a04508) (6.33.6)
+Requirement already satisfied: ml_dtypes>=0.5.4 in /opt/venv/lib/python3.12/site-packages (from onnx->transformer_engine==2.10.0+b2a04508) (0.5.4)
+Requirement already satisfied: onnx_ir<2,>=0.1.16 in /opt/venv/lib/python3.12/site-packages (from onnxscript->transformer_engine==2.10.0+b2a04508) (0.2.1)
+Requirement already satisfied: annotated-types>=0.6.0 in /opt/venv/lib/python3.12/site-packages (from pydantic->transformer_engine==2.10.0+b2a04508) (0.8.0)
+Requirement already satisfied: pydantic-core==2.46.4 in /opt/venv/lib/python3.12/site-packages (from pydantic->transformer_engine==2.10.0+b2a04508) (2.46.4)
+Requirement already satisfied: typing-inspection>=0.4.2 in /opt/venv/lib/python3.12/site-packages (from pydantic->transformer_engine==2.10.0+b2a04508) (0.4.2)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in /opt/venv/lib/python3.12/site-packages (from sympy>=1.13.3->torch>=2.1->transformer_engine==2.10.0+b2a04508) (1.3.0)
+Requirement already satisfied: MarkupSafe>=2.0 in /opt/venv/lib/python3.12/site-packages (from jinja2->torch>=2.1->transformer_engine==2.10.0+b2a04508) (3.0.3)
+Building wheels for collected packages: transformer_engine
+  Building wheel for transformer_engine (pyproject.toml): started
+  Building wheel for transformer_engine (pyproject.toml): still running...
+  Building wheel for transformer_engine (pyproject.toml): still running...
+  Building wheel for transformer_engine (pyproject.toml): still running...
+  Building wheel for transformer_engine (pyproject.toml): still running...
+  Building wheel for transformer_engine (pyproject.toml): still running...
+  Building wheel for transformer_engine (pyproject.toml): still running...
+  Building wheel for transformer_engine (pyproject.toml): still running...
+  Building wheel for transformer_engine (pyproject.toml): still running...
+  Building wheel for transformer_engine (pyproject.toml): finished with status 'done'
+  Created wheel for transformer_engine: filename=transformer_engine-2.10.0+b2a04508-cp312-cp312-linux_x86_64.whl size=28103997 sha256=17ba84e522a51da15feaf001281431858b5f4610d3588a45472e34a90d4bda12
+  Stored in directory: /tmp/pip-ephem-wheel-cache-8ab6cey9/wheels/f9/0e/98/18c5d7149c86451680b7cd677529e0413c0670b2b41c24e8ed
+Successfully built transformer_engine
+Installing collected packages: transformer_engine
+Successfully installed transformer_engine-2.10.0+b2a04508
+--> cd481d82308f
+STEP 8/10: RUN printf '#!/usr/bin/env bash\nif [ "${SLURM_NNODES}" = 1 ] && [ -z "${SLURM_GPUS_ON_NODE}" ]; then\n    export FI_HMEM_DISABLE_P2P=1\nfi\nif [ "${ROCR_USE_SLURM_LOCALID}" = 1 ] && [ -n "${SLURM_LOCALID}" ]; then\n    export ROCR_VISIBLE_DEVICES="$SLURM_LOCALID"\nfi\nif [ "${MAP_HIP_TO_ROCR_VISIBLE_DEVICES}" = 1 ] && [ -n "${ROCR_VISIBLE_DEVICES}" ]; then\n    export HIP_VISIBLE_DEVICES=`seq -s , 0 $(echo "${ROCR_VISIBLE_DEVICES%%,}" | awk -F, '\''{print NF-1}'\'')`\nfi\nexec "$@"\n' > /opt/oci-entrypoint.sh && chmod +x /opt/oci-entrypoint.sh
+--> 9b79242e14a5
+STEP 9/10: ENTRYPOINT ["/opt/oci-entrypoint.sh"]
+--> f45cc4c21072
+STEP 10/10: LABEL "cf_lineage"="71445e261e1fd8559a9e09006a9a03ba3d512e15,b35968f9f67ea9e7690ecffb49c2eebc94b57d36,264acb3ea7cb00279718e22596756f5520890296,949c5576caafbd7fd9771673b77d9cd3862ef98a,090786c4b20a6ef4779448d94c914c9744421e82,a3984b56f2bc9352d5d65af4c82006da74c6e5c8"
+COMMIT lumi-multitorch-plus-u24r70f21m50t210:20260731_122833
+--> 59dcadc1d08f
+Successfully tagged localhost/lumi-multitorch-plus-u24r70f21m50t210:latest
+Successfully tagged localhost/lumi-multitorch-plus-u24r70f21m50t210:20260731_122833
+59dcadc1d08fbf4c227b8276922c130a26e21688074d84c6e19a14e774312012
+20260801 02:18:22: *** Image info:
+    [
+         {
+              "Id": "59dcadc1d08fbf4c227b8276922c130a26e21688074d84c6e19a14e774312012",
+              "Digest": "sha256:8debcdbb5d3f739ff59ae403cc25c2a1504ecc7d6f834203b181cf7d79efe853",
+              "RepoTags": [
+                   "localhost/lumi-multitorch-plus-u24r70f21m50t210:latest",
+                   "localhost/lumi-multitorch-plus-u24r70f21m50t210:20260731_122833"
+              ],
+              "RepoDigests": [
+                   "localhost/lumi-multitorch-plus-u24r70f21m50t210@sha256:8debcdbb5d3f739ff59ae403cc25c2a1504ecc7d6f834203b181cf7d79efe853"
+              ],
+              "Parent": "f45cc4c2107266a73dfccb8ba7e2ef493f45681d38e09228d78eb52c54960a4f",
+              "Comment": "",
+              "Created": "2026-08-01T02:18:20.023350046Z",
+              "Config": {
+                   "Env": [
+                        "ROCM_PATH=/opt/rocm",
+                        "SINGULARITY_NO_EVAL=1",
+                        "MPIR_CVAR_CH4_OFI_ENABLE_HMEM=1",
+                        "MPIR_CVAR_CH4_OFI_ENABLE_MR_HMEM=1",
+                        "MPIR_CVAR_ENABLE_GPU=1",
+                        "PATH=/opt/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                        "PYTHONPATH=/opt/venv/lib/python3.12/site-packages:"
+                   ],
+                   "Entrypoint": [
+                        "/opt/oci-entrypoint.sh"
+                   ],
+                   "Labels": {
+                        "cf_lineage": "71445e261e1fd8559a9e09006a9a03ba3d512e15,b35968f9f67ea9e7690ecffb49c2eebc94b57d36,264acb3ea7cb00279718e22596756f5520890296,949c5576caafbd7fd9771673b77d9cd3862ef98a,090786c4b20a6ef4779448d94c914c9744421e82,a3984b56f2bc9352d5d65af4c82006da74c6e5c8",
+                        "io.buildah.version": "1.33.7",
+                        "org.opencontainers.image.version": "24.04"
+                   }
+              },
+              "Version": "",
+              "Author": "",
+              "Architecture": "amd64",
+              "Os": "linux",
+              "Size": 44903862624,
+              "VirtualSize": 44903862624,
+              "GraphDriver": {
+                   "Name": "overlay",
+                   "Data": {
+                        "LowerDir": "/home/builder/.local/share/containers/storage/overlay/4fc54f4a86c34208bff3abec1bdb307d5c9f37eca4a8df22c5ef7464f4878f6a/diff:/home/builder/.local/share/containers/storage/overlay/a94062abc0126b61bf1915ba0faf9ca2302966db63389dd78b51c12eb19920bc/diff:/home/builder/.local/share/containers/storage/overlay/c6fe4e6d3c0b5e7ecf1f7558dab88c183b860ec0f31f80cfba9d1b37bc49bd1d/diff:/home/builder/.local/share/containers/storage/overlay/b4ff9fa7ba8c7fa0419bd4352aaf3a2151c43288f33e2d1ef382b193588a508d/diff:/home/builder/.local/share/containers/storage/overlay/bb7d37eae2d5d4866191aa6cd596e9bd5a547bbcfbd1aae34e4226dfa2b926cc/diff:/home/builder/.local/share/containers/storage/overlay/dce749b83e615c809a76c464a289521df31ed5b1b31bf6965ecfd82e7494a41a/diff:/home/builder/.local/share/containers/storage/overlay/7eb0387f9be93aabf8c2f193f4eaadd1b84102241c5d3592282f727f78beb8a1/diff:/home/builder/.local/share/containers/storage/overlay/c69bb7a29d13c76e72b381518c3bb466dc4fa1b5ca69762cfa3d144f35090884/diff:/home/builder/.local/share/containers/storage/overlay/60a036052ae4d451de4ba19f4e7c1f2732cbe5f2a699bba0945196e38f3c48a4/diff:/home/builder/.local/share/containers/storage/overlay/afedfc4b18e13876ba8b1e5ba3ab9820f5205a301cf89c96b40810a132709b43/diff:/home/builder/.local/share/containers/storage/overlay/d2795b12d280891fcd517a830f92cf103bd62bf33ba1da112953d9360b5e5fe1/diff:/home/builder/.local/share/containers/storage/overlay/95e8c9684a07f000e98f43e36ff6267f92ed30b73d0d89a1392fde6dc379da72/diff:/home/builder/.local/share/containers/storage/overlay/91bab1cc6f08ca67a6041010137ddd83393a879cd9b87a366efa7418832dfff8/diff:/home/builder/.local/share/containers/storage/overlay/eb7e5e59f87e4634103cb9442fef22235c8ffc479cc334120ee230675ab1b232/diff:/home/builder/.local/share/containers/storage/overlay/3845ac7609d04ce6d315ad8e742de82e8c08732e789e4d6d3a9653ba3a552b8c/diff:/home/builder/.local/share/containers/storage/overlay/647449b6d42d8be9e14a442f1b6a9fa65bb65d448d091519a0e21ee9638df786/diff:/home/builder/.local/share/containers/storage/overlay/2874c983d43fb6bffa104ad0ab1c057f2862eb987cf01ec31a69d6650bf0b246/diff:/home/builder/.local/share/containers/storage/overlay/9862db69b458c402f04e8a3d542da7715379900efa78294b4797b73adc7ffea8/diff:/home/builder/.local/share/containers/storage/overlay/387b37013be25111832e24db45ca8764d48aaee4d134b0a47f3e31eccb919b36/diff:/home/builder/.local/share/containers/storage/overlay/de156992c437289445df36144e11040e5bede8b0fd1d7b6760f4128c04a971e7/diff:/home/builder/.local/share/containers/storage/overlay/6146023724b2c49bc7d265f57dba259d03050456eb40669eab85ad8f158ab580/diff:/home/builder/.local/share/containers/storage/overlay/5e732af9e7c568c9b41ecabc76ac93a58471934d5155070dfd64a9567667fd9d/diff",
+                        "UpperDir": "/home/builder/.local/share/containers/storage/overlay/333e64aab31cf88529a750374fd6f1396ba6df118ea0e6ff21cbc279d3a1fb64/diff",
+                        "WorkDir": "/home/builder/.local/share/containers/storage/overlay/333e64aab31cf88529a750374fd6f1396ba6df118ea0e6ff21cbc279d3a1fb64/work"
+                   }
+              },
+              "RootFS": {
+                   "Type": "layers",
+                   "Layers": [
+                        "sha256:5e732af9e7c568c9b41ecabc76ac93a58471934d5155070dfd64a9567667fd9d",
+                        "sha256:b11e5ea503fd47d0ceba30d88b6d0687cc2e283c156bc7f86b72c2731176f6c6",
+                        "sha256:d4def1e9a63a841d3ff7c892bfb5e8a20244a7d284754a333632eca5a24c32a1",
+                        "sha256:760d1a984a0bbb40f164917d73ea7d5c3c843d510b98009868af92aa17872eb6",
+                        "sha256:5aedcd39ac1e5f072c5efdb7711ca34ecf834e1fa6d0e6bea8b03f26eb5c184d",
+                        "sha256:73d26e6fefa9521ae060eef2fa3123d43327fe23d30ee95a7c7d51ea75fca3c5",
+                        "sha256:233cd4b4fdf6a04e2e9151860b3c9ed90f3def884181f46cd6f0fa92c3e432e4",
+                        "sha256:faa7aa5dbec2da96ede0b7cfead5e75e2cbe3392e55ba01a0d545c799066b623",
+                        "sha256:353a8d68fef603144feb562966b656b3757e863f65f2eb16badc9aa60fc9ef8e",
+                        "sha256:9c95127e184c554b606d805d68e8b0f33348807f9ce9d3abcb6c97970d5e5240",
+                        "sha256:1dd7b7ed5dce85f08681f0c48556e8b716e940acc0b384b3b1a3d24ba1549b35",
+                        "sha256:c5e6458fe684a7331d2c105d2a291bf62f93cdceb43e46aed47ca46f35657e8c",
+                        "sha256:3d3dd77f135c1d72a517ad05189e7cfb6a65c184fd26c57caf3b0a7254993c59",
+                        "sha256:f93534737f73a580a0ab0d376a5eaaf683104a8239cee666e8a6a3622e9d0fc2",
+                        "sha256:8947b84c4f94d5b07c8a0ab85e984552a56dc0ecb8f5d12d4502236665a705da",
+                        "sha256:e2c079643b135c3b8cffecde054a6740f934b67a075c2e339692388144432fe8",
+                        "sha256:3fad7bd8f200b50121137145baf805b0fc09e8b7378beb76be9ac49d3df4827d",
+                        "sha256:8d3980453d5fde7e941b0de4772ce007aa9b0d9cb5ffcbeda52629f32f0657fe",
+                        "sha256:c466fa9c951f1781ac8ea83e8d18b566b0940f195c85e705d8bbd3b71025f50b",
+                        "sha256:e0809a3f0489e2febfffe0b4b7252c7cb860de864407230b9ddf5cfc7c5d482e",
+                        "sha256:36ae01d5950cd6749d5a258e016e69c2e671f5567a3eabd3b6fb98bcbd592f7d",
+                        "sha256:5cc34c686a2ae30a2cce7783bf4c2272f38a7f1d4b381aa29985d16ff62b3f63",
+                        "sha256:eb5b114e1121c42e75a40c2242377a05a3480467f66aa120595793549f86cea0"
+                   ]
+              },
+              "Labels": {
+                   "cf_lineage": "71445e261e1fd8559a9e09006a9a03ba3d512e15,b35968f9f67ea9e7690ecffb49c2eebc94b57d36,264acb3ea7cb00279718e22596756f5520890296,949c5576caafbd7fd9771673b77d9cd3862ef98a,090786c4b20a6ef4779448d94c914c9744421e82,a3984b56f2bc9352d5d65af4c82006da74c6e5c8",
+                   "io.buildah.version": "1.33.7",
+                   "org.opencontainers.image.version": "24.04"
+              },
+              "Annotations": {
+                   "org.opencontainers.image.base.digest": "sha256:c4e1a6ad3c38696c89b0a412000a5832a8c2dfec6feea2b0f044043311dd9ca6",
+                   "org.opencontainers.image.base.name": "localhost/lumi-multitorch-full-u24r70f21m50t210:latest"
+              },
+              "ManifestType": "application/vnd.oci.image.manifest.v1+json",
+              "User": "",
+              "History": [
+                   {
+                        "created": "2026-04-03T15:16:40.577037984Z",
+                        "created_by": "/bin/sh -c #(nop)  ARG RELEASE",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-04-03T15:16:40.607399199Z",
+                        "created_by": "/bin/sh -c #(nop)  ARG LAUNCHPAD_BUILD_ARCH",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-04-03T15:16:40.632213167Z",
+                        "created_by": "/bin/sh -c #(nop)  LABEL org.opencontainers.image.version=24.04",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-04-03T15:16:42.676539189Z",
+                        "created_by": "/bin/sh -c #(nop) ADD file:0f6466425c4f1800aae9224ddc3437b90c829cea58fb8edd5dde2f1eb0ee28da in / "
+                   },
+                   {
+                        "created": "2026-04-03T15:16:43.062086026Z",
+                        "created_by": "/bin/sh -c #(nop)  CMD [\"/bin/bash\"]",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T12:28:38.900535623Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE",
+                        "comment": "FROM docker.io/library/ubuntu:noble-20260324",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T12:28:38.943396191Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG",
+                        "comment": "FROM 6a39bc1ef54d",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T12:28:38.966788799Z",
+                        "created_by": "/bin/sh -c #(nop) ARG AMDGPU_REPO BASE_IMAGE BASE_IMAGE_TAG",
+                        "comment": "FROM 90287b1b3363",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T12:28:38.99321729Z",
+                        "created_by": "/bin/sh -c #(nop) ARG AMDGPU_REPO AMDGPU_VERSION BASE_IMAGE BASE_IMAGE_TAG",
+                        "comment": "FROM 11b0a5ccc305",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T12:28:39.038641425Z",
+                        "created_by": "/bin/sh -c #(nop) ARG AMDGPU_REPO AMDGPU_VERSION BASE_IMAGE BASE_IMAGE_TAG ROCM_REPO",
+                        "comment": "FROM 8c9add22ebe6",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T12:28:39.061918015Z",
+                        "created_by": "/bin/sh -c #(nop) ARG AMDGPU_REPO AMDGPU_VERSION BASE_IMAGE BASE_IMAGE_TAG ROCM_REPO ROCM_VERSION",
+                        "comment": "FROM dd6e527d06e2",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T12:28:39.08535692Z",
+                        "created_by": "/bin/sh -c #(nop) ARG AMDGPU_REPO AMDGPU_VERSION BASE_IMAGE BASE_IMAGE_TAG EXTRA_LOCALES ROCM_REPO ROCM_VERSION",
+                        "comment": "FROM 036299d9ac10",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T12:28:39.11006243Z",
+                        "created_by": "/bin/sh -c #(nop) ARG AMDGPU_REPO AMDGPU_VERSION BASE_IMAGE BASE_IMAGE_TAG EXTRA_LOCALES EXTRA_PACKAGES ROCM_REPO ROCM_VERSION",
+                        "comment": "FROM 37ed9e3fbdd3",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T12:35:56.35177836Z",
+                        "created_by": "|29 AMDGPU_REPO=https://repo.radeon.com/amdgpu AMDGPU_VERSION=6.4.4 BASE_IMAGE=ubuntu BASE_IMAGE_TAG=noble-20260324 EXTRA_LOCALES=cs_CZ.UTF-8 da_DK.UTF-8 en_US.UTF-8 et_EE.UTF-8 fi_FI.UTF-8 nb_NO.UTF-8 nn_NO.UTF-8 pl_PL.UTF-8 EXTRA_PACKAGES=file git jq less lsof nano neovim python3-dev python3-packaging python3-pip python3-venv screen tmux unzip wget ROCM_REPO=https://repo.radeon.com/rocm ROCM_VERSION=7.0.2 /bin/sh -c set -ue;   export DEBIAN_FRONTEND=noninteractive;   apt-get update;   yes | unminimize;   apt-get -y --no-install-recommends install man locales;   locale-gen ${EXTRA_LOCALES};   apt-get install -y --no-install-recommends ca-certificates curl gnupg;   printf \"Package: *\\nPin: release o=repo.radeon.com\\nPin-Priority: 800\\n\" > /etc/apt/preferences.d/rocm-pin-prio-800;   curl -sL ${ROCM_REPO}/rocm.gpg.key | apt-key add -;   printf \"deb [arch=amd64] ${ROCM_REPO}/apt/${ROCM_VERSION}/ noble main\\n\" | tee --append /etc/apt/sources.list.d/rocm.list;   printf \"deb [arch=amd64] ${AMDGPU_REPO}/${AMDGPU_VERSION}/ubuntu noble main\\n\" | tee /etc/apt/sources.list.d/amdgpu.list;   apt-get update;   apt-get install -y --no-install-recommends build-essential cmake kmod libelf1 libnuma-dev pkgconf zstd;   apt-get install -y --no-install-recommends amdgpu-dkms rocm-dev rocm-libs;   echo /opt/rocm/lib > /etc/ld.so.conf.d/rocm-30.conf;   ldconfig;   apt-get -y --no-install-recommends install ${EXTRA_PACKAGES};   apt-get clean ;  rm -rf /var/lib/apt/lists/*;   git clone --branch rocm-${ROCM_VERSION} https://github.com/ROCm/rocm_smi_lib /tmp/rocm_smi_lib;   cd /tmp/rocm_smi_lib;   sed -i -e \"s/AMD System Management libraries/LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')/\" CMakeLists.txt;   curl -s https://github.com/ROCm/rocm-systems/commit/ad06de002ede9716f931d9b3052b17c59360b44f.patch |     sed -e 's,projects/rocm-smi-lib/,,g' | git apply;   git tag rsmi_pkg_ver-7.8.0;   git tag rsmi_so_ver-7.8.0;   mkdir build && cd build;   ROCM_LIBPATCH_VERSION=\"$(dpkg-query -W -f='${Version}\\n' rocm-dev | sed -E 's/^[0-9]+\\.[0-9]+\\.[0-9]+\\.([0-9]+)-.*$/\\1/')\"   CPACK_DEBIAN_PACKAGE_RELEASE=\"$(dpkg-query -W -f='${Version}\\n' rocm-dev | sed -E 's/^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+-(.*)$/\\1/')\"   cmake -DCPACK_GENERATOR=DEB ..;   make -j $(nproc) package;   dpkg -i rocm-smi-lib_*.deb;   cd /;   rm -rf /tmp/rocm_smi_lib;   apt_json=\"$(dpkg-query -W -f='${Package}\\t${Version}\\n' | jq -R -s 'split(\"\\n\")[:-1] | map(split(\"\\t\") | {name: .[0], version: .[1]})')\";   jq -n --argjson apt \"$apt_json\"  '{apt: $apt}' > /.sbom.json;",
+                        "comment": "FROM d0467680ff69"
+                   },
+                   {
+                        "created": "2026-07-31T12:38:07.056333142Z",
+                        "created_by": "/bin/sh -c #(nop) ENV ROCM_PATH=/opt/rocm",
+                        "comment": "FROM 87ea204c1132",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T12:38:07.084489267Z",
+                        "created_by": "/bin/sh -c #(nop) LABEL \"cf_lineage\"=\"71445e261e1fd8559a9e09006a9a03ba3d512e15\"",
+                        "comment": "FROM 91bdc4873eab",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T12:46:59.627396428Z",
+                        "created_by": "/bin/sh -c #(nop) COPY multi:6882096d2d20044dd896cdc40f4fca008e88948ff5557d6bed99cf39f451b446 in /tmp/debs/ ",
+                        "comment": "FROM localhost/lumi-multitorch-rocm-u24r70f21m50t210:latest"
+                   },
+                   {
+                        "created": "2026-07-31T12:47:09.254478503Z",
+                        "created_by": "/bin/sh -c set -ue;     apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y         autoconf         libconfig-dev         libcurl4-openssl-dev         libfuse-dev         libjson-c-dev         libnl-3-dev         libsensors-dev         libtool         libuv1-dev         libyaml-dev         pkg-config         strace;     dpkg -i /tmp/debs/*.deb;     rm -rf /tmp/debs;     ln -s /usr/lib/x86_64-linux-gnu/libcurl.so.4.8.0 /usr/lib64/libcurl.so.4;     ldconfig;     apt_json=\"$(dpkg-query -W -f='${Package}\\t${Version}\\n' | jq -R -s 'split(\"\\n\")[:-1] | map(split(\"\\t\") | {name: .[0], version: .[1]})')\";     jq -n --argjson apt \"$apt_json\"  '{apt: $apt}' > /.sbom.json;",
+                        "comment": "FROM 430d2f06a879"
+                   },
+                   {
+                        "created": "2026-07-31T12:47:10.631752422Z",
+                        "created_by": "/bin/sh -c printf '#!/usr/bin/env bash\\nif [ \"${SLURM_NNODES}\" = 1 ] && [ -z \"${SLURM_GPUS_ON_NODE}\" ]; then\\n    export FI_HMEM_DISABLE_P2P=1\\nfi\\nexec \"$@\"\\n' > /opt/oci-entrypoint.sh && chmod +x /opt/oci-entrypoint.sh",
+                        "comment": "FROM 6cc60475cd93"
+                   },
+                   {
+                        "created": "2026-07-31T12:47:10.711258884Z",
+                        "created_by": "/bin/sh -c #(nop) ENTRYPOINT [\"/opt/oci-entrypoint.sh\"]",
+                        "comment": "FROM 297d03151855",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T12:47:10.740873021Z",
+                        "created_by": "/bin/sh -c #(nop) ENV SINGULARITY_NO_EVAL=1",
+                        "comment": "FROM ccc4ef62e63b",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T12:47:10.771715252Z",
+                        "created_by": "/bin/sh -c #(nop) LABEL \"cf_lineage\"=\"71445e261e1fd8559a9e09006a9a03ba3d512e15,b35968f9f67ea9e7690ecffb49c2eebc94b57d36\"",
+                        "comment": "FROM c7da434ee336",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:06:38.828488824Z",
+                        "created_by": "/bin/sh -c #(nop) COPY multi:75031a4430588999a4e60478b9225cf2964283472d5830153568997b901fe8d8 in /tmp/debs/ ",
+                        "comment": "FROM localhost/lumi-multitorch-libfabric-u24r70f21m50t210:latest"
+                   },
+                   {
+                        "created": "2026-07-31T13:06:43.562296847Z",
+                        "created_by": "/bin/sh -c set -ue;     dpkg -i /tmp/debs/*.deb;     rm -rf /tmp/debs;     apt_json=\"$(dpkg-query -W -f='${Package}\\t${Version}\\n' | jq -R -s 'split(\"\\n\")[:-1] | map(split(\"\\t\") | {name: .[0], version: .[1]})')\";     jq -n --argjson apt \"$apt_json\"  '{apt: $apt}' > /.sbom.json;",
+                        "comment": "FROM 6b35d9e92038"
+                   },
+                   {
+                        "created": "2026-07-31T13:06:45.133245658Z",
+                        "created_by": "/bin/sh -c #(nop) ENV MPIR_CVAR_CH4_OFI_ENABLE_HMEM=1",
+                        "comment": "FROM 8c39d318052e",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:06:45.209542827Z",
+                        "created_by": "/bin/sh -c #(nop) ENV MPIR_CVAR_CH4_OFI_ENABLE_MR_HMEM=1",
+                        "comment": "FROM 78b43df82fc7",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:06:45.255574592Z",
+                        "created_by": "/bin/sh -c #(nop) ENV MPIR_CVAR_ENABLE_GPU=1",
+                        "comment": "FROM c4accf31f4cb",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:06:45.563781132Z",
+                        "created_by": "/bin/sh -c printf '#!/usr/bin/env bash\\nif [ \"${SLURM_NNODES}\" = 1 ] && [ -z \"${SLURM_GPUS_ON_NODE}\" ]; then\\n    export FI_HMEM_DISABLE_P2P=1\\nfi\\nexec \"$@\"\\n' > /opt/oci-entrypoint.sh && chmod +x /opt/oci-entrypoint.sh",
+                        "comment": "FROM 594e6ea1d74b"
+                   },
+                   {
+                        "created": "2026-07-31T13:06:45.682169697Z",
+                        "created_by": "/bin/sh -c #(nop) ENTRYPOINT [\"/opt/oci-entrypoint.sh\"]",
+                        "comment": "FROM 55b1de8b197f",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:06:45.717463159Z",
+                        "created_by": "/bin/sh -c #(nop) LABEL \"cf_lineage\"=\"71445e261e1fd8559a9e09006a9a03ba3d512e15,b35968f9f67ea9e7690ecffb49c2eebc94b57d36,264acb3ea7cb00279718e22596756f5520890296\"",
+                        "comment": "FROM b147e77c692e",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:18:54.44602849Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE",
+                        "comment": "FROM localhost/lumi-multitorch-mpich-u24r70f21m50t210:latest",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:18:54.536949785Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG",
+                        "comment": "FROM 080e8d53e76e",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:18:54.63788225Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG TORCH_REPO",
+                        "comment": "FROM c336e4f77126",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:18:54.702524269Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG TORCH_REPO TORCH_VERSION",
+                        "comment": "FROM d9e97b4dcad3",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:18:54.758860046Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG TORCH_REPO TORCH_ROCM_VERSION TORCH_VERSION",
+                        "comment": "FROM 1f4966d4a74a",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:18:54.796820755Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG TORCH_GPU_ARCH TORCH_REPO TORCH_ROCM_VERSION TORCH_VERSION",
+                        "comment": "FROM 601ce29d1559",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:18:54.840124076Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG TORCH_GPU_ARCH TORCH_PATCHES TORCH_REPO TORCH_ROCM_VERSION TORCH_VERSION",
+                        "comment": "FROM 64cb4b779073",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:18:54.9012451Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG TORCH_GPU_ARCH TORCH_PATCHES TORCH_PIP_DEPENDENCIES TORCH_REPO TORCH_ROCM_VERSION TORCH_VERSION",
+                        "comment": "FROM 87230e33519a",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:18:54.939080985Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG TORCH_APT_DEPENDENCIES TORCH_GPU_ARCH TORCH_PATCHES TORCH_PIP_DEPENDENCIES TORCH_REPO TORCH_ROCM_VERSION TORCH_VERSION",
+                        "comment": "FROM 08abcfe454f4",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:18:54.975757985Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG PYTORCH_TRITON_URL TORCH_APT_DEPENDENCIES TORCH_GPU_ARCH TORCH_PATCHES TORCH_PIP_DEPENDENCIES TORCH_REPO TORCH_ROCM_VERSION TORCH_VERSION",
+                        "comment": "FROM dfb6bd6d7ff7",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:18:55.013486017Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG FAKE_TRITON_URL PYTORCH_TRITON_URL TORCH_APT_DEPENDENCIES TORCH_GPU_ARCH TORCH_PATCHES TORCH_PIP_DEPENDENCIES TORCH_REPO TORCH_ROCM_VERSION TORCH_VERSION",
+                        "comment": "FROM 6b839d6ea700",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:18:55.064436783Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG FAKE_TRITON_URL PYTORCH_TRITON_URL TORCHAUDIO_URL TORCH_APT_DEPENDENCIES TORCH_GPU_ARCH TORCH_PATCHES TORCH_PIP_DEPENDENCIES TORCH_REPO TORCH_ROCM_VERSION TORCH_VERSION",
+                        "comment": "FROM 4676ddab6dec",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:18:55.107255575Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG FAKE_TRITON_URL PYTORCH_TRITON_URL TORCHAUDIO_URL TORCHVISION_URL TORCH_APT_DEPENDENCIES TORCH_GPU_ARCH TORCH_PATCHES TORCH_PIP_DEPENDENCIES TORCH_REPO TORCH_ROCM_VERSION TORCH_VERSION",
+                        "comment": "FROM 2e210f9cc184",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T13:18:55.147665419Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG FAKE_TRITON_URL PYTORCH_TRITON_URL TORCHAUDIO_URL TORCHVISION_URL TORCH_APT_DEPENDENCIES TORCH_GPU_ARCH TORCH_PATCHES TORCH_PIP_DEPENDENCIES TORCH_REPO TORCH_ROCM_VERSION TORCH_VERSION WRETAG_URL",
+                        "comment": "FROM 4be2fba1bf71",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T14:44:51.19562988Z",
+                        "created_by": "|28 BASE_IMAGE=lumi-multitorch-mpich-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 FAKE_TRITON_URL=git+https://github.com/viahlgre/fake-triton.git@d35f4ca PYTORCH_TRITON_URL=https://download.pytorch.org/whl/triton_rocm-3.6.0-cp312-cp312-linux_x86_64.whl TORCHAUDIO_URL=https://download-r2.pytorch.org/whl/rocm7.0/torchaudio-2.10.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl TORCHVISION_URL=https://download-r2.pytorch.org/whl/rocm7.0/torchvision-0.25.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl TORCH_APT_DEPENDENCIES=ccache cmake libjpeg-dev libopenblas-dev libpng-dev numactl TORCH_GPU_ARCH=gfx90a TORCH_PATCHES=https://github.com/viahlgre/pytorch/commit/f0374f296279f6fbdb3437a144b226521d00b788.patch TORCH_PIP_DEPENDENCIES=mkl-include mkl-static ninja numpy packaging pyyaml requests setuptools six typing_extensions TORCH_REPO=https://github.com/pytorch/pytorch TORCH_ROCM_VERSION=rocm7.0 TORCH_VERSION=2.10.0 WRETAG_URL=git+https://github.com/lumi-ai-factory/wretag.git@0da1af0 /bin/sh -c set -ue;   mkdir /opt/src;   mkdir /opt/wheels;   test -f /opt/rocm/lib/llvm/bin/amdgpu-arch.really && { echo \"error: amdgpu-arch.really already exists\"; false; } || true;   mv /opt/rocm/lib/llvm/bin/amdgpu-arch /opt/rocm/lib/llvm/bin/amdgpu-arch.really;   printf \"#!/bin/bash\\necho ${TORCH_GPU_ARCH}\\n\" > /opt/rocm/lib/llvm/bin/amdgpu-arch;   chmod a+rx /opt/rocm/lib/llvm/bin/amdgpu-arch;   apt-get update;   apt-get -y install ${TORCH_APT_DEPENDENCIES};   apt clean ;  python3.12 -m venv /opt/venv;   . /opt/venv/bin/activate;   pip install --no-cache-dir \"${WRETAG_URL}\";   pip install --no-cache-dir ${TORCH_PIP_DEPENDENCIES};   pip install --no-cache-dir ${PYTORCH_TRITON_URL};   pip install --no-cache-dir /opt/rocm/share/amd_smi;   git clone --branch \"v${TORCH_VERSION}\" --recursive ${TORCH_REPO};   cd pytorch/;   for PATCH_URL in ${TORCH_PATCHES}; do curl -s $PATCH_URL | git apply; done;   git status;   export GPU_ARCH_TYPE=rocm;   export ROCM_HOME=/opt/rocm;   export PYTORCH_ROCM_ARCH=${TORCH_GPU_ARCH};   export DESIRED_CUDA=${TORCH_ROCM_VERSION};   export CC=gcc;   export CXX=g++;   export USE_CUDA=0;   export USE_ROCM=1;   export USE_MPI=1;   export USE_C10D_MPI=1;   export USE_SYSTEM_NCCL=1;   export USE_STATIC_NCCL=0;   export BUILD_TEST=0;   export INSTALL_TEST=0;   export MAX_JOBS=\"$(nproc)\";   export PYTORCH_BUILD_VERSION=\"${TORCH_VERSION}+${TORCH_ROCM_VERSION}\";   export PYTORCH_BUILD_NUMBER=1;   python3.12 tools/amd_build/build_amd.py;   python -m pip wheel --no-build-isolation --no-deps -v -w /opt/wheels .;   wheel_path=\"$(find /opt/wheels  -mindepth 1 -maxdepth 1 -type f -name '*.whl')\";   test $(echo $wheel_path | wc -w) = 1;   new_wheel=\"$(wretag -d -q ${TORCH_ROCM_VERSION}_lumi_aif_$(date -u +'%Y%m%d%H%M%S') $wheel_path)\";   pip install $new_wheel;   rm -f /opt/wheels/torch-*.whl;   pip install $TORCHAUDIO_URL $TORCHVISION_URL $FAKE_TRITON_URL;   pip cache purge;   rm -rf /opt/src/pytorch;   rmdir /opt/src;   rmdir /opt/wheels;   test -f /opt/rocm/lib/llvm/bin/amdgpu-arch.really || { echo \"error: amdgpu-arch.really is missing\"; false; };   rm /opt/rocm/lib/llvm/bin/amdgpu-arch;   mv /opt/rocm/lib/llvm/bin/amdgpu-arch.really /opt/rocm/lib/llvm/bin/amdgpu-arch;   apt_json=\"$(dpkg-query -W -f='${Package}\\t${Version}\\n' | jq -R -s 'split(\"\\n\")[:-1] | map(split(\"\\t\") | {name: .[0], version: .[1]})')\";   pip_json=\"$(pip list --format=json)\";   jq -n --argjson apt \"$apt_json\"  --argjson pip \"$pip_json\" '{apt: $apt, pip: $pip}' > /.sbom.json;",
+                        "comment": "FROM a7d84800eb0a"
+                   },
+                   {
+                        "created": "2026-07-31T14:46:34.78146955Z",
+                        "created_by": "/bin/sh -c #(nop) ENV PATH=\"/opt/venv/bin:$PATH\"",
+                        "comment": "FROM fcfa3f64ddb6",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T14:46:34.83375019Z",
+                        "created_by": "/bin/sh -c #(nop) ENV PYTHONPATH=\"/opt/venv/lib/python3.12/site-packages:$PYTHONPATH\"",
+                        "comment": "FROM c3bbc4137078",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T14:46:35.243446873Z",
+                        "created_by": "|28 BASE_IMAGE=lumi-multitorch-mpich-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 FAKE_TRITON_URL=git+https://github.com/viahlgre/fake-triton.git@d35f4ca PYTORCH_TRITON_URL=https://download.pytorch.org/whl/triton_rocm-3.6.0-cp312-cp312-linux_x86_64.whl TORCHAUDIO_URL=https://download-r2.pytorch.org/whl/rocm7.0/torchaudio-2.10.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl TORCHVISION_URL=https://download-r2.pytorch.org/whl/rocm7.0/torchvision-0.25.0%2Brocm7.0-cp312-cp312-manylinux_2_28_x86_64.whl TORCH_APT_DEPENDENCIES=ccache cmake libjpeg-dev libopenblas-dev libpng-dev numactl TORCH_GPU_ARCH=gfx90a TORCH_PATCHES=https://github.com/viahlgre/pytorch/commit/f0374f296279f6fbdb3437a144b226521d00b788.patch TORCH_PIP_DEPENDENCIES=mkl-include mkl-static ninja numpy packaging pyyaml requests setuptools six typing_extensions TORCH_REPO=https://github.com/pytorch/pytorch TORCH_ROCM_VERSION=rocm7.0 TORCH_VERSION=2.10.0 WRETAG_URL=git+https://github.com/lumi-ai-factory/wretag.git@0da1af0 /bin/sh -c printf '#!/usr/bin/env bash\\nif [ \"${SLURM_NNODES}\" = 1 ] && [ -z \"${SLURM_GPUS_ON_NODE}\" ]; then\\n    export FI_HMEM_DISABLE_P2P=1\\nfi\\nexec \"$@\"\\n' > /opt/oci-entrypoint.sh && chmod +x /opt/oci-entrypoint.sh",
+                        "comment": "FROM 8779bc1d2d4c"
+                   },
+                   {
+                        "created": "2026-07-31T14:46:35.329803925Z",
+                        "created_by": "/bin/sh -c #(nop) ENTRYPOINT [\"/opt/oci-entrypoint.sh\"]",
+                        "comment": "FROM 24de87a4db94",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T14:46:35.425032718Z",
+                        "created_by": "/bin/sh -c #(nop) LABEL \"cf_lineage\"=\"71445e261e1fd8559a9e09006a9a03ba3d512e15,b35968f9f67ea9e7690ecffb49c2eebc94b57d36,264acb3ea7cb00279718e22596756f5520890296,949c5576caafbd7fd9771673b77d9cd3862ef98a\"",
+                        "comment": "FROM 42cdb95dc0c5",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:38.732389655Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT",
+                        "comment": "FROM localhost/lumi-multitorch-torch-u24r70f21m50t210:latest",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:38.778546591Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO",
+                        "comment": "FROM 1ff52abf2f76",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:38.816581972Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE",
+                        "comment": "FROM 1d3e61bebdee",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:38.855754515Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG",
+                        "comment": "FROM d2f85ac5d885",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:38.893530189Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG",
+                        "comment": "FROM ee1fcaa3600e",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:38.936538102Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG",
+                        "comment": "FROM eaefac3b279c",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:38.977935316Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT",
+                        "comment": "FROM 68f82d286213",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.019707812Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO",
+                        "comment": "FROM 302a090fa2d2",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.060194338Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION",
+                        "comment": "FROM 68cdcfb144ab",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.099206271Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION DEPENDENCY_PIP_PACKAGES",
+                        "comment": "FROM ac99fa5abfd8",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.141650035Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION DEPENDENCY_PIP_PACKAGES EXTRA_APT_PACKAGES",
+                        "comment": "FROM d585a1cfd8bc",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.183785292Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION DEPENDENCY_PIP_PACKAGES EXTRA_APT_PACKAGES EXTRA_PIP_PACKAGES",
+                        "comment": "FROM 2f4c5138ec91",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.226359281Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION DEPENDENCY_PIP_PACKAGES EXTRA_APT_PACKAGES EXTRA_PIP_PACKAGES FLASH_ATTENTION_REPO_COMMIT",
+                        "comment": "FROM 769c9cd8970e",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.276937315Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION DEPENDENCY_PIP_PACKAGES EXTRA_APT_PACKAGES EXTRA_PIP_PACKAGES FLASH_ATTENTION_REPO_COMMIT FLASH_ATTENTION_REPO_URL",
+                        "comment": "FROM c3a625d15e65",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.342091433Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION DEPENDENCY_PIP_PACKAGES EXTRA_APT_PACKAGES EXTRA_PIP_PACKAGES FLASH_ATTENTION_REPO_COMMIT FLASH_ATTENTION_REPO_URL MEGATRON_LM_REPO_URL",
+                        "comment": "FROM c92fe57f26f0",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.388984519Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION DEPENDENCY_PIP_PACKAGES EXTRA_APT_PACKAGES EXTRA_PIP_PACKAGES FLASH_ATTENTION_REPO_COMMIT FLASH_ATTENTION_REPO_URL MEGATRON_LM_COMMIT MEGATRON_LM_REPO_URL",
+                        "comment": "FROM 1094662b0dd8",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.431708309Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION DEPENDENCY_PIP_PACKAGES EXTRA_APT_PACKAGES EXTRA_PIP_PACKAGES FLASH_ATTENTION_REPO_COMMIT FLASH_ATTENTION_REPO_URL MEGATRON_LM_COMMIT MEGATRON_LM_REPO_URL MULTI_IMAGE_GPU_ARCH",
+                        "comment": "FROM 40f0f8828afb",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.47333365Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION DEPENDENCY_PIP_PACKAGES EXTRA_APT_PACKAGES EXTRA_PIP_PACKAGES FLASH_ATTENTION_REPO_COMMIT FLASH_ATTENTION_REPO_URL LLMCOMPRESSOR_REPO MEGATRON_LM_COMMIT MEGATRON_LM_REPO_URL MULTI_IMAGE_GPU_ARCH",
+                        "comment": "FROM b40630824a4b",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.516280298Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION DEPENDENCY_PIP_PACKAGES EXTRA_APT_PACKAGES EXTRA_PIP_PACKAGES FLASH_ATTENTION_REPO_COMMIT FLASH_ATTENTION_REPO_URL LLMCOMPRESSOR_COMMIT LLMCOMPRESSOR_REPO MEGATRON_LM_COMMIT MEGATRON_LM_REPO_URL MULTI_IMAGE_GPU_ARCH",
+                        "comment": "FROM 3d1594fa2842",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.560342257Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION DEPENDENCY_PIP_PACKAGES EXTRA_APT_PACKAGES EXTRA_PIP_PACKAGES FLASH_ATTENTION_REPO_COMMIT FLASH_ATTENTION_REPO_URL LLMCOMPRESSOR_COMMIT LLMCOMPRESSOR_REPO MEGATRON_LM_COMMIT MEGATRON_LM_REPO_URL MULTI_IMAGE_GPU_ARCH VLLM_COMMIT",
+                        "comment": "FROM 917e55a7bb6a",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.605813437Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION DEPENDENCY_PIP_PACKAGES EXTRA_APT_PACKAGES EXTRA_PIP_PACKAGES FLASH_ATTENTION_REPO_COMMIT FLASH_ATTENTION_REPO_URL LLMCOMPRESSOR_COMMIT LLMCOMPRESSOR_REPO MEGATRON_LM_COMMIT MEGATRON_LM_REPO_URL MULTI_IMAGE_GPU_ARCH VLLM_COMMIT VLLM_REPO",
+                        "comment": "FROM 1663dbae57ec",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.675942521Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION DEPENDENCY_PIP_PACKAGES EXTRA_APT_PACKAGES EXTRA_PIP_PACKAGES FLASH_ATTENTION_REPO_COMMIT FLASH_ATTENTION_REPO_URL LLMCOMPRESSOR_COMMIT LLMCOMPRESSOR_REPO MEGATRON_LM_COMMIT MEGATRON_LM_REPO_URL MULTI_IMAGE_GPU_ARCH VLLM_COMMIT VLLM_REPO XFORMERS_COMMIT",
+                        "comment": "FROM 84081fbf6234",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:08:39.718787578Z",
+                        "created_by": "/bin/sh -c #(nop) ARG APEX_GIT_COMMIT APEX_GIT_REPO BASE_IMAGE BASE_IMAGE_TAG CAUSAL_CONV1D_COMMIT CAUSAL_CONV1D_REPO DEEPSPEED_VERSION DEPENDENCY_PIP_PACKAGES EXTRA_APT_PACKAGES EXTRA_PIP_PACKAGES FLASH_ATTENTION_REPO_COMMIT FLASH_ATTENTION_REPO_URL LLMCOMPRESSOR_COMMIT LLMCOMPRESSOR_REPO MEGATRON_LM_COMMIT MEGATRON_LM_REPO_URL MULTI_IMAGE_GPU_ARCH VLLM_COMMIT VLLM_REPO XFORMERS_COMMIT XFORMERS_REPO",
+                        "comment": "FROM 5feabd299420",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-07-31T15:12:09.625463568Z",
+                        "created_by": "|65 APEX_GIT_COMMIT=e97c665 APEX_GIT_REPO=https://github.com/ROCm/apex BASE_IMAGE=lumi-multitorch-torch-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 CAUSAL_CONV1D_COMMIT=4f6ae4e CAUSAL_CONV1D_REPO=https://github.com/Dao-AILab/causal-conv1d DEEPSPEED_VERSION=0.19.2 DEPENDENCY_PIP_PACKAGES=impi-devel oneccl-devel ninja packaging flask-restful nltk pybind11 pynvml tensorstore wandb wrapt zarr jinja2 setuptools_rust setuptools_scm EXTRA_APT_PACKAGES=libaio-dev libaio1t64 ffmpeg apt-transport-https ca-certificates libfmt-dev libmsgpack-dev libsqlite3-dev libsuitesparse-dev sqlite3 EXTRA_PIP_PACKAGES=accelerate bitsandbytes datasets evaluate h5py huggingface-hub jupyter lightning marimo matplotlib mlflow mpi4py numba numpy pandas peft scipy sentence-transformers sentencepiece tensorboard trl ultralytics-opencv-headless FLASH_ATTENTION_REPO_COMMIT=b664ea0 FLASH_ATTENTION_REPO_URL=https://github.com/ROCm/flash-attention LLMCOMPRESSOR_COMMIT=6d2a090 LLMCOMPRESSOR_REPO=https://github.com/vllm-project/llm-compressor MEGATRON_LM_COMMIT=c333868 MEGATRON_LM_REPO_URL=https://github.com/viahlgre/Megatron-LM MULTI_IMAGE_GPU_ARCH=gfx90a VLLM_COMMIT=0decac0 VLLM_REPO=https://github.com/vllm-project/vllm XFORMERS_COMMIT=03b91d7 XFORMERS_REPO=https://github.com/facebookresearch/xformers /bin/sh -c set -ue;   mkdir /opt/src;   test -f /opt/rocm/lib/llvm/bin/amdgpu-arch.really && { echo \"error: amdgpu-arch.really already exists\"; false; } || true;   mv /opt/rocm/lib/llvm/bin/amdgpu-arch /opt/rocm/lib/llvm/bin/amdgpu-arch.really;   printf \"#!/bin/bash\\necho ${MULTI_IMAGE_GPU_ARCH}\\n\" > /opt/rocm/lib/llvm/bin/amdgpu-arch;   chmod a+rx /opt/rocm/lib/llvm/bin/amdgpu-arch;   apt-get -y --no-install-recommends install ${EXTRA_APT_PACKAGES};   apt clean ;  . /opt/venv/bin/activate;   pip install --upgrade-strategy=only-if-needed --no-cache-dir ${DEPENDENCY_PIP_PACKAGES} ${EXTRA_PIP_PACKAGES};",
+                        "comment": "FROM e615ac5905ea"
+                   },
+                   {
+                        "created": "2026-07-31T19:45:40.097671102Z",
+                        "created_by": "|65 APEX_GIT_COMMIT=e97c665 APEX_GIT_REPO=https://github.com/ROCm/apex BASE_IMAGE=lumi-multitorch-torch-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 CAUSAL_CONV1D_COMMIT=4f6ae4e CAUSAL_CONV1D_REPO=https://github.com/Dao-AILab/causal-conv1d DEEPSPEED_VERSION=0.19.2 DEPENDENCY_PIP_PACKAGES=impi-devel oneccl-devel ninja packaging flask-restful nltk pybind11 pynvml tensorstore wandb wrapt zarr jinja2 setuptools_rust setuptools_scm EXTRA_APT_PACKAGES=libaio-dev libaio1t64 ffmpeg apt-transport-https ca-certificates libfmt-dev libmsgpack-dev libsqlite3-dev libsuitesparse-dev sqlite3 EXTRA_PIP_PACKAGES=accelerate bitsandbytes datasets evaluate h5py huggingface-hub jupyter lightning marimo matplotlib mlflow mpi4py numba numpy pandas peft scipy sentence-transformers sentencepiece tensorboard trl ultralytics-opencv-headless FLASH_ATTENTION_REPO_COMMIT=b664ea0 FLASH_ATTENTION_REPO_URL=https://github.com/ROCm/flash-attention LLMCOMPRESSOR_COMMIT=6d2a090 LLMCOMPRESSOR_REPO=https://github.com/vllm-project/llm-compressor MEGATRON_LM_COMMIT=c333868 MEGATRON_LM_REPO_URL=https://github.com/viahlgre/Megatron-LM MULTI_IMAGE_GPU_ARCH=gfx90a VLLM_COMMIT=0decac0 VLLM_REPO=https://github.com/vllm-project/vllm XFORMERS_COMMIT=03b91d7 XFORMERS_REPO=https://github.com/facebookresearch/xformers /bin/sh -c set -ue;   . /opt/venv/bin/activate;   git clone $FLASH_ATTENTION_REPO_URL /opt/src/flash-attention;   cd /opt/src/flash-attention;   git checkout $FLASH_ATTENTION_REPO_COMMIT;   BUILD_TARGET=rocm MAX_JOBS=$(nproc) GPU_ARCHS=$MULTI_IMAGE_GPU_ARCH python3 setup.py bdist_wheel --dist-dir=dist;   wheel_path=\"$(find /opt/src/flash-attention/dist  -mindepth 1 -maxdepth 1 -type f -name '*.whl')\";   test $(echo $wheel_path | wc -w) = 1;   new_wheel=\"$(wretag -d -q lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${FLASH_ATTENTION_REPO_COMMIT} $wheel_path)\";   pip install --no-cache-dir $new_wheel;   cd / && rm -rf /opt/src/flash-attention;",
+                        "comment": "FROM 0767b8814e6d"
+                   },
+                   {
+                        "created": "2026-07-31T19:51:06.299031394Z",
+                        "created_by": "|65 APEX_GIT_COMMIT=e97c665 APEX_GIT_REPO=https://github.com/ROCm/apex BASE_IMAGE=lumi-multitorch-torch-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 CAUSAL_CONV1D_COMMIT=4f6ae4e CAUSAL_CONV1D_REPO=https://github.com/Dao-AILab/causal-conv1d DEEPSPEED_VERSION=0.19.2 DEPENDENCY_PIP_PACKAGES=impi-devel oneccl-devel ninja packaging flask-restful nltk pybind11 pynvml tensorstore wandb wrapt zarr jinja2 setuptools_rust setuptools_scm EXTRA_APT_PACKAGES=libaio-dev libaio1t64 ffmpeg apt-transport-https ca-certificates libfmt-dev libmsgpack-dev libsqlite3-dev libsuitesparse-dev sqlite3 EXTRA_PIP_PACKAGES=accelerate bitsandbytes datasets evaluate h5py huggingface-hub jupyter lightning marimo matplotlib mlflow mpi4py numba numpy pandas peft scipy sentence-transformers sentencepiece tensorboard trl ultralytics-opencv-headless FLASH_ATTENTION_REPO_COMMIT=b664ea0 FLASH_ATTENTION_REPO_URL=https://github.com/ROCm/flash-attention LLMCOMPRESSOR_COMMIT=6d2a090 LLMCOMPRESSOR_REPO=https://github.com/vllm-project/llm-compressor MEGATRON_LM_COMMIT=c333868 MEGATRON_LM_REPO_URL=https://github.com/viahlgre/Megatron-LM MULTI_IMAGE_GPU_ARCH=gfx90a VLLM_COMMIT=0decac0 VLLM_REPO=https://github.com/vllm-project/vllm XFORMERS_COMMIT=03b91d7 XFORMERS_REPO=https://github.com/facebookresearch/xformers /bin/sh -c set -ue;   . /opt/venv/bin/activate;   git clone $CAUSAL_CONV1D_REPO /opt/src/causal-conv1d;   cd /opt/src/causal-conv1d;   git checkout $CAUSAL_CONV1D_COMMIT;   export PYTORCH_ROCM_ARCH_OVERRIDE=\"${MULTI_IMAGE_GPU_ARCH}\";   export HIP_ARCHITECTURES=\"${MULTI_IMAGE_GPU_ARCH}\";   export MAX_JOBS=\"$(nproc)\";   pip wheel --no-deps --no-build-isolation . -w /opt/src/causal-conv1d/dist;   wheel_path=\"$(find /opt/src/causal-conv1d/dist  -mindepth 1 -maxdepth 1 -type f -name '*.whl')\";   test $(echo $wheel_path | wc -w) = 1;   new_wheel=\"$(wretag -d -q lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${CAUSAL_CONV1D_COMMIT} $wheel_path)\";   pip install --no-cache-dir $new_wheel;   rm -rf /opt/src/causal-conv1d;",
+                        "comment": "FROM edb5485c0abb"
+                   },
+                   {
+                        "created": "2026-08-01T00:48:11.866582468Z",
+                        "created_by": "|65 APEX_GIT_COMMIT=e97c665 APEX_GIT_REPO=https://github.com/ROCm/apex BASE_IMAGE=lumi-multitorch-torch-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 CAUSAL_CONV1D_COMMIT=4f6ae4e CAUSAL_CONV1D_REPO=https://github.com/Dao-AILab/causal-conv1d DEEPSPEED_VERSION=0.19.2 DEPENDENCY_PIP_PACKAGES=impi-devel oneccl-devel ninja packaging flask-restful nltk pybind11 pynvml tensorstore wandb wrapt zarr jinja2 setuptools_rust setuptools_scm EXTRA_APT_PACKAGES=libaio-dev libaio1t64 ffmpeg apt-transport-https ca-certificates libfmt-dev libmsgpack-dev libsqlite3-dev libsuitesparse-dev sqlite3 EXTRA_PIP_PACKAGES=accelerate bitsandbytes datasets evaluate h5py huggingface-hub jupyter lightning marimo matplotlib mlflow mpi4py numba numpy pandas peft scipy sentence-transformers sentencepiece tensorboard trl ultralytics-opencv-headless FLASH_ATTENTION_REPO_COMMIT=b664ea0 FLASH_ATTENTION_REPO_URL=https://github.com/ROCm/flash-attention LLMCOMPRESSOR_COMMIT=6d2a090 LLMCOMPRESSOR_REPO=https://github.com/vllm-project/llm-compressor MEGATRON_LM_COMMIT=c333868 MEGATRON_LM_REPO_URL=https://github.com/viahlgre/Megatron-LM MULTI_IMAGE_GPU_ARCH=gfx90a VLLM_COMMIT=0decac0 VLLM_REPO=https://github.com/vllm-project/vllm XFORMERS_COMMIT=03b91d7 XFORMERS_REPO=https://github.com/facebookresearch/xformers /bin/sh -c set -ue;   . /opt/venv/bin/activate;   git clone $XFORMERS_REPO /opt/src/xformers;   cd /opt/src/xformers;   git checkout $XFORMERS_COMMIT;   git submodule update --init --recursive;   export XFORMERS_CK_FLASH_ATTN=1;   export HIP_ARCHITECTURES=\"${MULTI_IMAGE_GPU_ARCH}\";   export MAX_JOBS=\"$(nproc)\";   pip wheel --no-deps --no-build-isolation -w /opt/src/xformers/dist . ;   wheel_path=\"$(find /opt/src/xformers/dist -mindepth 1 -maxdepth 1 -type f -name '*.whl')\";   test $(echo $wheel_path | wc -w) = 1;   new_wheel=\"$(wretag -d -q lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${XFORMERS_COMMIT} $wheel_path)\";   pip install --no-cache-dir $new_wheel;   rm -rf /opt/src/xformers;",
+                        "comment": "FROM 0e0340eb6e37"
+                   },
+                   {
+                        "created": "2026-08-01T00:48:29.879893053Z",
+                        "created_by": "|65 APEX_GIT_COMMIT=e97c665 APEX_GIT_REPO=https://github.com/ROCm/apex BASE_IMAGE=lumi-multitorch-torch-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 CAUSAL_CONV1D_COMMIT=4f6ae4e CAUSAL_CONV1D_REPO=https://github.com/Dao-AILab/causal-conv1d DEEPSPEED_VERSION=0.19.2 DEPENDENCY_PIP_PACKAGES=impi-devel oneccl-devel ninja packaging flask-restful nltk pybind11 pynvml tensorstore wandb wrapt zarr jinja2 setuptools_rust setuptools_scm EXTRA_APT_PACKAGES=libaio-dev libaio1t64 ffmpeg apt-transport-https ca-certificates libfmt-dev libmsgpack-dev libsqlite3-dev libsuitesparse-dev sqlite3 EXTRA_PIP_PACKAGES=accelerate bitsandbytes datasets evaluate h5py huggingface-hub jupyter lightning marimo matplotlib mlflow mpi4py numba numpy pandas peft scipy sentence-transformers sentencepiece tensorboard trl ultralytics-opencv-headless FLASH_ATTENTION_REPO_COMMIT=b664ea0 FLASH_ATTENTION_REPO_URL=https://github.com/ROCm/flash-attention LLMCOMPRESSOR_COMMIT=6d2a090 LLMCOMPRESSOR_REPO=https://github.com/vllm-project/llm-compressor MEGATRON_LM_COMMIT=c333868 MEGATRON_LM_REPO_URL=https://github.com/viahlgre/Megatron-LM MULTI_IMAGE_GPU_ARCH=gfx90a VLLM_COMMIT=0decac0 VLLM_REPO=https://github.com/vllm-project/vllm XFORMERS_COMMIT=03b91d7 XFORMERS_REPO=https://github.com/facebookresearch/xformers /bin/sh -c set -ue;   . /opt/venv/bin/activate;   git clone \"${APEX_GIT_REPO}\" /opt/src/apex;  cd /opt/src/apex;   git checkout \"${APEX_GIT_COMMIT}\";   export PYTORCH_ROCM_ARCH=\"${MULTI_IMAGE_GPU_ARCH}\";   pip wheel -w /opt/src/apex/dist --no-deps --no-build-isolation       --config-settings \"--build-option=--cpp_ext\" --config-settings \"--build-option=--cuda_ext\" ./;   wheel_path=\"$(find /opt/src/apex/dist  -mindepth 1 -maxdepth 1 -type f -name '*.whl')\";   test $(echo $wheel_path | wc -w) = 1;   new_wheel=\"$(wretag -d -q lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${APEX_GIT_COMMIT} $wheel_path)\";   pip install --no-cache-dir --disable-pip-version-check $new_wheel;   cd / && rm -rf /opt/src/apex;",
+                        "comment": "FROM a7db736e5c97"
+                   },
+                   {
+                        "created": "2026-08-01T01:01:38.868164263Z",
+                        "created_by": "|65 APEX_GIT_COMMIT=e97c665 APEX_GIT_REPO=https://github.com/ROCm/apex BASE_IMAGE=lumi-multitorch-torch-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 CAUSAL_CONV1D_COMMIT=4f6ae4e CAUSAL_CONV1D_REPO=https://github.com/Dao-AILab/causal-conv1d DEEPSPEED_VERSION=0.19.2 DEPENDENCY_PIP_PACKAGES=impi-devel oneccl-devel ninja packaging flask-restful nltk pybind11 pynvml tensorstore wandb wrapt zarr jinja2 setuptools_rust setuptools_scm EXTRA_APT_PACKAGES=libaio-dev libaio1t64 ffmpeg apt-transport-https ca-certificates libfmt-dev libmsgpack-dev libsqlite3-dev libsuitesparse-dev sqlite3 EXTRA_PIP_PACKAGES=accelerate bitsandbytes datasets evaluate h5py huggingface-hub jupyter lightning marimo matplotlib mlflow mpi4py numba numpy pandas peft scipy sentence-transformers sentencepiece tensorboard trl ultralytics-opencv-headless FLASH_ATTENTION_REPO_COMMIT=b664ea0 FLASH_ATTENTION_REPO_URL=https://github.com/ROCm/flash-attention LLMCOMPRESSOR_COMMIT=6d2a090 LLMCOMPRESSOR_REPO=https://github.com/vllm-project/llm-compressor MEGATRON_LM_COMMIT=c333868 MEGATRON_LM_REPO_URL=https://github.com/viahlgre/Megatron-LM MULTI_IMAGE_GPU_ARCH=gfx90a VLLM_COMMIT=0decac0 VLLM_REPO=https://github.com/vllm-project/vllm XFORMERS_COMMIT=03b91d7 XFORMERS_REPO=https://github.com/facebookresearch/xformers /bin/sh -c set -ue;   . /opt/venv/bin/activate;   git clone ${VLLM_REPO} /opt/src/vllm;   cd /opt/src/vllm;   git fetch --tags;   git checkout $VLLM_COMMIT;   export MAKEFLAGS=\"-j$(nproc)\";   export AMDGPU_TARGETS=$MULTI_IMAGE_GPU_ARCH;   export GPU_ARCHS=$MULTI_IMAGE_GPU_ARCH;   export GPU_TARGETS=$MULTI_IMAGE_GPU_ARCH;   export HIP_ARCHITECTURES=$MULTI_IMAGE_GPU_ARCH;   export PYTORCH_ROCM_ARCH=$MULTI_IMAGE_GPU_ARCH;   python3 setup.py clean --all;   python3 setup.py bdist_wheel --dist-dir=dist;   wheel_path=\"$(find /opt/src/vllm/dist  -mindepth 1 -maxdepth 1 -type f -name '*.whl')\";   test $(echo $wheel_path | wc -w) = 1;   new_wheel=\"$(wretag -d -q lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${VLLM_COMMIT} $wheel_path)\";   pip install $new_wheel;   cd / && rm -rf /opt/src/vllm;",
+                        "comment": "FROM 75c9564c6106"
+                   },
+                   {
+                        "created": "2026-08-01T01:02:25.782651504Z",
+                        "created_by": "|65 APEX_GIT_COMMIT=e97c665 APEX_GIT_REPO=https://github.com/ROCm/apex BASE_IMAGE=lumi-multitorch-torch-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 CAUSAL_CONV1D_COMMIT=4f6ae4e CAUSAL_CONV1D_REPO=https://github.com/Dao-AILab/causal-conv1d DEEPSPEED_VERSION=0.19.2 DEPENDENCY_PIP_PACKAGES=impi-devel oneccl-devel ninja packaging flask-restful nltk pybind11 pynvml tensorstore wandb wrapt zarr jinja2 setuptools_rust setuptools_scm EXTRA_APT_PACKAGES=libaio-dev libaio1t64 ffmpeg apt-transport-https ca-certificates libfmt-dev libmsgpack-dev libsqlite3-dev libsuitesparse-dev sqlite3 EXTRA_PIP_PACKAGES=accelerate bitsandbytes datasets evaluate h5py huggingface-hub jupyter lightning marimo matplotlib mlflow mpi4py numba numpy pandas peft scipy sentence-transformers sentencepiece tensorboard trl ultralytics-opencv-headless FLASH_ATTENTION_REPO_COMMIT=b664ea0 FLASH_ATTENTION_REPO_URL=https://github.com/ROCm/flash-attention LLMCOMPRESSOR_COMMIT=6d2a090 LLMCOMPRESSOR_REPO=https://github.com/vllm-project/llm-compressor MEGATRON_LM_COMMIT=c333868 MEGATRON_LM_REPO_URL=https://github.com/viahlgre/Megatron-LM MULTI_IMAGE_GPU_ARCH=gfx90a VLLM_COMMIT=0decac0 VLLM_REPO=https://github.com/vllm-project/vllm XFORMERS_COMMIT=03b91d7 XFORMERS_REPO=https://github.com/facebookresearch/xformers /bin/sh -c set -ue;   . /opt/venv/bin/activate;   export BUILD_TYPE=release;   pip wheel --no-deps -w /opt/src/llmcompressor git+${LLMCOMPRESSOR_REPO}.git@${LLMCOMPRESSOR_COMMIT};   wheel_path=\"$(find /opt/src/llmcompressor -mindepth 1 -maxdepth 1 -type f -name '*.whl')\";   test $(echo $wheel_path | wc -w) = 1;   new_wheel=\"$(wretag -d -q lumi_aif_${LLMCOMPRESSOR_COMMIT} $wheel_path)\";   pip install $new_wheel;   cd / && rm -rf /opt/src/llmcompressor;",
+                        "comment": "FROM c3e8b458acee"
+                   },
+                   {
+                        "created": "2026-08-01T01:24:29.72789788Z",
+                        "created_by": "|65 APEX_GIT_COMMIT=e97c665 APEX_GIT_REPO=https://github.com/ROCm/apex BASE_IMAGE=lumi-multitorch-torch-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 CAUSAL_CONV1D_COMMIT=4f6ae4e CAUSAL_CONV1D_REPO=https://github.com/Dao-AILab/causal-conv1d DEEPSPEED_VERSION=0.19.2 DEPENDENCY_PIP_PACKAGES=impi-devel oneccl-devel ninja packaging flask-restful nltk pybind11 pynvml tensorstore wandb wrapt zarr jinja2 setuptools_rust setuptools_scm EXTRA_APT_PACKAGES=libaio-dev libaio1t64 ffmpeg apt-transport-https ca-certificates libfmt-dev libmsgpack-dev libsqlite3-dev libsuitesparse-dev sqlite3 EXTRA_PIP_PACKAGES=accelerate bitsandbytes datasets evaluate h5py huggingface-hub jupyter lightning marimo matplotlib mlflow mpi4py numba numpy pandas peft scipy sentence-transformers sentencepiece tensorboard trl ultralytics-opencv-headless FLASH_ATTENTION_REPO_COMMIT=b664ea0 FLASH_ATTENTION_REPO_URL=https://github.com/ROCm/flash-attention LLMCOMPRESSOR_COMMIT=6d2a090 LLMCOMPRESSOR_REPO=https://github.com/vllm-project/llm-compressor MEGATRON_LM_COMMIT=c333868 MEGATRON_LM_REPO_URL=https://github.com/viahlgre/Megatron-LM MULTI_IMAGE_GPU_ARCH=gfx90a VLLM_COMMIT=0decac0 VLLM_REPO=https://github.com/vllm-project/vllm XFORMERS_COMMIT=03b91d7 XFORMERS_REPO=https://github.com/facebookresearch/xformers /bin/sh -c set -ue;   . /opt/venv/bin/activate;   export PYTORCH_ROCM_ARCH=$MULTI_IMAGE_GPU_ARCH;   export DS_ACCELERATOR=cuda;   export DS_BUILD_OPS=1;   export DS_BUILD_INFERENCE_CORE_OPS=0;   export DS_BUILD_CUTLASS_OPS=0;   export DS_BUILD_RAGGED_DEVICE_OPS=0;   export DS_BUILD_RAGGED_OPS=0;   python3 -m pip wheel deepspeed==${DEEPSPEED_VERSION} --no-deps --no-build-isolation -w /tmp/deepspeed;   wheel_path=\"$(find /tmp/deepspeed  -mindepth 1 -maxdepth 1 -type f -name '*.whl')\";   test $(echo $wheel_path | wc -w) = 1;   new_wheel=\"$(wretag -d -q lumi_aif_dsops $wheel_path)\";   pip install $new_wheel;   cd / && rm -rf /tmp/deepspeed;",
+                        "comment": "FROM 045bd9fd28b9"
+                   },
+                   {
+                        "created": "2026-08-01T01:24:59.795591485Z",
+                        "created_by": "|65 APEX_GIT_COMMIT=e97c665 APEX_GIT_REPO=https://github.com/ROCm/apex BASE_IMAGE=lumi-multitorch-torch-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 CAUSAL_CONV1D_COMMIT=4f6ae4e CAUSAL_CONV1D_REPO=https://github.com/Dao-AILab/causal-conv1d DEEPSPEED_VERSION=0.19.2 DEPENDENCY_PIP_PACKAGES=impi-devel oneccl-devel ninja packaging flask-restful nltk pybind11 pynvml tensorstore wandb wrapt zarr jinja2 setuptools_rust setuptools_scm EXTRA_APT_PACKAGES=libaio-dev libaio1t64 ffmpeg apt-transport-https ca-certificates libfmt-dev libmsgpack-dev libsqlite3-dev libsuitesparse-dev sqlite3 EXTRA_PIP_PACKAGES=accelerate bitsandbytes datasets evaluate h5py huggingface-hub jupyter lightning marimo matplotlib mlflow mpi4py numba numpy pandas peft scipy sentence-transformers sentencepiece tensorboard trl ultralytics-opencv-headless FLASH_ATTENTION_REPO_COMMIT=b664ea0 FLASH_ATTENTION_REPO_URL=https://github.com/ROCm/flash-attention LLMCOMPRESSOR_COMMIT=6d2a090 LLMCOMPRESSOR_REPO=https://github.com/vllm-project/llm-compressor MEGATRON_LM_COMMIT=c333868 MEGATRON_LM_REPO_URL=https://github.com/viahlgre/Megatron-LM MULTI_IMAGE_GPU_ARCH=gfx90a VLLM_COMMIT=0decac0 VLLM_REPO=https://github.com/vllm-project/vllm XFORMERS_COMMIT=03b91d7 XFORMERS_REPO=https://github.com/facebookresearch/xformers /bin/sh -c set -ue;   . /opt/venv/bin/activate;   pip wheel --no-deps -w /opt/src/megatronlm git+${MEGATRON_LM_REPO_URL}.git@${MEGATRON_LM_COMMIT};   wheel_path=\"$(find /opt/src/megatronlm -mindepth 1 -maxdepth 1 -type f -name '*.whl')\";   test $(echo $wheel_path | wc -w) = 1;   new_wheel=\"$(wretag -d -q lumi_aif_${MEGATRON_LM_COMMIT} $wheel_path)\";   pip install $new_wheel;   cd / && rm -rf /opt/src/megatronlm;",
+                        "comment": "FROM f75a32fb5981"
+                   },
+                   {
+                        "created": "2026-08-01T01:25:01.755295436Z",
+                        "created_by": "|65 APEX_GIT_COMMIT=e97c665 APEX_GIT_REPO=https://github.com/ROCm/apex BASE_IMAGE=lumi-multitorch-torch-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 CAUSAL_CONV1D_COMMIT=4f6ae4e CAUSAL_CONV1D_REPO=https://github.com/Dao-AILab/causal-conv1d DEEPSPEED_VERSION=0.19.2 DEPENDENCY_PIP_PACKAGES=impi-devel oneccl-devel ninja packaging flask-restful nltk pybind11 pynvml tensorstore wandb wrapt zarr jinja2 setuptools_rust setuptools_scm EXTRA_APT_PACKAGES=libaio-dev libaio1t64 ffmpeg apt-transport-https ca-certificates libfmt-dev libmsgpack-dev libsqlite3-dev libsuitesparse-dev sqlite3 EXTRA_PIP_PACKAGES=accelerate bitsandbytes datasets evaluate h5py huggingface-hub jupyter lightning marimo matplotlib mlflow mpi4py numba numpy pandas peft scipy sentence-transformers sentencepiece tensorboard trl ultralytics-opencv-headless FLASH_ATTENTION_REPO_COMMIT=b664ea0 FLASH_ATTENTION_REPO_URL=https://github.com/ROCm/flash-attention LLMCOMPRESSOR_COMMIT=6d2a090 LLMCOMPRESSOR_REPO=https://github.com/vllm-project/llm-compressor MEGATRON_LM_COMMIT=c333868 MEGATRON_LM_REPO_URL=https://github.com/viahlgre/Megatron-LM MULTI_IMAGE_GPU_ARCH=gfx90a VLLM_COMMIT=0decac0 VLLM_REPO=https://github.com/vllm-project/vllm XFORMERS_COMMIT=03b91d7 XFORMERS_REPO=https://github.com/facebookresearch/xformers /bin/sh -c set -ue;   rmdir /opt/src;   test -f /opt/rocm/lib/llvm/bin/amdgpu-arch.really || { echo \"error: amdgpu-arch.really is missing\"; false; };   rm /opt/rocm/lib/llvm/bin/amdgpu-arch;   mv /opt/rocm/lib/llvm/bin/amdgpu-arch.really /opt/rocm/lib/llvm/bin/amdgpu-arch;   apt_json=\"$(dpkg-query -W -f='${Package}\\t${Version}\\n' | jq -R -s 'split(\"\\n\")[:-1] | map(split(\"\\t\") | {name: .[0], version: .[1]})')\";   pip_json=\"$(pip list --format=json)\";   jq -n --argjson apt \"$apt_json\"  --argjson pip \"$pip_json\" '{apt: $apt, pip: $pip}' > /.sbom.json;",
+                        "comment": "FROM f46b534510bc"
+                   },
+                   {
+                        "created": "2026-08-01T01:25:02.266898644Z",
+                        "created_by": "|65 APEX_GIT_COMMIT=e97c665 APEX_GIT_REPO=https://github.com/ROCm/apex BASE_IMAGE=lumi-multitorch-torch-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 CAUSAL_CONV1D_COMMIT=4f6ae4e CAUSAL_CONV1D_REPO=https://github.com/Dao-AILab/causal-conv1d DEEPSPEED_VERSION=0.19.2 DEPENDENCY_PIP_PACKAGES=impi-devel oneccl-devel ninja packaging flask-restful nltk pybind11 pynvml tensorstore wandb wrapt zarr jinja2 setuptools_rust setuptools_scm EXTRA_APT_PACKAGES=libaio-dev libaio1t64 ffmpeg apt-transport-https ca-certificates libfmt-dev libmsgpack-dev libsqlite3-dev libsuitesparse-dev sqlite3 EXTRA_PIP_PACKAGES=accelerate bitsandbytes datasets evaluate h5py huggingface-hub jupyter lightning marimo matplotlib mlflow mpi4py numba numpy pandas peft scipy sentence-transformers sentencepiece tensorboard trl ultralytics-opencv-headless FLASH_ATTENTION_REPO_COMMIT=b664ea0 FLASH_ATTENTION_REPO_URL=https://github.com/ROCm/flash-attention LLMCOMPRESSOR_COMMIT=6d2a090 LLMCOMPRESSOR_REPO=https://github.com/vllm-project/llm-compressor MEGATRON_LM_COMMIT=c333868 MEGATRON_LM_REPO_URL=https://github.com/viahlgre/Megatron-LM MULTI_IMAGE_GPU_ARCH=gfx90a VLLM_COMMIT=0decac0 VLLM_REPO=https://github.com/vllm-project/vllm XFORMERS_COMMIT=03b91d7 XFORMERS_REPO=https://github.com/facebookresearch/xformers /bin/sh -c printf '#!/usr/bin/env bash\\nif [ \"${SLURM_NNODES}\" = 1 ] && [ -z \"${SLURM_GPUS_ON_NODE}\" ]; then\\n    export FI_HMEM_DISABLE_P2P=1\\nfi\\nif [ \"${ROCR_USE_SLURM_LOCALID}\" = 1 ] && [ -n \"${SLURM_LOCALID}\" ]; then\\n    export ROCR_VISIBLE_DEVICES=\"$SLURM_LOCALID\"\\nfi\\nif [ \"${MAP_HIP_TO_ROCR_VISIBLE_DEVICES}\" = 1 ] && [ -n \"${ROCR_VISIBLE_DEVICES}\" ]; then\\n    export HIP_VISIBLE_DEVICES=`seq -s , 0 $(echo \"${ROCR_VISIBLE_DEVICES%%,}\" | awk -F, '\\''{print NF-1}'\\'')`\\nfi\\nexec \"$@\"\\n' > /opt/oci-entrypoint.sh && chmod +x /opt/oci-entrypoint.sh",
+                        "comment": "FROM c9b84fa96e70"
+                   },
+                   {
+                        "created": "2026-08-01T01:25:02.514382557Z",
+                        "created_by": "/bin/sh -c #(nop) ENTRYPOINT [\"/opt/oci-entrypoint.sh\"]",
+                        "comment": "FROM 3bf333f57228",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-08-01T01:25:02.561240063Z",
+                        "created_by": "/bin/sh -c #(nop) LABEL \"cf_lineage\"=\"71445e261e1fd8559a9e09006a9a03ba3d512e15,b35968f9f67ea9e7690ecffb49c2eebc94b57d36,264acb3ea7cb00279718e22596756f5520890296,949c5576caafbd7fd9771673b77d9cd3862ef98a,090786c4b20a6ef4779448d94c914c9744421e82\"",
+                        "comment": "FROM b51233116b2b",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-08-01T02:02:11.928795362Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE",
+                        "comment": "FROM localhost/lumi-multitorch-full-u24r70f21m50t210:latest",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-08-01T02:02:12.244135728Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG",
+                        "comment": "FROM b3b076d1c74d",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-08-01T02:02:12.773363522Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG TRANSFORMER_ENGINE_ARCH",
+                        "comment": "FROM 9111b560e560",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-08-01T02:02:12.824739386Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG TRANSFORMER_ENGINE_ARCH TRANSFORMER_ENGINE_COMMIT",
+                        "comment": "FROM e86d7516038c",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-08-01T02:02:13.098015914Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG TRANSFORMER_ENGINE_ARCH TRANSFORMER_ENGINE_COMMIT TRANSFORMER_ENGINE_REPO",
+                        "comment": "FROM 482347a37e61",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-08-01T02:17:52.457248265Z",
+                        "created_by": "|5 BASE_IMAGE=lumi-multitorch-full-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 TRANSFORMER_ENGINE_ARCH=gfx90a TRANSFORMER_ENGINE_COMMIT=v2.10_rocm TRANSFORMER_ENGINE_REPO=https://github.com/ROCm/TransformerEngine /bin/sh -c set -ue;   export AOTRITON_TARGET_ARCH=${TRANSFORMER_ENGINE_ARCH};   export CMAKE_PREFIX_PATH=/opt/rocm;   export GPU_ARCHS=${TRANSFORMER_ENGINE_ARCH};   export GPU_TARGETS=${TRANSFORMER_ENGINE_ARCH};   export NVTE_ROCM_ARCH=${TRANSFORMER_ENGINE_ARCH};   export NVTE_FRAMEWORK=pytorch;   export NVTE_FUSED_ATTN=0;   git clone --recursive --branch \"${TRANSFORMER_ENGINE_COMMIT}\" ${TRANSFORMER_ENGINE_REPO} /opt/src/transformer_engine;   cd /opt/src/transformer_engine;   . /opt/venv/bin/activate;   pip install . --no-build-isolation;",
+                        "comment": "FROM 1c7937596123"
+                   },
+                   {
+                        "created": "2026-08-01T02:18:19.738442802Z",
+                        "created_by": "|5 BASE_IMAGE=lumi-multitorch-full-u24r70f21m50t210 BASE_IMAGE_TAG=20260731_122833 TRANSFORMER_ENGINE_ARCH=gfx90a TRANSFORMER_ENGINE_COMMIT=v2.10_rocm TRANSFORMER_ENGINE_REPO=https://github.com/ROCm/TransformerEngine /bin/sh -c printf '#!/usr/bin/env bash\\nif [ \"${SLURM_NNODES}\" = 1 ] && [ -z \"${SLURM_GPUS_ON_NODE}\" ]; then\\n    export FI_HMEM_DISABLE_P2P=1\\nfi\\nif [ \"${ROCR_USE_SLURM_LOCALID}\" = 1 ] && [ -n \"${SLURM_LOCALID}\" ]; then\\n    export ROCR_VISIBLE_DEVICES=\"$SLURM_LOCALID\"\\nfi\\nif [ \"${MAP_HIP_TO_ROCR_VISIBLE_DEVICES}\" = 1 ] && [ -n \"${ROCR_VISIBLE_DEVICES}\" ]; then\\n    export HIP_VISIBLE_DEVICES=`seq -s , 0 $(echo \"${ROCR_VISIBLE_DEVICES%%,}\" | awk -F, '\\''{print NF-1}'\\'')`\\nfi\\nexec \"$@\"\\n' > /opt/oci-entrypoint.sh && chmod +x /opt/oci-entrypoint.sh",
+                        "comment": "FROM cd481d82308f"
+                   },
+                   {
+                        "created": "2026-08-01T02:18:19.978412525Z",
+                        "created_by": "/bin/sh -c #(nop) ENTRYPOINT [\"/opt/oci-entrypoint.sh\"]",
+                        "comment": "FROM 9b79242e14a5",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-08-01T02:18:20.025147115Z",
+                        "created_by": "/bin/sh -c #(nop) LABEL \"cf_lineage\"=\"71445e261e1fd8559a9e09006a9a03ba3d512e15,b35968f9f67ea9e7690ecffb49c2eebc94b57d36,264acb3ea7cb00279718e22596756f5520890296,949c5576caafbd7fd9771673b77d9cd3862ef98a,090786c4b20a6ef4779448d94c914c9744421e82,a3984b56f2bc9352d5d65af4c82006da74c6e5c8\"",
+                        "comment": "FROM f45cc4c21072",
+                        "empty_layer": true
+                   }
+              ],
+              "NamesHistory": [
+                   "localhost/lumi-multitorch-plus-u24r70f21m50t210:20260731_122833",
+                   "localhost/lumi-multitorch-plus-u24r70f21m50t210:latest"
+              ]
+         }
+    ]
+20260801 02:18:22: *** Exporting image with command podman image save --format oci-archive lumi-multitorch-plus-u24r70f21m50t210:20260731_122833 -o builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.tar
+    Copying blob sha256:5e732af9e7c568c9b41ecabc76ac93a58471934d5155070dfd64a9567667fd9d
+    Copying blob sha256:b11e5ea503fd47d0ceba30d88b6d0687cc2e283c156bc7f86b72c2731176f6c6
+    Copying blob sha256:d4def1e9a63a841d3ff7c892bfb5e8a20244a7d284754a333632eca5a24c32a1
+    Copying blob sha256:760d1a984a0bbb40f164917d73ea7d5c3c843d510b98009868af92aa17872eb6
+    Copying blob sha256:5aedcd39ac1e5f072c5efdb7711ca34ecf834e1fa6d0e6bea8b03f26eb5c184d
+    Copying blob sha256:73d26e6fefa9521ae060eef2fa3123d43327fe23d30ee95a7c7d51ea75fca3c5
+    Copying blob sha256:233cd4b4fdf6a04e2e9151860b3c9ed90f3def884181f46cd6f0fa92c3e432e4
+    Copying blob sha256:faa7aa5dbec2da96ede0b7cfead5e75e2cbe3392e55ba01a0d545c799066b623
+    Copying blob sha256:353a8d68fef603144feb562966b656b3757e863f65f2eb16badc9aa60fc9ef8e
+    Copying blob sha256:9c95127e184c554b606d805d68e8b0f33348807f9ce9d3abcb6c97970d5e5240
+    Copying blob sha256:1dd7b7ed5dce85f08681f0c48556e8b716e940acc0b384b3b1a3d24ba1549b35
+    Copying blob sha256:c5e6458fe684a7331d2c105d2a291bf62f93cdceb43e46aed47ca46f35657e8c
+    Copying blob sha256:3d3dd77f135c1d72a517ad05189e7cfb6a65c184fd26c57caf3b0a7254993c59
+    Copying blob sha256:f93534737f73a580a0ab0d376a5eaaf683104a8239cee666e8a6a3622e9d0fc2
+    Copying blob sha256:8947b84c4f94d5b07c8a0ab85e984552a56dc0ecb8f5d12d4502236665a705da
+    Copying blob sha256:e2c079643b135c3b8cffecde054a6740f934b67a075c2e339692388144432fe8
+    Copying blob sha256:3fad7bd8f200b50121137145baf805b0fc09e8b7378beb76be9ac49d3df4827d
+    Copying blob sha256:8d3980453d5fde7e941b0de4772ce007aa9b0d9cb5ffcbeda52629f32f0657fe
+    Copying blob sha256:c466fa9c951f1781ac8ea83e8d18b566b0940f195c85e705d8bbd3b71025f50b
+    Copying blob sha256:e0809a3f0489e2febfffe0b4b7252c7cb860de864407230b9ddf5cfc7c5d482e
+    Copying blob sha256:36ae01d5950cd6749d5a258e016e69c2e671f5567a3eabd3b6fb98bcbd592f7d
+    Copying blob sha256:5cc34c686a2ae30a2cce7783bf4c2272f38a7f1d4b381aa29985d16ff62b3f63
+    Copying blob sha256:eb5b114e1121c42e75a40c2242377a05a3480467f66aa120595793549f86cea0
+    Copying config sha256:59dcadc1d08fbf4c227b8276922c130a26e21688074d84c6e19a14e774312012
+    Writing manifest to image destination
+20260801 02:32:24: *** Creating sif file with command apptainer build builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.sif oci-archive:builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.tar
+    INFO:    Starting build...
+    INFO:    Fetching OCI image...
+    INFO:    Extracting OCI image...
+    INFO:    Inserting Apptainer configuration...
+    INFO:    Creating SIF file...
+    INFO:    Build complete: builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.sif
+20260801 03:06:57: *** Image checksums:
+    25fd2ea5f60939c566075c412b0d5bb4d0989d6f8f5d266271923f77a2be3cef  builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.tar
+    7df6bf0bda2928244571499e7dd2a67d080f8c7bdebf1ff603881c41a2eda297  builds/lumi-multitorch-u24r70f21m50t210-20260731_122833/lumi-multitorch-plus-u24r70f21m50t210-20260731_122833.sif
+20260801 03:07:37: *** Building image lumi-multitorch-plus-u24r70f21m50t210:20260731_122833 completed at Sat Aug  1 03:07:37 UTC 2026
