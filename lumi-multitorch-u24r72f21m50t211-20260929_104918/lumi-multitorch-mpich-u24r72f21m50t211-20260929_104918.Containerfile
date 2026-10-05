@@ -1,0 +1,200 @@
+# Start of dynamically injected content
+ARG BASE_IMAGE_TAG=20260929_104918
+# End of dynamically injected content
+ARG BASE_IMAGE=lumi-multitorch-libfabric-u24r72f21m50t211
+ARG AWS_OFI_NCCL_COMMIT=2475c4c
+ARG AWS_OFI_NCCL_REPO=https://github.com/aws/aws-ofi-nccl
+ARG AWS_OFI_NCCL_VERSION=1.21.1
+ARG HWLOC_REPO=https://github.com/open-mpi/hwloc
+ARG HWLOC_VERSION=2.14.0
+ARG MPICH_SOURCE=http://www.mpich.org/static/downloads
+ARG MPICH_VERSION=5.0.1
+ARG MPICH_GPU_ARCH=gfx90a
+ARG OSU_SOURCE=https://mvapich.cse.ohio-state.edu/download/mvapich
+ARG OSU_VERSION=7.5.2
+ARG RCCL_TESTS_COMMIT=485afdf
+ARG RCCL_TESTS_GPU_ARCHS=gfx90a
+ARG RCCL_TESTS_REPO=https://github.com/ROCm/rocm-systems
+
+FROM $BASE_IMAGE:$BASE_IMAGE_TAG AS builder
+
+#
+# Install FPM package builder using GEM (only for the builder image)
+#
+
+RUN set -ue; \
+  export DEBIAN_FRONTEND=noninteractive && \
+  apt-get update && \
+  apt-get install -y ruby ruby-dev && \
+  gem install --no-document fpm && \
+  mkdir /debs;
+
+
+#
+# Build and install hwloc (with rocm/amdgpu support) into the builder container
+#
+ARG HWLOC_REPO
+ARG HWLOC_VERSION
+
+RUN set -ue; \
+    TMPROOT=$(mktemp -d); \
+    git clone "${HWLOC_REPO}" "$TMPROOT/hwloc"; \
+    cd  "$TMPROOT/hwloc"; \
+    git checkout "hwloc-${HWLOC_VERSION}"; \
+    ./autogen.sh; \
+    # https://hwloc.readthedocs.io/en/v2.x/doxygen/html/faq.html
+    ./configure --with-rocm=/opt/rocm --disable-rsmi-amd --prefix=/usr --libdir /usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH) --disable-opencl --disable-gl --enable-plugins=pci; \
+    make -j $(nproc) DESTDIR="$TMPROOT" install; \
+    cd /debs; \
+    fpm -s dir -t deb -n libhwloc15 -v "${HWLOC_VERSION}" --description "LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')" --prefix / -C "$TMPROOT" \
+        -x "usr/include/*" -x "usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/pkgconfig/hwloc.pc" \
+        -x "usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/*.la" -x "usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/hwloc/*" usr; \
+    fpm -s dir -t deb -n libhwloc-dev -v "${HWLOC_VERSION}" --description "LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')" --prefix / -C "$TMPROOT" \
+         usr/include usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/pkgconfig/hwloc.pc \
+         usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/libhwloc.la; \
+    fpm -s dir -t deb -n libhwloc-plugins -v "${HWLOC_VERSION}" --description "LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')" \
+        --prefix / -C "$TMPROOT" usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/hwloc; \
+    rm -rf "$TMPROOT"; \
+    dpkg -i libhwloc*amd64.deb;
+
+
+#
+# Build and install MPICH package into the builder container
+#
+ARG MPICH_SOURCE
+ARG MPICH_VERSION
+ARG MPICH_GPU_ARCH
+
+RUN set -ue; \
+  TMPROOT=$(mktemp -d); \
+  MPICH_TGZ="mpich-${MPICH_VERSION}.tar.gz"; \
+  MPICH_URL="${MPICH_SOURCE}/${MPICH_VERSION}/${MPICH_TGZ}"; \
+  install -d "$TMPROOT/usr" "$TMPROOT/src"; \
+  curl -sSL -o "${TMPROOT}/src/${MPICH_TGZ}" "${MPICH_URL}"; \
+  tar -C "${TMPROOT}/src" -xf "${TMPROOT}/src/${MPICH_TGZ}" --no-same-owner; \
+  cd "${TMPROOT}/src/mpich-${MPICH_VERSION}"; \
+  ./configure --disable-fortran --enable-fast=O3 --enable-threads=multiple --prefix=/usr --libdir /usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH) --with-device=ch4:ofi --with-hip=/opt/rocm --with-libfabric --with-xpmem=/usr --without-cuda --without-ucx --with-hip-sm=${MPICH_GPU_ARCH}; \
+  make -j $(nproc) DESTDIR="$TMPROOT" install; \
+  cd /debs; \
+  fpm -s dir -t deb -n mpich -v "${MPICH_VERSION}" --description "LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')" --prefix / -C "$TMPROOT"  usr/bin usr/etc usr/include usr/lib usr/share; \
+  rm -rf "$TMPROOT"; \
+  dpkg -i "mpich_${MPICH_VERSION}_amd64.deb";
+
+
+#
+# Build and install OSU Benchmarks package into the builder container
+#
+ARG OSU_SOURCE
+ARG OSU_VERSION
+
+RUN set -ue; \
+    TMPROOT=$(mktemp -d); \
+    OSU_TGZ="osu-micro-benchmarks-${OSU_VERSION}.tar.gz"; \
+    OSU_URL="${OSU_SOURCE}/${OSU_TGZ}"; \
+    install -d "$TMPROOT/libexec" "$TMPROOT/src"; \
+    curl -sSL -o "${TMPROOT}/src/${OSU_TGZ}" "${OSU_URL}"; \
+    tar -C "${TMPROOT}/src" -xf "${TMPROOT}/src/${OSU_TGZ}" --no-same-owner; \
+    cd "${TMPROOT}/src/osu-micro-benchmarks-${OSU_VERSION}"; \
+    ./configure --prefix=/usr CC=mpicc CXX=mpicxx --enable-rocm --with-rocm=/opt/rocm; \
+    make -j $(nproc) DESTDIR="$TMPROOT" install; \
+    cd /debs; \
+    fpm -s dir -t deb -n osu-micro-benchmarks -v "${OSU_VERSION}" --description "LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')" --prefix / -C "$TMPROOT"  usr/libexec; \
+    rm -rf "$TMPROOT"; \
+    dpkg -i "osu-micro-benchmarks_${OSU_VERSION}_amd64.deb"
+
+
+#
+# Build and install AWS-OFI-NCCL package into the builder container
+#
+ARG AWS_OFI_NCCL_COMMIT
+ARG AWS_OFI_NCCL_REPO
+ARG AWS_OFI_NCCL_VERSION
+
+RUN set -ue; \
+    TMPROOT=$(mktemp -d); \
+    git clone "${AWS_OFI_NCCL_REPO}" "$TMPROOT/aws-ofi-nccl"; \
+    cd  "$TMPROOT/aws-ofi-nccl"; \
+    git checkout "${AWS_OFI_NCCL_COMMIT}"; \
+    ./autogen.sh; \
+    ./configure --with-rocm=/opt/rocm --enable-trace --disable-tests --prefix=/usr --libdir /usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH); \
+    make -j $(nproc) DESTDIR="$TMPROOT" install; \
+    cd /debs; \
+    fpm -s dir -t deb -n aws-ofi-nccl -v "${AWS_OFI_NCCL_VERSION}" --description "LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')" --prefix / -C "$TMPROOT"  usr/lib; \
+    rm -rf "$TMPROOT"; \
+    dpkg -i "aws-ofi-nccl_${AWS_OFI_NCCL_VERSION}_amd64.deb";
+
+
+#
+# Build and install rccl-tests package into the builder container
+#
+ARG RCCL_TESTS_COMMIT
+ARG RCCL_TESTS_GPU_ARCHS
+ARG RCCL_TESTS_REPO
+
+RUN set -ue; \
+    TMPROOT=$(mktemp -d); \
+    git clone --no-checkout --filter=blob:none "${RCCL_TESTS_REPO}" "$TMPROOT/rocm-systems"; \
+    cd  "$TMPROOT/rocm-systems"; \
+    git sparse-checkout init --cone; \
+    git sparse-checkout set projects/rccl-tests; \
+    git checkout "${RCCL_TESTS_COMMIT}"; \
+    cd projects/rccl-tests; \
+    make -j $(nproc) MPI=1 GPU_TARGETS="${RCCL_TESTS_GPU_ARCHS}"; \
+    install -d "${TMPROOT}/libexec/rccl-tests"; \
+    cp build/*_perf "${TMPROOT}/libexec/rccl-tests"; \
+    cd /debs; \
+    export RCCL_TESTS_VERSION=$(dpkg -l rccl | awk '$2=="rccl" { print $3 }')-${RCCL_TESTS_COMMIT}; \
+    fpm -s dir -t deb -n rccl-tests -v "${RCCL_TESTS_VERSION}" --description "LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')" --prefix /usr -C "$TMPROOT" libexec; \
+    rm -rf "$TMPROOT"; \
+    dpkg -i "rccl-tests_${RCCL_TESTS_VERSION}_amd64.deb"
+
+
+#
+# Copy the Debian packages created in the previous steps from the builder image to
+# the final image and install them.
+#
+ARG BASE_IMAGE
+ARG BASE_IMAGE_TAG
+
+FROM $BASE_IMAGE:$BASE_IMAGE_TAG
+
+COPY --from=builder /debs/*.deb /tmp/debs/
+
+RUN set -ue; \
+    #
+    # Install all built Ubuntu packages
+    #
+    dpkg -i /tmp/debs/*.deb; \
+    rm -rf /tmp/debs; \
+    #
+    # Add SBOM
+    #
+    apt_json="$(dpkg-query -W -f='${Package}\t${Version}\n' | jq -R -s 'split("\n")[:-1] | map(split("\t") | {name: .[0], version: .[1]})')"; \
+    jq -n --argjson apt "$apt_json"  '{apt: $apt}' > /.sbom.json;
+
+ENV MPIR_CVAR_CH4_OFI_ENABLE_HMEM=1
+ENV MPIR_CVAR_CH4_OFI_ENABLE_MR_HMEM=1
+ENV MPIR_CVAR_ENABLE_GPU=1
+
+# Note: RCCL contains a known bug where it may search for libnccl-net.so instead of librccl-net.so when loading the network plugin.
+# To work around this, explicitly point RCCL at the correct plugin
+ENV NCCL_NET_PLUGIN="/usr/lib/x86_64-linux-gnu/librccl-net.so"
+
+# Set recommended flags for RCCL
+# More info at
+#  - https://support.hpe.com/hpesc/public/docDisplay?docId=dp00005991en_us&page=user/memory_cache_monitor_settings.html&docLocale=en_US
+#  - https://github.com/HewlettPackard/shs-ccl-docs/blob/main/rccl/rccl_tuning_guide.md#essential-libfabric-environment-settings
+#
+ENV FI_MR_CACHE_MONITOR=kdreg2
+ENV FI_MR_CUDA_CACHE_MONITOR_ENABLED=0
+ENV FI_MR_ZE_CACHE_MONITOR_ENABLED=0
+# Avoid data corruption/mismatch issue that exists in versions before ROCm 7.13
+ENV RCCL_MSCCL_ENABLE=0
+
+RUN printf '#!/usr/bin/env bash\n\
+if [ "${SLURM_NNODES}" = 1 ] && [ -z "${SLURM_GPUS_ON_NODE}" ]; then\n\
+    export FI_HMEM_DISABLE_P2P=1\n\
+fi\n\
+exec "$@"\n' > /opt/oci-entrypoint.sh && chmod +x /opt/oci-entrypoint.sh
+
+ENTRYPOINT ["/opt/oci-entrypoint.sh"]

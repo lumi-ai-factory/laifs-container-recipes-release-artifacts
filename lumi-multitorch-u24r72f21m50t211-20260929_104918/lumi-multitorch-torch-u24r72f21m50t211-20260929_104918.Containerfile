@@ -1,0 +1,172 @@
+# Start of dynamically injected content
+ARG BASE_IMAGE_TAG=20260929_104918
+# End of dynamically injected content
+ARG BASE_IMAGE=lumi-multitorch-mpich-u24r72f21m50t211
+ARG TORCH_REPO=https://github.com/pytorch/pytorch
+ARG TORCH_VERSION=2.11.0
+ARG TORCH_ROCM_VERSION=rocm7.2
+ARG TORCH_GPU_ARCH=gfx90a
+ARG TORCH_PATCHES=""
+ARG TORCH_PIP_DEPENDENCIES="mkl-include mkl-static"
+ARG TORCH_APT_DEPENDENCIES="ccache cmake libjpeg-dev libopenblas-dev libpng-dev numactl"
+ARG PYTORCH_TRITON_VERSION=3.6.0
+ARG TORCHAUDIO_VERSION=2.11.0
+ARG TORCHVISION_VERSION=0.26.0
+ARG FAKE_TRITON_URL=git+https://github.com/viahlgre/fake-triton.git@d35f4ca
+ARG WRETAG_URL=git+https://github.com/lumi-ai-factory/wretag.git@0da1af0
+
+ARG SRC_DIR="/opt/pytorch/src"
+ARG WHEEL_DIR="/opt/pytorch/wheels"
+
+# Use recent git version and authentication with GitHub if needed (2026-09-16)
+# https://github.com/orgs/community/discussions/206581#discussioncomment-18269083
+#
+FROM docker.io/alpine/git:2.54.0 AS src
+
+ARG SRC_DIR
+
+ARG TORCH_REPO
+ARG TORCH_VERSION
+ARG TORCH_PATCHES
+
+RUN git config --global advice.detachedHead false
+
+RUN --mount=type=secret,id=github-netrc,target=/root/.netrc,mode=0600 \
+    set -ue; \
+    # Get PyTorch
+    mkdir -p ${SRC_DIR}; \
+    #
+    git clone --branch "v${TORCH_VERSION}" --depth 1 "${TORCH_REPO}" "${SRC_DIR}" && \
+    cd "${SRC_DIR}" && \
+    git submodule sync --recursive && \
+    git submodule update --init --recursive; \
+    #
+    # for PATCH_URL in ${TORCH_PATCHES}; do curl -s $PATCH_URL | git apply; done; \
+    #
+    git status
+
+ARG BASE_IMAGE
+ARG BASE_IMAGE_TAG
+
+FROM $BASE_IMAGE:$BASE_IMAGE_TAG
+
+ARG TORCH_APT_DEPENDENCIES
+
+RUN set -ue; \
+  # Install OS dependencies
+  apt-get update && \
+  apt-get -y install --no-install-recommends ${TORCH_APT_DEPENDENCIES} && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
+
+ARG TORCH_PIP_DEPENDENCIES \
+    TORCH_ROCM_VERSION \
+    PYTORCH_TRITON_VERSION
+
+RUN set -ue; \
+  # Install Python dependencies
+  python3.12 -m venv /opt/venv && \
+  . /opt/venv/bin/activate; \
+  #
+  pip install ${TORCH_PIP_DEPENDENCIES} && \
+  pip install \
+    triton-rocm==${PYTORCH_TRITON_VERSION} \
+    --index-url https://download.pytorch.org/whl/${TORCH_ROCM_VERSION}/ && \
+  pip install /opt/rocm/share/amd_smi
+
+ARG TORCH_GPU_ARCH
+ARG TORCH_VERSION
+
+ENV PYTORCH_ROCM_ARCH=${TORCH_GPU_ARCH}
+
+ARG SRC_DIR
+ARG WHEEL_DIR
+
+RUN --mount=from=src,source=${SRC_DIR},target=${SRC_DIR},rw \
+  set -ue; \
+  # Build PyTorch
+  export GPU_ARCH_TYPE=rocm; \
+  export ROCM_HOME=/opt/rocm; \
+  export DESIRED_CUDA=${TORCH_ROCM_VERSION}; \
+  #
+  export MAX_JOBS="$(nproc)"; \
+  #
+  export CC=gcc; \
+  export CXX=g++; \
+  # Pass the silent flag directly to PyTorch's CMake configuration engine
+  export CMAKE_C_FLAGS="-w"; \
+  export CMAKE_CXX_FLAGS="-w"; \
+  export CMAKE_CUDA_FLAGS="-w"; \
+  #
+  export USE_CUDA=0; \
+  export USE_XCCL=0; \
+  export USE_XPU=0; \
+  export USE_ROCM=1; \
+  # Composable Kernel Enforcements
+  export USE_ROCM_CK_SDPA=0; \
+  export USE_ROCM_CK_GEMM=0; \
+  #
+  # MPI disabled for PyTorch 2.11.0 to avoid memory corruption at torch library exit
+  export USE_MPI=0; \
+  export USE_C10D_MPI=0; \
+  export USE_SYSTEM_NCCL=1; \
+  export USE_STATIC_NCCL=0; \
+  # Flags on official build script
+  # https://github.com/pytorch/pytorch/blob/v2.11.0/.ci/manywheel/build_rocm.sh#L10
+  #
+  export BUILD_TEST=0; \
+  export INSTALL_TEST=0; \
+  #
+  export PYTORCH_BUILD_VERSION=${TORCH_VERSION}+${TORCH_ROCM_VERSION}_lumi_aif_$(date -u +'%Y%m%d%H%M%S'); \
+  export PYTORCH_BUILD_NUMBER=1; \
+  #
+  . /opt/venv/bin/activate && \
+  mkdir -p ${WHEEL_DIR} && \
+  cd ${SRC_DIR} && \
+  pip install -r requirements-build.txt && \
+  python tools/amd_build/build_amd.py && \
+  python -m pip wheel --no-build-isolation --no-deps -v -w ${WHEEL_DIR} .; \
+  #
+  wheel_path="$(find ${WHEEL_DIR}  -mindepth 1 -maxdepth 1 -type f -name '*.whl')" && \
+  test $(echo $wheel_path | wc -w) = 1 && \
+  cd .. && pip install $wheel_path; \
+  #
+  rm -rf ${WHEEL_DIR}
+
+ARG FAKE_TRITON_URL
+ARG TORCHAUDIO_VERSION
+ARG TORCHVISION_VERSION
+
+RUN set -e; \
+  . /opt/venv/bin/activate && \
+  #
+  pip install \
+    torchvision==${TORCHVISION_VERSION}+${TORCH_ROCM_VERSION} \
+    torchaudio==${TORCHAUDIO_VERSION}+${TORCH_ROCM_VERSION} \
+    --index-url https://download.pytorch.org/whl/${TORCH_ROCM_VERSION} && \
+  pip install ${FAKE_TRITON_URL} && \
+  python -c "import torch; print(torch.__version__)"; \
+  #
+  # Add SBOM
+  #
+  apt_json="$(dpkg-query -W -f='${Package}\t${Version}\n' | jq -R -s 'split("\n")[:-1] | map(split("\t") | {name: .[0], version: .[1]})')" && \
+  pip_json="$(pip list --format=json)" && \
+  jq -n \
+    --argjson apt "$apt_json" \
+    --argjson pip "$pip_json" \
+    '{apt: $apt, pip: $pip}' > /.sbom.json
+
+# force all RCCL streams to be high priority
+ENV TORCH_NCCL_HIGH_PRIORITY=1
+
+ENV VIRTUAL_ENV="/opt/venv"
+ENV PATH="/opt/venv/bin:$PATH"
+ENV PYTHONPATH="/opt/venv/lib/python3.12/site-packages:$PYTHONPATH"
+
+RUN printf '#!/usr/bin/env bash\n\
+if [ "${SLURM_NNODES}" = 1 ] && [ -z "${SLURM_GPUS_ON_NODE}" ]; then\n\
+    export FI_HMEM_DISABLE_P2P=1\n\
+fi\n\
+exec "$@"\n' > /opt/oci-entrypoint.sh && chmod +x /opt/oci-entrypoint.sh
+
+ENTRYPOINT ["/opt/oci-entrypoint.sh"]
