@@ -1,0 +1,317 @@
+# Start of dynamically injected content
+ARG BASE_IMAGE_TAG=20261028_090706
+# End of dynamically injected content
+ARG BASE_IMAGE=lumi-multitorch-torch-u24r72f21m50t211
+ARG APEX_GIT_REPO=https://github.com/ROCm/apex
+ARG APEX_GIT_COMMIT=c0f56f7
+ARG CAUSAL_CONV1D_REPO=https://github.com/Dao-AILab/causal-conv1d
+ARG CAUSAL_CONV1D_COMMIT=4f6ae4e
+ARG DEEPSPEED_VERSION=0.19.6
+ARG DEPENDENCY_PIP_PACKAGES="flask-restful nltk pybind11 pynvml tensorstore wandb wrapt zarr setuptools_rust setuptools_scm"
+ARG EXTRA_APT_PACKAGES="libaio-dev libaio1t64 ffmpeg apt-transport-https ca-certificates libfmt-dev libmsgpack-dev libsqlite3-dev libsuitesparse-dev sqlite3"
+ARG EXTRA_PIP_PACKAGES="accelerate bitsandbytes datasets evaluate h5py huggingface-hub jupyter lightning marimo matplotlib mlflow mpi4py numba pandas peft scipy sentence-transformers sentencepiece tensorboard trl ultralytics-opencv-headless"
+ARG FLASH_ATTENTION_REPO_COMMIT=b664ea0
+ARG FLASH_ATTENTION_REPO_URL=https://github.com/ROCm/flash-attention
+ARG LLMCOMPRESSOR_REPO=https://github.com/vllm-project/llm-compressor
+ARG LLMCOMPRESSOR_COMMIT=6d2a090
+ARG MEGATRON_LM_COMMIT=9784f40
+ARG MEGATRON_LM_REPO_URL=https://github.com/ROCm/Megatron-LM
+ARG MULTI_IMAGE_GPU_ARCH=gfx90a
+ARG VLLM_VERSION=v0.26.0
+ARG VLLM_COMMIT=568afb3
+ARG VLLM_REPO=https://github.com/vllm-project/vllm
+ARG XFORMERS_COMMIT=03b91d7
+ARG XFORMERS_REPO=https://github.com/facebookresearch/xformers
+ARG WRETAG_URL=git+https://github.com/lumi-ai-factory/wretag.git@0da1af0
+
+FROM $BASE_IMAGE:$BASE_IMAGE_TAG
+
+ARG BASE_IMAGE
+ARG BASE_IMAGE_TAG
+
+ARG EXTRA_APT_PACKAGES
+
+ARG DEPENDENCY_PIP_PACKAGES
+ARG EXTRA_PIP_PACKAGES
+ARG WRETAG_URL
+
+ARG MULTI_IMAGE_GPU_ARCH
+
+ARG SRC_DIR="/opt/src"
+ARG MAX_JOBS
+
+#
+# Prepare build environment
+#
+RUN set -ue; \
+  #
+  mkdir ${SRC_DIR}; \
+  #
+  # revisit:
+  #
+  #   Even with the various GPU arch options set, we still get these type of complaints from
+  #   various HIP build steps: "GPU_TARGETS was not set, and system GPU detection was unsuccsesful"
+  #   This is reverted at the last RUN step at the bottom of this file. Lets get rid ot this later.
+  #
+  #   Another thing is that we may prefer to change this to use separate builder container and then
+  #   do fresh install of all the packages similar to the libfabric and mpich builds.
+  #
+  test -f /opt/rocm/lib/llvm/bin/amdgpu-arch.really && { echo "error: amdgpu-arch.really already exists"; false; } || true; \
+  mv /opt/rocm/lib/llvm/bin/amdgpu-arch /opt/rocm/lib/llvm/bin/amdgpu-arch.really; \
+  printf "#!/bin/bash\necho ${MULTI_IMAGE_GPU_ARCH}\n" > /opt/rocm/lib/llvm/bin/amdgpu-arch; \
+  chmod a+rx /opt/rocm/lib/llvm/bin/amdgpu-arch; \
+  #
+  apt-get update && \
+  apt-get -y --no-install-recommends install ${EXTRA_APT_PACKAGES} && \
+  rm -rf /var/lib/apt/lists/*; \
+  #
+  pip install --upgrade-strategy=only-if-needed --no-cache-dir ${DEPENDENCY_PIP_PACKAGES} ${EXTRA_PIP_PACKAGES} && \
+  pip install --no-cache-dir "${WRETAG_URL}";
+
+#
+# Compile and install Flash Attention
+#
+ARG FLASH_ATTENTION_REPO_COMMIT
+ARG FLASH_ATTENTION_REPO_URL
+
+RUN --mount=type=secret,id=github-netrc,target=/root/.netrc,mode=0600 \
+  set -ue; \
+  export MAX_JOBS="${MAX_JOBS:-$(nproc)}"; \
+  #
+  git clone $FLASH_ATTENTION_REPO_URL ${SRC_DIR}/flash-attention; \
+  cd ${SRC_DIR}/flash-attention; \
+  git checkout $FLASH_ATTENTION_REPO_COMMIT; \
+  #
+  export FLASH_ATTN_LOCAL_VERSION="lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${FLASH_ATTENTION_REPO_COMMIT}"; \
+  export FLASH_ATTENTION_FORCE_BUILD=1; \
+  #
+  BUILD_TARGET=rocm GPU_ARCHS=$MULTI_IMAGE_GPU_ARCH \
+    python -m pip wheel --no-build-isolation --no-deps -v -w dist/ .; \
+  wheel_path="$(find ${SRC_DIR}/flash-attention/dist  -mindepth 1 -maxdepth 1 -type f -name '*.whl')"; \
+  test $(echo $wheel_path | wc -w) = 1; \
+  #
+  cd .. && pip install --no-cache-dir $wheel_path; \
+  rm -rf ${SRC_DIR}/flash-attention;
+
+#
+# Install causal-conv1d
+#
+ARG CAUSAL_CONV1D_COMMIT
+ARG CAUSAL_CONV1D_REPO
+
+RUN --mount=type=secret,id=github-netrc,target=/root/.netrc,mode=0600 \
+  set -ue; \
+  export MAX_JOBS="${MAX_JOBS:-$(nproc)}"; \
+  #
+  git clone $CAUSAL_CONV1D_REPO ${SRC_DIR}/causal-conv1d; \
+  cd ${SRC_DIR}/causal-conv1d; \
+  git checkout $CAUSAL_CONV1D_COMMIT; \
+  #
+  export PYTORCH_ROCM_ARCH_OVERRIDE="${MULTI_IMAGE_GPU_ARCH}"; \
+  export HIP_ARCHITECTURES="${MULTI_IMAGE_GPU_ARCH}"; \
+  export CAUSAL_CONV1D_LOCAL_VERSION="lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${CAUSAL_CONV1D_COMMIT}"; \
+  export CAUSAL_CONV1D_FORCE_BUILD=1; \
+  #
+  pip wheel --no-deps --no-build-isolation -v -w ${SRC_DIR}/causal-conv1d/dist .; \
+  wheel_path="$(find ${SRC_DIR}/causal-conv1d/dist  -mindepth 1 -maxdepth 1 -type f -name '*.whl')"; \
+  test $(echo $wheel_path | wc -w) = 1; \
+  #
+  cd .. && pip install --no-cache-dir $wheel_path; \
+  rm -rf ${SRC_DIR}/causal-conv1d;
+
+#
+# Install xFormers
+#
+ARG XFORMERS_COMMIT
+ARG XFORMERS_REPO
+
+RUN --mount=type=secret,id=github-netrc,target=/root/.netrc,mode=0600 \
+  set -ue; \
+  export MAX_JOBS="${MAX_JOBS:-$(nproc)}"; \
+  #
+  git clone $XFORMERS_REPO ${SRC_DIR}/xformers && \
+  cd ${SRC_DIR}/xformers && \
+  git checkout $XFORMERS_COMMIT && \
+  git submodule update --init --recursive; \
+  #
+  export XFORMERS_CK_FLASH_ATTN=1; \
+  export HIP_ARCHITECTURES="${MULTI_IMAGE_GPU_ARCH}"; \
+  #
+  pip wheel --no-deps --no-build-isolation -v -w ${SRC_DIR}/xformers/dist .; \
+  wheel_path="$(find ${SRC_DIR}/xformers/dist -mindepth 1 -maxdepth 1 -type f -name '*.whl')"; \
+  test $(echo $wheel_path | wc -w) = 1; \
+  new_wheel="$(wretag -d -q lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${XFORMERS_COMMIT} $wheel_path)"; \
+  #
+  cd .. && pip install --no-cache-dir $new_wheel; \
+  rm -rf ${SRC_DIR}/xformers; \
+  #
+  python -m xformers.info
+
+#
+# Install Apex
+#
+ARG APEX_GIT_COMMIT
+ARG APEX_GIT_REPO
+
+RUN --mount=type=secret,id=github-netrc,target=/root/.netrc,mode=0600 \
+  set -ue; \
+  export MAX_JOBS="${MAX_JOBS:-$(nproc)}"; \
+  #
+  git clone "${APEX_GIT_REPO}" ${SRC_DIR}/apex;\
+  cd ${SRC_DIR}/apex; \
+  git checkout "${APEX_GIT_COMMIT}"; \
+  #
+  export PYTORCH_ROCM_ARCH="${MULTI_IMAGE_GPU_ARCH}"; \
+  APEX_BUILD_CPP_OPS=1 APEX_BUILD_CUDA_OPS=1 \
+    pip wheel --no-deps --no-build-isolation -v -w ${SRC_DIR}/apex/dist .; \
+  wheel_path="$(find ${SRC_DIR}/apex/dist  -mindepth 1 -maxdepth 1 -type f -name '*.whl')"; \
+  test $(echo $wheel_path | wc -w) = 1; \
+  new_wheel="$(wretag -d -q lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${APEX_GIT_COMMIT} $wheel_path)"; \
+  #
+  cd .. && pip install --no-cache-dir $new_wheel; \
+  rm -rf ${SRC_DIR}/apex;
+
+#
+# Compile and install vLLM
+#
+ARG VLLM_COMMIT
+ARG VLLM_REPO
+ARG VLLM_VERSION
+
+RUN --mount=type=secret,id=github-netrc,target=/root/.netrc,mode=0600 \
+  set -ue; \
+  export MAX_JOBS="${MAX_JOBS:-$(nproc)}"; \
+  #
+  git clone ${VLLM_REPO} ${SRC_DIR}/vllm; \
+  cd ${SRC_DIR}/vllm; \
+  git fetch --tags; \
+  git checkout $VLLM_COMMIT; \
+  #
+  export MAKEFLAGS="-j${MAX_JOBS}"; \
+  # revisit: which of the arch defs really makes a difference
+  # export AMDGPU_TARGETS=$MULTI_IMAGE_GPU_ARCH; \
+  # export GPU_ARCHS=$MULTI_IMAGE_GPU_ARCH; \
+  # export GPU_TARGETS=$MULTI_IMAGE_GPU_ARCH; \
+  # export HIP_ARCHITECTURES=$MULTI_IMAGE_GPU_ARCH; \
+  export VLLM_TARGET_DEVICE=rocm; \
+  export PYTORCH_ROCM_ARCH=$MULTI_IMAGE_GPU_ARCH; \
+  export VLLM_VERSION_OVERRIDE=${VLLM_VERSION}+lumi_aif_${MULTI_IMAGE_GPU_ARCH}_${VLLM_COMMIT}; \
+  #
+  python setup.py bdist_wheel -v --dist-dir=dist; \
+  wheel_path="$(find ${SRC_DIR}/vllm/dist  -mindepth 1 -maxdepth 1 -type f -name '*.whl')"; \
+  test $(echo $wheel_path | wc -w) = 1; \
+  #
+  cd .. && pip install $wheel_path; \
+  rm -rf ${SRC_DIR}/vllm;
+
+#
+# Install llmcompressor
+#
+ARG LLMCOMPRESSOR_REPO
+ARG LLMCOMPRESSOR_COMMIT
+
+RUN set -ue; \
+  export MAX_JOBS="${MAX_JOBS:-$(nproc)}"; \
+  #Pins Python library versions that are incompatible with vLLM
+  export BUILD_TYPE=release; \
+  #
+  pip wheel --no-deps -v -w ${SRC_DIR}/llmcompressor git+${LLMCOMPRESSOR_REPO}.git@${LLMCOMPRESSOR_COMMIT}; \
+  wheel_path="$(find ${SRC_DIR}/llmcompressor -mindepth 1 -maxdepth 1 -type f -name '*.whl')"; \
+  test $(echo $wheel_path | wc -w) = 1; \
+  new_wheel="$(wretag -d -q lumi_aif_${LLMCOMPRESSOR_COMMIT} $wheel_path)"; \
+  #
+  cd .. && pip install $new_wheel; \
+  rm -rf ${SRC_DIR}/llmcompressor;
+
+#
+# Install Deepspeed
+#
+ARG DEEPSPEED_VERSION
+
+RUN set -ue; \
+  export MAX_JOBS="${MAX_JOBS:-$(nproc)}"; \
+  #
+  src=${SRC_DIR}/deepspeed && \
+  mkdir -p $src && \
+  python -m pip download \
+    "deepspeed==${DEEPSPEED_VERSION}" \
+    --no-deps \
+    --no-binary=:all: \
+    -d "$src"; \
+  #
+  export PYTORCH_ROCM_ARCH=$MULTI_IMAGE_GPU_ARCH; \
+  export DS_ACCELERATOR=cuda; \
+  export DS_BUILD_OPS=1; \
+  #
+  # Some extensions need to be disabled
+  #
+  # https://github.com/deepspeedai/DeepSpeed/issues/7843#issuecomment-3896637925
+  #
+  export DS_BUILD_INFERENCE_CORE_OPS=0; \
+  export DS_BUILD_CUTLASS_OPS=0; \
+  export DS_BUILD_RAGGED_DEVICE_OPS=0; \
+  export DS_BUILD_RAGGED_OPS=0; \
+  export DS_BUILD_STRING="+lumi_aif_dsops"; \
+  #
+  python -m pip wheel \
+    "$src/deepspeed-${DEEPSPEED_VERSION}.tar.gz" \
+    --no-deps \
+    --no-build-isolation \
+    -w ${src}/dist && \
+  wheel_path="$(find ${src}/dist  -mindepth 1 -maxdepth 1 -type f -name '*.whl')" && \
+  test $(echo $wheel_path | wc -w) = 1 && \
+  pip install $wheel_path && \
+  ds_report; \
+  #
+  rm -rf ${SRC_DIR}/deepspeed;
+
+#
+# Install Megatron LM (experimental for testing)
+#
+ARG MEGATRON_LM_REPO_URL
+ARG MEGATRON_LM_COMMIT
+
+RUN set -ue; \
+  export MAX_JOBS="${MAX_JOBS:-$(nproc)}"; \
+  #
+  pip wheel --no-deps -w ${SRC_DIR}/megatronlm git+${MEGATRON_LM_REPO_URL}.git@${MEGATRON_LM_COMMIT}; \
+  wheel_path="$(find ${SRC_DIR}/megatronlm -mindepth 1 -maxdepth 1 -type f -name '*.whl')"; \
+  test $(echo $wheel_path | wc -w) = 1; \
+  new_wheel="$(wretag -d -q lumi_aif_${MEGATRON_LM_COMMIT} $wheel_path)"; \
+  pip install $new_wheel; \
+  #
+  # Fix python -c "from megatron.core.datasets.utils import compile_helpers; compile_helpers()"
+  DIR=/opt/venv/lib/python3.12/site-packages/megatron/core/datasets && \
+  printf 'all:\n\t@ls helpers_cpp*.so >/dev/null 2>&1 || { echo "helpers_cpp .so missing" >&2; exit 1; }\n' > "$DIR/Makefile"; \
+  #
+  rm -rf ${SRC_DIR}/megatronlm;
+
+#
+# Cleanup and finalize
+#
+RUN set -ue; \
+  #
+  rm -rf ${SRC_DIR}; \
+  #
+  test -f /opt/rocm/lib/llvm/bin/amdgpu-arch.really || { echo "error: amdgpu-arch.really is missing"; false; }; \
+  rm /opt/rocm/lib/llvm/bin/amdgpu-arch; \
+  mv /opt/rocm/lib/llvm/bin/amdgpu-arch.really /opt/rocm/lib/llvm/bin/amdgpu-arch; \
+  # Add SBOM
+  apt_json="$(dpkg-query -W -f='${Package}\t${Version}\n' | jq -R -s 'split("\n")[:-1] | map(split("\t") | {name: .[0], version: .[1]})')"; \
+  pip_json="$(pip list --format=json)"; \
+  jq -n --argjson apt "$apt_json"  --argjson pip "$pip_json" '{apt: $apt, pip: $pip}' > /.sbom.json;
+
+
+RUN printf '#!/usr/bin/env bash\n\
+if [ "${SLURM_NNODES}" = 1 ] && [ -z "${SLURM_GPUS_ON_NODE}" ]; then\n\
+    export FI_HMEM_DISABLE_P2P=1\n\
+fi\n\
+if [ "${ROCR_USE_SLURM_LOCALID}" = 1 ] && [ -n "${SLURM_LOCALID}" ]; then\n\
+    export ROCR_VISIBLE_DEVICES="$SLURM_LOCALID"\n\
+fi\n\
+if [ "${MAP_HIP_TO_ROCR_VISIBLE_DEVICES}" = 1 ] && [ -n "${ROCR_VISIBLE_DEVICES}" ]; then\n\
+    export HIP_VISIBLE_DEVICES=`seq -s , 0 $(echo "${ROCR_VISIBLE_DEVICES%%,}" | awk -F, '\''{print NF-1}'\'')`\n\
+fi\n\
+exec "$@"\n' > /opt/oci-entrypoint.sh && chmod +x /opt/oci-entrypoint.sh
+
+ENTRYPOINT ["/opt/oci-entrypoint.sh"]
