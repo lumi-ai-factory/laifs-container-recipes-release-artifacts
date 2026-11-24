@@ -1,0 +1,151 @@
+# Start of dynamically injected content
+ARG BASE_IMAGE_TAG=20260319_153422
+# End of dynamically injected content
+ARG BASE_IMAGE=lumi-multitorch-libfabric-u24r64f21m43t29
+ARG AWS_OFI_RCCL_COMMIT=6dae1b0
+ARG AWS_OFI_RCCL_REPO=https://github.com/ROCm/aws-ofi-rccl
+ARG AWS_OFI_RCCL_VERSION=1.4.0-1
+ARG MPICH_SOURCE=http://www.mpich.org/static/downloads
+ARG MPICH_VERSION=4.3.2
+ARG OSU_SOURCE=https://mvapich.cse.ohio-state.edu/download/mvapich
+ARG OSU_VERSION=7.5.2
+ARG RCCL_TESTS_COMMIT=5272cd1
+ARG RCCL_TESTS_GPU_ARCHS=gfx90a
+ARG RCCL_TESTS_REPO=https://github.com/ROCm/rccl-tests
+ARG RCCL_TESTS_VERSION=0.1-5272cd1
+
+FROM $BASE_IMAGE:$BASE_IMAGE_TAG AS builder
+
+ARG AWS_OFI_RCCL_COMMIT
+ARG AWS_OFI_RCCL_REPO
+ARG AWS_OFI_RCCL_VERSION
+
+ARG BASE_IMAGE
+ARG BASE_IMAGE_TAG
+
+ARG MPICH_SOURCE
+ARG MPICH_VERSION
+
+ARG OSU_SOURCE
+ARG OSU_VERSION
+
+ARG RCCL_TESTS_COMMIT
+ARG RCCL_TESTS_GPU_ARCHS
+ARG RCCL_TESTS_REPO
+ARG RCCL_TESTS_VERSION
+
+
+#
+# Install FPM package builder using GEM (only for the builder image)
+#
+
+RUN set -ue; \
+  export DEBIAN_FRONTEND=noninteractive; \
+  apt-get update; \
+  apt-get install -y ruby ruby-dev; \
+  gem install --no-document fpm; \
+  mkdir /debs;
+
+
+#
+# Build and install MPICH package into the builder container
+#
+
+RUN set -ue; \
+  TMPROOT=$(mktemp -d); \
+  MPICH_TGZ="mpich-${MPICH_VERSION}.tar.gz"; \
+  MPICH_URL="${MPICH_SOURCE}/${MPICH_VERSION}/${MPICH_TGZ}"; \
+  install -d "$TMPROOT/usr" "$TMPROOT/src"; \
+  curl -L -o "${TMPROOT}/src/${MPICH_TGZ}" "${MPICH_URL}"; \
+  tar -C "${TMPROOT}/src" -xf "${TMPROOT}/src/${MPICH_TGZ}" --no-same-owner; \
+  cd "${TMPROOT}/src/mpich-${MPICH_VERSION}"; \
+  ./configure --disable-fortran --enable-fast=O3 --enable-threads=multiple --prefix=/usr --with-device=ch4:ofi --with-hip=/opt/rocm --with-libfabric --with-xpmem=/usr --without-cuda --without-ucx; \
+  make -j $(nproc) DESTDIR="$TMPROOT" install; \
+  cd /debs; \
+  fpm -s dir -t deb -n mpich -v "${MPICH_VERSION}" --description "LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')" --prefix / -C "$TMPROOT"  usr/bin usr/etc usr/include usr/lib usr/share; \
+  rm -rf "$TMPROOT"; \
+  dpkg -i "mpich_${MPICH_VERSION}_amd64.deb";
+
+
+#
+# Build and install OSU Benchmarks package into the builder container
+#
+
+RUN set -ue; \
+    TMPROOT=$(mktemp -d); \
+    OSU_TGZ="osu-micro-benchmarks-${OSU_VERSION}.tar.gz"; \
+    OSU_URL="${OSU_SOURCE}/${OSU_TGZ}"; \
+    install -d "$TMPROOT/libexec" "$TMPROOT/src"; \
+    curl -L -o "${TMPROOT}/src/${OSU_TGZ}" "${OSU_URL}"; \
+    tar -C "${TMPROOT}/src" -xf "${TMPROOT}/src/${OSU_TGZ}" --no-same-owner; \
+    cd "${TMPROOT}/src/osu-micro-benchmarks-${OSU_VERSION}"; \
+    ./configure --prefix=/usr CC=mpicc CXX=mpicxx --enable-rocm --with-rocm=/opt/rocm; \
+    make -j $(nproc) DESTDIR="$TMPROOT" install; \
+    cd /debs; \
+    fpm -s dir -t deb -n osu-micro-benchmarks -v "${OSU_VERSION}" --description "LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')" --prefix / -C "$TMPROOT"  usr/libexec; \
+    rm -rf "$TMPROOT"; \
+    dpkg -i "osu-micro-benchmarks_${OSU_VERSION}_amd64.deb"
+
+
+#
+# Build and install AWS-OFI-RCCL package into the builder container
+#
+
+RUN set -ue; \
+    TMPROOT=$(mktemp -d); \
+    git clone "${AWS_OFI_RCCL_REPO}" "$TMPROOT/aws-ofi-rccl"; \
+    cd  "$TMPROOT/aws-ofi-rccl"; \
+    git checkout "${AWS_OFI_RCCL_COMMIT}"; \
+    ./autogen.sh; \
+    ./configure --with-libfabric=/usr --enable-trace --disable-tests --prefix=/usr; \
+    make -j $(nproc) DESTDIR="$TMPROOT" install; \
+    cd /debs; \
+    fpm -s dir -t deb -n aws-ofi-rccl -v "${AWS_OFI_RCCL_VERSION}" --description "LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')" --prefix / -C "$TMPROOT"  usr/lib; \
+    rm -rf "$TMPROOT"; \
+    dpkg -i "aws-ofi-rccl_${AWS_OFI_RCCL_VERSION}_amd64.deb";
+
+
+#
+# Build and install rccl-tests package into the builder container
+#
+
+RUN set -ue; \
+    TMPROOT=$(mktemp -d); \
+    git clone "${RCCL_TESTS_REPO}" "$TMPROOT/rccl-tests"; \
+    cd  "$TMPROOT/rccl-tests"; \
+    git checkout "${RCCL_TESTS_COMMIT}"; \
+    make -j $(nproc) MPI=1 GPU_TARGETS="${RCCL_TESTS_GPU_ARCHS}"; \
+    install -d "${TMPROOT}/libexec/rccl-tests"; \
+    cp build/*_perf "${TMPROOT}/libexec/rccl-tests"; \
+    cd /debs; \
+    fpm -s dir -t deb -n rccl-tests -v "${RCCL_TESTS_VERSION}" --description "LUMI-AIF-$(date -u +'%Y%m%d%H%M%S')" --prefix /usr -C "$TMPROOT" libexec; \
+    rm -rf "$TMPROOT"; \
+    dpkg -i "rccl-tests_${RCCL_TESTS_VERSION}_amd64.deb"
+
+
+#
+# Copy the Debian packages created in the previous steps from the builder image to
+# the final image and install them.
+#
+
+FROM $BASE_IMAGE:$BASE_IMAGE_TAG
+
+COPY --from=builder /debs/*.deb /tmp/debs/
+
+RUN set -ue; \
+    #
+    # Install all built Ubuntu packages
+    #
+    dpkg -i /tmp/debs/*.deb; \
+    rm -rf /tmp/debs; \
+    #
+    # Add SBOM
+    #
+    apt_json="$(dpkg-query -W -f='${Package}\t${Version}\n' | jq -R -s 'split("\n")[:-1] | map(split("\t") | {name: .[0], version: .[1]})')"; \
+    jq -n --argjson apt "$apt_json"  '{apt: $apt}' > /.sbom.json;
+
+ENV MPIR_CVAR_CH4_OFI_ENABLE_HMEM=1
+ENV MPIR_CVAR_CH4_OFI_ENABLE_MR_HMEM=1
+ENV MPIR_CVAR_ENABLE_GPU=1
+
+CMD ["/bin/bash"]

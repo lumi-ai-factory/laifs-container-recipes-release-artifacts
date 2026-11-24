@@ -1,0 +1,31 @@
+20260319 15:34:22 starting build with tag 20260319_153422 for recipe lumi-multitorch-u24r64f21m43t29
+20260319 15:34:22 git working dir status:
+    git commit: 3fd2614
+    modified files: 
+    git diff:
+20260319 15:34:22 generating recipe from template and vars file
+20260319 15:34:23 sha256 sums for the template, vars and final recipe are:
+    169a76d714330b1971ae149d343904a965896659ededb8cb3dae626510104219  recipes/lumi-multitorch/lumi-multitorch-template.yaml
+    f753639d9e72c4cd3660ab9a79a495deb737839905d88ebea41019b000d1c14d  recipes/lumi-multitorch/lumi-multitorch-vars.yaml
+    108dead867db09fea6c0213b81240eab9df90f2d61eec06e8bb1f2c60dd35ece  builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-u24r64f21m43t29-20260319_153422.yaml
+20260319 15:34:23 Saving files from the recipe:
+    b53d7995281c56a2194badfe65034899d53b2346b7f558455e396761e7a27e78  builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-u24r64f21m43t29-20260319_153422-post.sh
+    b312caf87a8ffc65f5744f58e53c202d4e1c9bac1192519cd7afe3f039ddbf2b  builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-u24r64f21m43t29-20260319_153422.md
+20260319 15:34:23 starting container image builds
+20260319 15:34:23 [BUILD] Building images from recipe lumi-multitorch-u24r64f21m43t29 at builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-u24r64f21m43t29-20260319_153422.yaml
+20260319 15:34:24 [BUILD] Build image lumi-multitorch-rocm-u24r64f21m43t29:20260319_153422 started at Thu Mar 19 03:34:24 PM UTC 2026
+20260319 15:34:24 [BUILD] Logging to builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-rocm-u24r64f21m43t29-20260319_153422.log
+20260319 15:49:37 [BUILD] Building lumi-multitorch-rocm-u24r64f21m43t29:20260319_153422 completed at Thu Mar 19 03:49:37 PM UTC 2026
+20260319 15:49:37 [BUILD] Build image lumi-multitorch-libfabric-u24r64f21m43t29:20260319_153422 started at Thu Mar 19 03:49:37 PM UTC 2026
+20260319 15:49:37 [BUILD] Logging to builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-libfabric-u24r64f21m43t29-20260319_153422.log
+20260319 15:59:51 [BUILD] Building lumi-multitorch-libfabric-u24r64f21m43t29:20260319_153422 completed at Thu Mar 19 03:59:51 PM UTC 2026
+20260319 15:59:51 [BUILD] Build image lumi-multitorch-mpich-u24r64f21m43t29:20260319_153422 started at Thu Mar 19 03:59:51 PM UTC 2026
+20260319 15:59:51 [BUILD] Logging to builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-mpich-u24r64f21m43t29-20260319_153422.log
+20260319 16:26:18 [BUILD] Building lumi-multitorch-mpich-u24r64f21m43t29:20260319_153422 completed at Thu Mar 19 04:26:18 PM UTC 2026
+20260319 16:26:20 [BUILD] Build image lumi-multitorch-torch-u24r64f21m43t29:20260319_153422 started at Thu Mar 19 04:26:20 PM UTC 2026
+20260319 16:26:20 [BUILD] Logging to builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-torch-u24r64f21m43t29-20260319_153422.log
+20260319 16:47:37 [BUILD] Building lumi-multitorch-torch-u24r64f21m43t29:20260319_153422 completed at Thu Mar 19 04:47:37 PM UTC 2026
+20260319 16:47:38 [BUILD] Build image lumi-multitorch-full-u24r64f21m43t29:20260319_153422 started at Thu Mar 19 04:47:38 PM UTC 2026
+20260319 16:47:38 [BUILD] Logging to builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-full-u24r64f21m43t29-20260319_153422.log
+20260320 04:36:23 [BUILD] Building lumi-multitorch-full-u24r64f21m43t29:20260319_153422 completed at Fri Mar 20 04:36:23 AM UTC 2026
+20260320 04:36:23 container image builds completed

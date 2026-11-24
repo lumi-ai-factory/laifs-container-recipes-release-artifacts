@@ -1,0 +1,7 @@
+Bootstrap: oci-archive
+From: builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-mpich-u24r64f21m43t29-20260319_153422.tar
+%runscript
+if [ "${SLURM_NNODES}" = 1 ] && [ -z "${SLURM_GPUS_ON_NODE}" ]; then
+    export FI_HMEM_DISABLE_P2P=1
+fi
+exec "$@"

@@ -1,0 +1,3 @@
+Bootstrap: oci-archive
+From: builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-rocm-u24r64f21m43t29-20260319_153422.tar
+

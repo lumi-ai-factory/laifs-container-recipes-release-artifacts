@@ -1,0 +1,17 @@
+{
+  "old": "lumi-multitorch-mpich-u24r64f21m43t29-20260319_153422.json",
+  "new": "lumi-multitorch-mpich-u24r64f21m43t29-20261123_101228.json",
+  "changes": {
+    "apt": {
+      "changed": [
+        {
+          "name": "ca-certificates",
+          "old": "20240203",
+          "new": "20260816ubuntu0.24.04.2"
+        }
+      ],
+      "added": [],
+      "removed": []
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "old": "lumi-multitorch-torch-u24r64f21m43t29-20260319_153422.json",
+  "new": "lumi-multitorch-torch-u24r64f21m43t29-20261123_101228.json",
+  "changes": {
+    "apt": {
+      "changed": [
+        {
+          "name": "ca-certificates",
+          "old": "20240203",
+          "new": "20260816ubuntu0.24.04.2"
+        }
+      ],
+      "added": [],
+      "removed": []
+    },
+    "pip": {
+      "changed": [
+        {
+          "name": "pip",
+          "old": "24.0",
+          "new": "26.2.2"
+        }
+      ],
+      "added": [
+        {
+          "name": "certifi",
+          "version": "2026.11.20"
+        }
+      ],
+      "removed": []
+    }
+  }
+}

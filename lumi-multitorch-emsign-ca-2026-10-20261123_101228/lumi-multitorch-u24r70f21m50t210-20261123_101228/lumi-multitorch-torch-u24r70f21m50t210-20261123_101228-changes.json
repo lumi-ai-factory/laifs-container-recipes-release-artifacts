@@ -1,0 +1,33 @@
+{
+  "old": "lumi-multitorch-torch-u24r70f21m50t210-20260807_115122.json",
+  "new": "lumi-multitorch-torch-u24r70f21m50t210-20261123_101228.json",
+  "changes": {
+    "apt": {
+      "changed": [
+        {
+          "name": "ca-certificates",
+          "old": "20260601~24.04.1",
+          "new": "20260816ubuntu0.24.04.2"
+        }
+      ],
+      "added": [],
+      "removed": []
+    },
+    "pip": {
+      "changed": [
+        {
+          "name": "certifi",
+          "old": "2026.7.22",
+          "new": "2026.11.20"
+        },
+        {
+          "name": "pip",
+          "old": "24.0",
+          "new": "26.2.2"
+        }
+      ],
+      "added": [],
+      "removed": []
+    }
+  }
+}

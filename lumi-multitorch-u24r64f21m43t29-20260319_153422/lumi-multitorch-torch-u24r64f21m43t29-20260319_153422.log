@@ -1,0 +1,434 @@
+20260319 16:26:20: *** Building image lumi-multitorch-torch-u24r64f21m43t29:20260319_153422 started
+20260319 16:26:20: *** Containerfile sha256 sum 9b738cab368f096fa9b9f6b01a1216956f580032479ec3d5b920e84e17c9f925  builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-torch-u24r64f21m43t29-20260319_153422.Containerfile
+20260319 16:26:20: *** Base image: lumi-multitorch-mpich-u24r64f21m43t29:20260319_153422
+20260319 16:26:20: *** Running build command: podman build -f builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-torch-u24r64f21m43t29-20260319_153422.Containerfile --cgroup-manager cgroupfs --label cf_lineage=47b20f78942bf7924132a14efa03deb9f981dded,399b53a392da96694e61eedfb68f5bda0a4d03da,f006cf1fb2e3235dfcc4da0368c4aa7b3bed7b2b,f3a2a6f30859dad3e48727b24055b40c70c4071c -t lumi-multitorch-torch-u24r64f21m43t29:20260319_153422 -t lumi-multitorch-torch-u24r64f21m43t29:latest
+STEP 1/13: FROM lumi-multitorch-mpich-u24r64f21m43t29:20260319_153422
+STEP 2/13: ARG BASE_IMAGE
+--> d5c3e354f663
+STEP 3/13: ARG BASE_IMAGE_TAG
+--> f60cdeaef4f7
+STEP 4/13: ARG PYTORCH_TRITON_URL
+--> 12798cf802f1
+STEP 5/13: ARG FAKE_TRITON_URL
+--> 28439bffb86b
+STEP 6/13: ARG TORCHAUDIO_URL
+--> 0e12d89cfefe
+STEP 7/13: ARG TORCHVISION_URL
+--> 4b2b1923b563
+STEP 8/13: ARG TORCH_URL
+--> 6e4e6d037199
+STEP 9/13: RUN set -ue;   python3.12 -m venv /opt/venv;   . /opt/venv/bin/activate;   pip install $PYTORCH_TRITON_URL $TORCHAUDIO_URL $TORCHVISION_URL $TORCH_URL $FAKE_TRITON_URL patchelf;   pip cache purge;   patchelf --set-rpath '/opt/rocm/lib:/usr/lib:$ORIGIN' /opt/venv/lib/python3.12/site-packages/torch/lib/libtorch_hip.so;   apt_json="$(dpkg-query -W -f='${Package}\t${Version}\n' | jq -R -s 'split("\n")[:-1] | map(split("\t") | {name: .[0], version: .[1]})')";   pip_json="$(pip list --format=json)";   jq -n --argjson apt "$apt_json"  --argjson pip "$pip_json" '{apt: $apt, pip: $pip}' > /.sbom.json;
+Collecting pytorch-triton-rocm==3.5.1
+  Downloading https://download.pytorch.org/whl/pytorch_triton_rocm-3.5.1-cp312-cp312-linux_x86_64.whl (274.5 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 274.5/274.5 MB 22.9 MB/s eta 0:00:00
+Collecting torchaudio==2.9.1+rocm6.4
+  Downloading https://download.pytorch.org/whl/rocm6.4/torchaudio-2.9.1%2Brocm6.4-cp312-cp312-manylinux_2_28_x86_64.whl (492 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 492.5/492.5 kB 116.4 MB/s eta 0:00:00
+Collecting torchvision==0.24.1+rocm6.4
+  Downloading https://download.pytorch.org/whl/rocm6.4/torchvision-0.24.1%2Brocm6.4-cp312-cp312-manylinux_2_28_x86_64.whl (3.0 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.0/3.0 MB 34.6 MB/s eta 0:00:00
+Collecting torch==2.9.1+rocm6.4
+  Downloading https://download.pytorch.org/whl/rocm6.4/torch-2.9.1%2Brocm6.4-cp312-cp312-manylinux_2_28_x86_64.whl (4473.0 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 GB 1.6 MB/s eta 0:00:00
+Collecting git+https://github.com/viahlgre/fake-triton.git@a8412a9
+  Cloning https://github.com/viahlgre/fake-triton.git (to revision a8412a9) to /tmp/pip-req-build-lemyzaxz
+  Running command git clone --filter=blob:none --quiet https://github.com/viahlgre/fake-triton.git /tmp/pip-req-build-lemyzaxz
+  WARNING: Did not find branch or tag 'a8412a9', assuming revision or ref.
+  Running command git checkout -q a8412a9
+  Resolved https://github.com/viahlgre/fake-triton.git to commit a8412a9
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting patchelf
+  Downloading patchelf-0.17.2.4-py3-none-manylinux1_x86_64.manylinux_2_5_x86_64.musllinux_1_1_x86_64.whl.metadata (3.7 kB)
+Collecting filelock (from torch==2.9.1+rocm6.4)
+  Downloading filelock-3.25.2-py3-none-any.whl.metadata (2.0 kB)
+Collecting typing-extensions>=4.10.0 (from torch==2.9.1+rocm6.4)
+  Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting setuptools (from torch==2.9.1+rocm6.4)
+  Using cached setuptools-82.0.1-py3-none-any.whl.metadata (6.5 kB)
+Collecting sympy>=1.13.3 (from torch==2.9.1+rocm6.4)
+  Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+Collecting networkx>=2.5.1 (from torch==2.9.1+rocm6.4)
+  Downloading networkx-3.6.1-py3-none-any.whl.metadata (6.8 kB)
+Collecting jinja2 (from torch==2.9.1+rocm6.4)
+  Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting fsspec>=0.8.5 (from torch==2.9.1+rocm6.4)
+  Downloading fsspec-2026.2.0-py3-none-any.whl.metadata (10 kB)
+Collecting numpy (from torchvision==0.24.1+rocm6.4)
+  Downloading numpy-2.4.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+Collecting pillow!=8.3.*,>=5.3.0 (from torchvision==0.24.1+rocm6.4)
+  Downloading pillow-12.1.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+Collecting mpmath<1.4,>=1.1.0 (from sympy>=1.13.3->torch==2.9.1+rocm6.4)
+  Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+Collecting MarkupSafe>=2.0 (from jinja2->torch==2.9.1+rocm6.4)
+  Downloading markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+Downloading patchelf-0.17.2.4-py3-none-manylinux1_x86_64.manylinux_2_5_x86_64.musllinux_1_1_x86_64.whl (482 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 482.8/482.8 kB 15.0 MB/s eta 0:00:00
+Downloading fsspec-2026.2.0-py3-none-any.whl (202 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 202.5/202.5 kB 81.1 MB/s eta 0:00:00
+Downloading networkx-3.6.1-py3-none-any.whl (2.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 85.9 MB/s eta 0:00:00
+Downloading pillow-12.1.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.0/7.0 MB 148.1 MB/s eta 0:00:00
+Downloading sympy-1.14.0-py3-none-any.whl (6.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 152.3 MB/s eta 0:00:00
+Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.6/44.6 kB 30.2 MB/s eta 0:00:00
+Downloading filelock-3.25.2-py3-none-any.whl (26 kB)
+Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 134.9/134.9 kB 73.9 MB/s eta 0:00:00
+Downloading numpy-2.4.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.6/16.6 MB 126.6 MB/s eta 0:00:00
+Using cached setuptools-82.0.1-py3-none-any.whl (1.0 MB)
+Downloading markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 127.4 MB/s eta 0:00:00
+Building wheels for collected packages: triton
+  Building wheel for triton (pyproject.toml): started
+  Building wheel for triton (pyproject.toml): finished with status 'done'
+  Created wheel for triton: filename=triton-3.5.1-py3-none-any.whl size=1013 sha256=8c5c849c4024f370bdb844057446ad9a4a3233e243f2aaff3a2b818cd564ffcf
+  Stored in directory: /tmp/pip-ephem-wheel-cache-7c6y0rzn/wheels/88/bb/36/aff96d3571c6b380109d5522031247a700e1d7a9354e77e5a5
+Successfully built triton
+Installing collected packages: mpmath, typing-extensions, sympy, setuptools, pytorch-triton-rocm, pillow, patchelf, numpy, networkx, MarkupSafe, fsspec, filelock, triton, jinja2, torch, torchvision, torchaudio
+Successfully installed MarkupSafe-3.0.3 filelock-3.25.2 fsspec-2026.2.0 jinja2-3.1.6 mpmath-1.3.0 networkx-3.6.1 numpy-2.4.3 patchelf-0.17.2.4 pillow-12.1.1 pytorch-triton-rocm-3.5.1 setuptools-82.0.1 sympy-1.14.0 torch-2.9.1+rocm6.4 torchaudio-2.9.1+rocm6.4 torchvision-0.24.1+rocm6.4 triton-3.5.1 typing-extensions-4.15.0
+Files removed: 92
+--> af9fbcdc0617
+STEP 10/13: ENV PATH="/opt/venv/bin:$PATH"
+--> 1e85a9b24588
+STEP 11/13: ENV PYTHONPATH="/opt/venv/lib/python3.12/site-packages:$PYTHONPATH"
+--> 34d131f1988c
+STEP 12/13: CMD ["/bin/bash"]
+--> ac05a261b6db
+STEP 13/13: LABEL "cf_lineage"="47b20f78942bf7924132a14efa03deb9f981dded,399b53a392da96694e61eedfb68f5bda0a4d03da,f006cf1fb2e3235dfcc4da0368c4aa7b3bed7b2b,f3a2a6f30859dad3e48727b24055b40c70c4071c"
+COMMIT lumi-multitorch-torch-u24r64f21m43t29:20260319_153422
+--> ae045e181bdf
+Successfully tagged localhost/lumi-multitorch-torch-u24r64f21m43t29:latest
+Successfully tagged localhost/lumi-multitorch-torch-u24r64f21m43t29:20260319_153422
+ae045e181bdf650398fe1f1af3e980172c0b35604dbc05da4911c195ccbf26ce
+20260319 16:31:04: *** Image info:
+    [
+         {
+              "Id": "ae045e181bdf650398fe1f1af3e980172c0b35604dbc05da4911c195ccbf26ce",
+              "Digest": "sha256:11e80dbceac10b88ff7cfffef88857e9bade9c36ee51a4954e1a527502868e0d",
+              "RepoTags": [
+                   "localhost/lumi-multitorch-torch-u24r64f21m43t29:latest",
+                   "localhost/lumi-multitorch-torch-u24r64f21m43t29:20260319_153422"
+              ],
+              "RepoDigests": [
+                   "localhost/lumi-multitorch-torch-u24r64f21m43t29@sha256:11e80dbceac10b88ff7cfffef88857e9bade9c36ee51a4954e1a527502868e0d"
+              ],
+              "Parent": "ac05a261b6dbe79f1bec107be5d02a3e5da20e9209969ecfa5214c3356ca0ceb",
+              "Comment": "",
+              "Created": "2026-03-19T16:31:02.523292659Z",
+              "Config": {
+                   "Env": [
+                        "MPIR_CVAR_CH4_OFI_ENABLE_HMEM=1",
+                        "MPIR_CVAR_CH4_OFI_ENABLE_MR_HMEM=1",
+                        "MPIR_CVAR_ENABLE_GPU=1",
+                        "PATH=/opt/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                        "PYTHONPATH=/opt/venv/lib/python3.12/site-packages:"
+                   ],
+                   "Cmd": [
+                        "/bin/bash"
+                   ],
+                   "Labels": {
+                        "cf_lineage": "47b20f78942bf7924132a14efa03deb9f981dded,399b53a392da96694e61eedfb68f5bda0a4d03da,f006cf1fb2e3235dfcc4da0368c4aa7b3bed7b2b,f3a2a6f30859dad3e48727b24055b40c70c4071c",
+                        "io.buildah.version": "1.33.7",
+                        "org.opencontainers.image.ref.name": "ubuntu",
+                        "org.opencontainers.image.version": "24.04"
+                   }
+              },
+              "Version": "",
+              "Author": "",
+              "Architecture": "amd64",
+              "Os": "linux",
+              "Size": 36146706301,
+              "VirtualSize": 36146706301,
+              "GraphDriver": {
+                   "Name": "overlay",
+                   "Data": {
+                        "LowerDir": "/home/builder/.local/share/containers/storage/overlay/51e6dd25099fac1be886c3b624ea4e9aa7b7010ee11d7b0d4ec42d5bca6e556f/diff:/home/builder/.local/share/containers/storage/overlay/1fa98e071a37a462b1bfc3a57bf171dbec8119621857df1c2e7bcbb295c579f6/diff:/home/builder/.local/share/containers/storage/overlay/0fef952f51494fa0f8d18a0293f7461ab70c316b09ecf2f1c85027cdd71bec5e/diff:/home/builder/.local/share/containers/storage/overlay/35f727999a086f1d5130390a1b941ecedf34814574116c873df80ec9bf13b6f8/diff:/home/builder/.local/share/containers/storage/overlay/e62126717c273ebde95dc8bf5e1b14213f0e04da5b7af125f66a71971f41ee8c/diff:/home/builder/.local/share/containers/storage/overlay/f2a7f072635332d307212e318e07284948b89f4167fce5c4d7c9cfb7590b74b6/diff",
+                        "UpperDir": "/home/builder/.local/share/containers/storage/overlay/59318909d883fe3b4d4c8f89fbe8568cd2e89fc13aaf3eaa3055d429a36bf5c3/diff",
+                        "WorkDir": "/home/builder/.local/share/containers/storage/overlay/59318909d883fe3b4d4c8f89fbe8568cd2e89fc13aaf3eaa3055d429a36bf5c3/work"
+                   }
+              },
+              "RootFS": {
+                   "Type": "layers",
+                   "Layers": [
+                        "sha256:f2a7f072635332d307212e318e07284948b89f4167fce5c4d7c9cfb7590b74b6",
+                        "sha256:c6018a98f762af0f0e1259a321575328f3612508b30e00b050017b3a1006a814",
+                        "sha256:0286b1ef9f3ce034589e92358ebe34408bda908e30d4414728c7ed6a7daef7ad",
+                        "sha256:eeb861d610d966271b29daa8070677691e205d1e37312859ca5c344c4debe72d",
+                        "sha256:f4b56d4a644a768f3cca5cadbf1f19d9f9b881e78f75fd2323a3f31cdc9f7d6b",
+                        "sha256:2929ea70698b3fb8d6e9885172840743d46eada051843f99352ff2b61d62325d",
+                        "sha256:3539adafd4b56d1ce2c49a49f69334af36a1de4a07e93ac79de47b3bacc18afb"
+                   ]
+              },
+              "Labels": {
+                   "cf_lineage": "47b20f78942bf7924132a14efa03deb9f981dded,399b53a392da96694e61eedfb68f5bda0a4d03da,f006cf1fb2e3235dfcc4da0368c4aa7b3bed7b2b,f3a2a6f30859dad3e48727b24055b40c70c4071c",
+                   "io.buildah.version": "1.33.7",
+                   "org.opencontainers.image.ref.name": "ubuntu",
+                   "org.opencontainers.image.version": "24.04"
+              },
+              "Annotations": {
+                   "org.opencontainers.image.base.digest": "sha256:c8b44251ca78429a55769a00d74269bc6f0c4ae46ab678cf6359d07e84abf6c2",
+                   "org.opencontainers.image.base.name": "localhost/lumi-multitorch-mpich-u24r64f21m43t29:latest"
+              },
+              "ManifestType": "application/vnd.oci.image.manifest.v1+json",
+              "User": "",
+              "History": [
+                   {
+                        "created": "2026-02-23T17:17:53.377372197Z",
+                        "created_by": "/bin/sh -c #(nop)  ARG RELEASE",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-02-23T17:17:53.408508506Z",
+                        "created_by": "/bin/sh -c #(nop)  ARG LAUNCHPAD_BUILD_ARCH",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-02-23T17:17:53.45626953Z",
+                        "created_by": "/bin/sh -c #(nop)  LABEL org.opencontainers.image.ref.name=ubuntu",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-02-23T17:17:53.486399083Z",
+                        "created_by": "/bin/sh -c #(nop)  LABEL org.opencontainers.image.version=24.04",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-02-23T17:17:55.728281038Z",
+                        "created_by": "/bin/sh -c #(nop) ADD file:3f78aa860931e0853077f09eb31eddbeeef8a9dd70977305b4876aa176770721 in / "
+                   },
+                   {
+                        "created": "2026-02-23T17:17:56.132176015Z",
+                        "created_by": "/bin/sh -c #(nop)  CMD [\"/bin/bash\"]",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T15:34:28.427430117Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE",
+                        "comment": "FROM docker.io/library/ubuntu:noble-20260217",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T15:34:28.454914427Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG",
+                        "comment": "FROM 359474ad547a",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T15:34:28.483967392Z",
+                        "created_by": "/bin/sh -c #(nop) ARG AMDGPU_REPO BASE_IMAGE BASE_IMAGE_TAG",
+                        "comment": "FROM cb80a62b9dae",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T15:34:28.512104313Z",
+                        "created_by": "/bin/sh -c #(nop) ARG AMDGPU_REPO AMDGPU_VERSION BASE_IMAGE BASE_IMAGE_TAG",
+                        "comment": "FROM f6d33d54add1",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T15:34:28.539995474Z",
+                        "created_by": "/bin/sh -c #(nop) ARG AMDGPU_REPO AMDGPU_VERSION BASE_IMAGE BASE_IMAGE_TAG ROCM_REPO",
+                        "comment": "FROM 7b2ce74c443e",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T15:34:28.568956307Z",
+                        "created_by": "/bin/sh -c #(nop) ARG AMDGPU_REPO AMDGPU_VERSION BASE_IMAGE BASE_IMAGE_TAG ROCM_REPO ROCM_VERSION",
+                        "comment": "FROM 520642cb8fcf",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T15:34:28.595688518Z",
+                        "created_by": "/bin/sh -c #(nop) ARG AMDGPU_REPO AMDGPU_VERSION BASE_IMAGE BASE_IMAGE_TAG EXTRA_LOCALES ROCM_REPO ROCM_VERSION",
+                        "comment": "FROM 1d5856a5cb54",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T15:34:28.623122824Z",
+                        "created_by": "/bin/sh -c #(nop) ARG AMDGPU_REPO AMDGPU_VERSION BASE_IMAGE BASE_IMAGE_TAG EXTRA_LOCALES EXTRA_PACKAGES ROCM_REPO ROCM_VERSION",
+                        "comment": "FROM 0d04f8cee208",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T15:40:00.360743057Z",
+                        "created_by": "|29 AMDGPU_REPO=https://repo.radeon.com/amdgpu AMDGPU_VERSION=6.4.4 BASE_IMAGE=ubuntu BASE_IMAGE_TAG=noble-20260217 EXTRA_LOCALES=cs_CZ.UTF-8 da_DK.UTF-8 en_US.UTF-8 et_EE.UTF-8 fi_FI.UTF-8 nb_NO.UTF-8 nn_NO.UTF-8 pl_PL.UTF-8 EXTRA_PACKAGES=file git jq less lsof nano neovim python3-dev python3-packaging python3-pip python3-venv screen tmux unzip wget ROCM_REPO=https://repo.radeon.com/rocm ROCM_VERSION=6.4.4 /bin/sh -c set -ue;   export DEBIAN_FRONTEND=noninteractive;   apt-get update;   yes | unminimize;   apt-get -y --no-install-recommends install man locales;   locale-gen ${EXTRA_LOCALES};   apt-get install -y --no-install-recommends ca-certificates curl gnupg;   printf \"Package: *\\nPin: release o=repo.radeon.com\\nPin-Priority: 800\\n\" > /etc/apt/preferences.d/rocm-pin-prio-800;   curl -sL ${ROCM_REPO}/rocm.gpg.key | apt-key add -;   printf \"deb [arch=amd64] ${ROCM_REPO}/apt/${ROCM_VERSION}/ noble main\\n\" | tee --append /etc/apt/sources.list.d/rocm.list;   printf \"deb [arch=amd64] ${AMDGPU_REPO}/${AMDGPU_VERSION}/ubuntu noble main\\n\" | tee /etc/apt/sources.list.d/amdgpu.list;   apt-get update;   apt-get install -y --no-install-recommends build-essential kmod libelf1 libnuma-dev zstd;   apt-get install -y --no-install-recommends amdgpu-dkms rocm-dev$ROCM_VERSION rocm-libs$ROCM_VERSION;   echo /opt/rocm/lib > /etc/ld.so.conf.d/rocm-30.conf;   ldconfig;   apt-get -y --no-install-recommends install ${EXTRA_PACKAGES};   apt clean ;  rm -rf /var/lib/apt/lists/*;   apt_json=\"$(dpkg-query -W -f='${Package}\\t${Version}\\n' | jq -R -s 'split(\"\\n\")[:-1] | map(split(\"\\t\") | {name: .[0], version: .[1]})')\";   jq -n --argjson apt \"$apt_json\"  '{apt: $apt}' > /.sbom.json;",
+                        "comment": "FROM ecc12cd91fab"
+                   },
+                   {
+                        "created": "2026-03-19T15:42:14.650512743Z",
+                        "created_by": "/bin/sh -c #(nop) LABEL \"cf_lineage\"=\"47b20f78942bf7924132a14efa03deb9f981dded\"",
+                        "comment": "FROM dbb76d68062f",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T15:51:33.810190972Z",
+                        "created_by": "/bin/sh -c #(nop) COPY multi:43267484058c362101209989bfc0626342736075b4b6ac2f31d0c07882ca38fc in /tmp/debs/ ",
+                        "comment": "FROM localhost/lumi-multitorch-rocm-u24r64f21m43t29:latest"
+                   },
+                   {
+                        "created": "2026-03-19T15:51:42.808932897Z",
+                        "created_by": "/bin/sh -c set -ue;     apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y         autoconf         libconfig-dev         libcurl4-openssl-dev         libfuse-dev         libjson-c-dev         libnl-3-dev         libsensors-dev         libtool         libuv1-dev         libyaml-dev         pkg-config         strace;     dpkg -i /tmp/debs/*.deb;     rm -rf /tmp/debs;     ln -s /usr/lib/x86_64-linux-gnu/libcurl.so.4.8.0 /usr/lib64/libcurl.so.4;     echo /usr/lib > /etc/ld.so.conf.d/10-usr-lib.conf;     ldconfig;     apt_json=\"$(dpkg-query -W -f='${Package}\\t${Version}\\n' | jq -R -s 'split(\"\\n\")[:-1] | map(split(\"\\t\") | {name: .[0], version: .[1]})')\";     jq -n --argjson apt \"$apt_json\"  '{apt: $apt}' > /.sbom.json;",
+                        "comment": "FROM c7a5125f6dfb"
+                   },
+                   {
+                        "created": "2026-03-19T15:51:43.579579271Z",
+                        "created_by": "/bin/sh -c #(nop) CMD [\"/bin/bash\"]",
+                        "comment": "FROM c00d77e9bea3",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T15:51:43.681033757Z",
+                        "created_by": "/bin/sh -c #(nop) LABEL \"cf_lineage\"=\"47b20f78942bf7924132a14efa03deb9f981dded,399b53a392da96694e61eedfb68f5bda0a4d03da\"",
+                        "comment": "FROM 901742258e99",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:11:21.292996849Z",
+                        "created_by": "/bin/sh -c #(nop) COPY multi:ff36652c06b9cf52075ef68879e8b4c6ec12de8be6e104d2b0f5c4bc8bdf006b in /tmp/debs/ ",
+                        "comment": "FROM localhost/lumi-multitorch-libfabric-u24r64f21m43t29:latest"
+                   },
+                   {
+                        "created": "2026-03-19T16:11:25.609159202Z",
+                        "created_by": "/bin/sh -c set -ue;     dpkg -i /tmp/debs/*.deb;     rm -rf /tmp/debs;     apt_json=\"$(dpkg-query -W -f='${Package}\\t${Version}\\n' | jq -R -s 'split(\"\\n\")[:-1] | map(split(\"\\t\") | {name: .[0], version: .[1]})')\";     jq -n --argjson apt \"$apt_json\"  '{apt: $apt}' > /.sbom.json;",
+                        "comment": "FROM f404e8520993"
+                   },
+                   {
+                        "created": "2026-03-19T16:11:27.012628159Z",
+                        "created_by": "/bin/sh -c #(nop) ENV MPIR_CVAR_CH4_OFI_ENABLE_HMEM=1",
+                        "comment": "FROM 685cd4880725",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:11:27.108064766Z",
+                        "created_by": "/bin/sh -c #(nop) ENV MPIR_CVAR_CH4_OFI_ENABLE_MR_HMEM=1",
+                        "comment": "FROM 84b34c3651a5",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:11:27.213887059Z",
+                        "created_by": "/bin/sh -c #(nop) ENV MPIR_CVAR_ENABLE_GPU=1",
+                        "comment": "FROM 94d76fd34c13",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:11:27.396307768Z",
+                        "created_by": "/bin/sh -c #(nop) CMD [\"/bin/bash\"]",
+                        "comment": "FROM a9abf943d2db",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:11:27.482570219Z",
+                        "created_by": "/bin/sh -c #(nop) LABEL \"cf_lineage\"=\"47b20f78942bf7924132a14efa03deb9f981dded,399b53a392da96694e61eedfb68f5bda0a4d03da,f006cf1fb2e3235dfcc4da0368c4aa7b3bed7b2b\"",
+                        "comment": "FROM 8bbc72a97959",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:26:20.774484898Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE",
+                        "comment": "FROM localhost/lumi-multitorch-mpich-u24r64f21m43t29:latest",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:26:20.821127531Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG",
+                        "comment": "FROM d5c3e354f663",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:26:20.912748767Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG PYTORCH_TRITON_URL",
+                        "comment": "FROM f60cdeaef4f7",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:26:20.953114061Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG FAKE_TRITON_URL PYTORCH_TRITON_URL",
+                        "comment": "FROM 12798cf802f1",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:26:20.989362653Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG FAKE_TRITON_URL PYTORCH_TRITON_URL TORCHAUDIO_URL",
+                        "comment": "FROM 28439bffb86b",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:26:21.022717595Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG FAKE_TRITON_URL PYTORCH_TRITON_URL TORCHAUDIO_URL TORCHVISION_URL",
+                        "comment": "FROM 0e12d89cfefe",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:26:21.057233411Z",
+                        "created_by": "/bin/sh -c #(nop) ARG BASE_IMAGE BASE_IMAGE_TAG FAKE_TRITON_URL PYTORCH_TRITON_URL TORCHAUDIO_URL TORCHVISION_URL TORCH_URL",
+                        "comment": "FROM 4b2b1923b563",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:29:13.957756693Z",
+                        "created_by": "|7 BASE_IMAGE=lumi-multitorch-mpich-u24r64f21m43t29 BASE_IMAGE_TAG=20260319_153422 FAKE_TRITON_URL=git+https://github.com/viahlgre/fake-triton.git@a8412a9 PYTORCH_TRITON_URL=https://download.pytorch.org/whl/pytorch_triton_rocm-3.5.1-cp312-cp312-linux_x86_64.whl TORCHAUDIO_URL=https://download.pytorch.org/whl/rocm6.4/torchaudio-2.9.1%2Brocm6.4-cp312-cp312-manylinux_2_28_x86_64.whl TORCHVISION_URL=https://download.pytorch.org/whl/rocm6.4/torchvision-0.24.1%2Brocm6.4-cp312-cp312-manylinux_2_28_x86_64.whl TORCH_URL=https://download.pytorch.org/whl/rocm6.4/torch-2.9.1%2Brocm6.4-cp312-cp312-manylinux_2_28_x86_64.whl /bin/sh -c set -ue;   python3.12 -m venv /opt/venv;   . /opt/venv/bin/activate;   pip install $PYTORCH_TRITON_URL $TORCHAUDIO_URL $TORCHVISION_URL $TORCH_URL $FAKE_TRITON_URL patchelf;   pip cache purge;   patchelf --set-rpath '/opt/rocm/lib:/usr/lib:$ORIGIN' /opt/venv/lib/python3.12/site-packages/torch/lib/libtorch_hip.so;   apt_json=\"$(dpkg-query -W -f='${Package}\\t${Version}\\n' | jq -R -s 'split(\"\\n\")[:-1] | map(split(\"\\t\") | {name: .[0], version: .[1]})')\";   pip_json=\"$(pip list --format=json)\";   jq -n --argjson apt \"$apt_json\"  --argjson pip \"$pip_json\" '{apt: $apt, pip: $pip}' > /.sbom.json;",
+                        "comment": "FROM 6e4e6d037199"
+                   },
+                   {
+                        "created": "2026-03-19T16:31:02.33949395Z",
+                        "created_by": "/bin/sh -c #(nop) ENV PATH=\"/opt/venv/bin:$PATH\"",
+                        "comment": "FROM af9fbcdc0617",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:31:02.448866369Z",
+                        "created_by": "/bin/sh -c #(nop) ENV PYTHONPATH=\"/opt/venv/lib/python3.12/site-packages:$PYTHONPATH\"",
+                        "comment": "FROM 1e85a9b24588",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:31:02.492664567Z",
+                        "created_by": "/bin/sh -c #(nop) CMD [\"/bin/bash\"]",
+                        "comment": "FROM 34d131f1988c",
+                        "empty_layer": true
+                   },
+                   {
+                        "created": "2026-03-19T16:31:02.523890509Z",
+                        "created_by": "/bin/sh -c #(nop) LABEL \"cf_lineage\"=\"47b20f78942bf7924132a14efa03deb9f981dded,399b53a392da96694e61eedfb68f5bda0a4d03da,f006cf1fb2e3235dfcc4da0368c4aa7b3bed7b2b,f3a2a6f30859dad3e48727b24055b40c70c4071c\"",
+                        "comment": "FROM ac05a261b6db",
+                        "empty_layer": true
+                   }
+              ],
+              "NamesHistory": [
+                   "localhost/lumi-multitorch-torch-u24r64f21m43t29:20260319_153422",
+                   "localhost/lumi-multitorch-torch-u24r64f21m43t29:latest"
+              ]
+         }
+    ]
+20260319 16:31:04: *** Exporting image with command podman image save --format oci-archive lumi-multitorch-torch-u24r64f21m43t29:20260319_153422 -o builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-torch-u24r64f21m43t29-20260319_153422.tar
+    Copying blob sha256:f2a7f072635332d307212e318e07284948b89f4167fce5c4d7c9cfb7590b74b6
+    Copying blob sha256:c6018a98f762af0f0e1259a321575328f3612508b30e00b050017b3a1006a814
+    Copying blob sha256:0286b1ef9f3ce034589e92358ebe34408bda908e30d4414728c7ed6a7daef7ad
+    Copying blob sha256:eeb861d610d966271b29daa8070677691e205d1e37312859ca5c344c4debe72d
+    Copying blob sha256:f4b56d4a644a768f3cca5cadbf1f19d9f9b881e78f75fd2323a3f31cdc9f7d6b
+    Copying blob sha256:2929ea70698b3fb8d6e9885172840743d46eada051843f99352ff2b61d62325d
+    Copying blob sha256:3539adafd4b56d1ce2c49a49f69334af36a1de4a07e93ac79de47b3bacc18afb
+    Copying config sha256:ae045e181bdf650398fe1f1af3e980172c0b35604dbc05da4911c195ccbf26ce
+    Writing manifest to image destination
+20260319 16:38:05: *** Creating sif file with command singularity build builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-torch-u24r64f21m43t29-20260319_153422.sif builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-torch-u24r64f21m43t29-20260319_153422.def
+    INFO:    Using proot to build unprivileged. Not all builds are supported. If build fails, use --remote or --fakeroot.
+    INFO:    Starting build...
+    INFO:    Fetching OCI image...
+    INFO:    Extracting OCI image...
+    INFO:    Inserting Singularity configuration...
+    INFO:    Adding runscript
+    INFO:    Creating SIF file...
+    INFO:    Build complete: builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-torch-u24r64f21m43t29-20260319_153422.sif
+20260319 16:47:14: *** Image checksums:
+    1bbe6379de968fdacde637587e14d38f10d702d739e829105ab89bac0f72737a  builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-torch-u24r64f21m43t29-20260319_153422.tar
+    facd07ef04a85c362d366aa610e2926ecd9ba80976b45803481fd758d0b6ae4f  builds/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-torch-u24r64f21m43t29-20260319_153422.sif
+20260319 16:47:37: *** Building image lumi-multitorch-torch-u24r64f21m43t29:20260319_153422 completed at Thu Mar 19 04:47:37 PM UTC 2026
