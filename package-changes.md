@@ -6,7 +6,8 @@
 
 ## u24r72f21m50t211
 
-### Apt packages
+<details>
+<summary>Apt packages: 38</summary>
 
 | Package | u24r72f21m50t211-20261028_090706 | u24r72f21m50t211-20260929_104918 |
 |---|---|---|
@@ -49,7 +50,10 @@
 | `zlib1g` | 1:1.3.dfsg-3.1ubuntu2.3 | 1:1.3.dfsg-3.1ubuntu2.2 |
 | `zlib1g-dev` | 1:1.3.dfsg-3.1ubuntu2.3 | 1:1.3.dfsg-3.1ubuntu2.2 |
 
-### Pip packages
+</details>
+
+<details>
+<summary>Pip packages: 132</summary>
 
 | Package | u24r72f21m50t211-20261028_090706 | u24r72f21m50t211-20260929_104918 |
 |---|---|---|
@@ -186,9 +190,12 @@
 | `zarr` | 3.4.2 | 3.4.0 |
 | `zipp` | 4.1.2 | 4.1.0 |
 
+</details>
+
 ## u24r70f21m50t210
 
-### Apt packages
+<details>
+<summary>Apt packages: 106</summary>
 
 | Package | u24r70f21m50t210-20261123_101228 | u24r70f21m50t210-20260807_115122 | u24r70f21m50t210-20260731_122833 | u24r70f21m50t210-20260513_121430 | u24r70f21m50t210-20260415_130625 |
 |---|---|---|---|---|---|
@@ -299,7 +306,10 @@
 | `wget` | 1.21.4-1ubuntu4.4 | 1.21.4-1ubuntu4.4 | 1.21.4-1ubuntu4.4 | 1.21.4-1ubuntu4.1 | 1.21.4-1ubuntu4.1 |
 | `xz-utils` | 5.6.1+really5.4.5-1ubuntu0.3 | 5.6.1+really5.4.5-1ubuntu0.3 | 5.6.1+really5.4.5-1ubuntu0.3 | 5.6.1+really5.4.5-1ubuntu0.2 | 5.6.1+really5.4.5-1ubuntu0.2 |
 
-### Pip packages
+</details>
+
+<details>
+<summary>Pip packages: 228</summary>
 
 | Package | u24r70f21m50t210-20261123_101228 | u24r70f21m50t210-20260807_115122 | u24r70f21m50t210-20260731_122833 | u24r70f21m50t210-20260513_121430 | u24r70f21m50t210-20260415_130625 |
 |---|---|---|---|---|---|
@@ -532,9 +542,12 @@
 | `zarr` | 3.3.0 | 3.3.0 | 3.3.0 | 3.2.1 | 3.1.6 |
 | `zipp` | 4.1.0 | 4.1.0 | 4.1.0 | 3.23.1 | 3.23.1 |
 
+</details>
+
 ## u24r64f21m43t29
 
-### Apt packages
+<details>
+<summary>Apt packages: 158</summary>
 
 | Package | u24r64f21m43t29-20261123_101228 | u24r64f21m43t29-20260319_153422 | u24r64f21m43t29-20260225_144743 | u24r64f21m43t29-20260216_093549 | u24r64f21m43t29-20260124_092648 | u24r64f21m43t29-20251209_134408 |
 |---|---|---|---|---|---|---|
@@ -697,7 +710,10 @@
 | `uuid-dev` | 2.39.3-9ubuntu6.5 | 2.39.3-9ubuntu6.5 | 2.39.3-9ubuntu6.4 | 2.39.3-9ubuntu6.4 | 2.39.3-9ubuntu6.4 | 2.39.3-9ubuntu6.3 |
 | `xpmem` | 0.1-3bcab55 | 0.1-3bcab55 | 0.1-3bcab55 | 0.1-3bcab55 | 0.1-3bcab55 | 0.1-git3bcab55 |
 
-### Pip packages
+</details>
+
+<details>
+<summary>Pip packages: 187</summary>
 
 | Package | u24r64f21m43t29-20261123_101228 | u24r64f21m43t29-20260319_153422 | u24r64f21m43t29-20260225_144743 | u24r64f21m43t29-20260216_093549 | u24r64f21m43t29-20260124_092648 | u24r64f21m43t29-20251209_134408 |
 |---|---|---|---|---|---|---|
@@ -888,4 +904,6 @@
 | `xgrammar` | 0.1.29 | 0.1.29 | 0.1.29 | 0.1.29 | 0.1.29 | 0.1.27 |
 | `yarl` | 1.23.0 | 1.23.0 | 1.22.0 | 1.22.0 | 1.22.0 | 1.22.0 |
 | `zstandard` | - | - | - | - | - | 0.25.0 |
+
+</details>
 
